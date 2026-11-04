@@ -1,0 +1,1428 @@
+/* Landing page. Layout, sizes and spacing follow plushalle.com (measured from screenshots), scaled to a 1665px design:
+   every size is design pixels × --u, where --u is the page width / 1665 (on tablet/mobile: / 390). */
+/* Brand fonts: the trial files from swisstypefaces (assets/fonts). The trials draw every other character
+   (: ? ' & € × → “ – ! ( / ...) as a bullet and drop the dots off umlauts, so unicode-range keeps them to the
+   characters they really draw; the rest falls through to the next font in --f-sans / --f-serif. */
+@font-face{ font-family:"FW Suisse"; font-weight:300; font-style:normal; font-display:swap;
+  src:url("../assets/fonts/SuisseIntlTRIAL-Light.woff2") format("woff2");
+  unicode-range:U+20, U+2C-2E, U+30-39, U+41-5A, U+61-7A, U+A0, U+2019; }
+@font-face{ font-family:"FW Suisse"; font-weight:400; font-style:normal; font-display:swap;
+  src:url("../assets/fonts/SuisseIntlTRIAL-Regular.woff2") format("woff2");
+  unicode-range:U+20, U+2C-2E, U+30-39, U+41-5A, U+61-7A, U+A0, U+2019; }
+@font-face{ font-family:"FW Clan"; font-weight:400; font-style:normal; font-display:swap;
+  src:url("../assets/fonts/TheWClanTRIAL-RZA.woff2") format("woff2");
+  unicode-range:U+20, U+2C-2E, U+30-39, U+41-5A, U+61-7A, U+A0, U+2019; }
+:root{
+  color-scheme: light;
+  --bg:#f8f8f8; --white:#ffffff; --black:#000000;
+  /* text colours: two greys only. Both pass WCAG AA (4.5:1) on --bg and on white cards */
+  --ink:#282828;          /* primary: headings, body, prices (13.9:1) */
+  --ink-2:#595959;        /* secondary: meta lines, specs, inactive tabs (6.6:1) */
+  --ink-accent:#1F6B5A;   /* green for small text + hover (6:1); --fw-green-bottom is only 4.4:1 on --bg */
+  --accent:#29826E;       /* brand green (= --fw-green-bottom) for non-text accents: underlines, rules, focus, selection */
+  --on-dark-2:rgba(255,255,255,.65); /* secondary text on black */
+  /* bundled trial fonts first (only the characters they really draw, see @font-face below),
+     then the licensed fonts if installed, then the stand-ins for everything else */
+  --f-sans:"FW Suisse", "Suisse Intl", "Suisse Int'l", "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-serif:"FW Clan", "TheW Clan", "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  /* Frameworks brand colours: soft vertical gradients (with .fw-grain) and near-black ink */
+  --fw-green-top: #69C1A8;
+  --fw-green-mid: #5CBCA7;
+  --fw-green-bottom: #29826E;
+  --fw-coral-top: #E9696D;
+  --fw-coral-mid: #EC606A;
+  --fw-coral-bottom: #F6313B;
+  --fw-ink: #121412; /* a deeper black (was #1B1E1B) */
+  --fw-mint: #B4D6B9;  /* the mint wall in their frame-style photos (average of all eight), so the corners sit on one wall */
+  /* the menu section colours (after juliajohnson.com); used across the page, not only in the menu */
+  --fw-framing: #FBFFC0; --fw-shop: #C0EBFD; --fw-studio: #DCF481; --fw-biz: #FFC2D5; --fw-about: #E3E2E2;
+  --fw-gradient-coral: linear-gradient(180deg, var(--fw-coral-top) 0%, var(--fw-coral-mid) 45%, var(--fw-coral-bottom) 100%);
+}
+/* brand green as the accent everywhere: text selection */
+::selection{ background:var(--fw-green-top); color:var(--fw-ink); }
+
+*{ box-sizing:border-box; }
+/* --inset is 0 normally and the frame + mat width in frame mode (css/frame.css), so the page makes room for the frame */
+body{ margin:0; padding:var(--inset, 0px); background:var(--bg); color:var(--ink); font-family:var(--f-sans); -webkit-font-smoothing:antialiased; }
+a{ color:inherit; text-decoration:none; }
+/* headings break into even lines, paragraphs avoid a lone last word */
+h1, h2, h3{ text-wrap:balance; font-kerning:normal; }
+p{ text-wrap:pretty; }
+img{ display:block; }
+/* brand film grain over a gradient: sits above the background, under the content, never takes clicks */
+.fw-grain{ position:relative; isolation:isolate; }
+.fw-grain::before{ content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:url(../assets/textures/grain.jpg) 0 0 / 384px; opacity:.1; mix-blend-mode:overlay; }
+.sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.page{ container-type:inline-size; overflow-x:clip; --nav-h:max(52px, calc(57 * 100cqw / 1665)); }
+/* ---- type system. One scale for the whole page; every text rule uses these tokens, nothing else.
+   Two families: serif (TheW Clan) for headings, sans (Suisse Intl) for everything you read or click.
+   Sizes in design px × --u, with a floor so small text never gets unreadable on narrow desktops. ---- */
+.page > *, .piece-card{ --u: calc(100cqw / 1665); /* .piece-card sits outside .page: there cqw is the screen width */
+  --fs-display: calc(96 * var(--u));            /* brand wordmark */
+  --fs-poster:  calc(150 * var(--u));           /* about: poster line with framed pieces */
+  --fs-pull:    calc(104 * var(--u));           /* reviews: the pull quote */
+  --fs-stack:   calc(80 * var(--u));            /* sustainability: the staggered statements (longest line fits half the screen) */
+  --fs-h1:      calc(64 * var(--u));            /* hero headline, section titles */
+  --fs-h2:      calc(40 * var(--u));            /* feature card, entry cards */
+  --fs-lead:    calc(32 * var(--u));            /* big statement paragraph */
+  --fs-h3:      max(20px, calc(24 * var(--u))); /* card names, menu titles */
+  --fs-body:    max(15px, calc(16 * var(--u))); /* text, links, tabs, prices */
+  --fs-small:   max(13px, calc(14 * var(--u))); /* buttons, meta, specs */
+  --fs-micro:   max(11px, calc(12 * var(--u))); /* uppercase labels */
+  --lh-tight:1; --lh-snug:1.15; --lh-body:1.4;
+  --ls-display:-.03em; --ls-snug:-.015em; --ls-caps:.08em;
+  --ws-display:-.15em; /* the serif's space is nearly a monospace width: without this its word gaps read as double spaces */
+  --ul-offset:.25em; }
+
+/* ---- nav: one thin bar pinned to the top. Logo left, links, then search / account / cart / language / Frame online ---- */
+.nav{ --pad:calc(19 * var(--u)); position:sticky; top:var(--inset, 0px); z-index:20;
+  /* the open panel: picture + promise + main links (--main-h, the tallest column, measured by landing.js), then under a hairline
+     the footer row with the secondary links (--more-h). --panel is the black below the bar */
+  --drop-pad:calc(30 * var(--u)); --more-gap:calc(40 * var(--u)); --more-pad:calc(16 * var(--u)); --panel-end:calc(26 * var(--u));
+  --panel:calc(var(--drop-pad) + var(--main-h, calc(330 * var(--u))) + var(--more-gap) + var(--more-h, calc(80 * var(--u))) + var(--panel-end));
+  display:flex; align-items:center; height:var(--nav-h); padding:0 var(--pad); background:var(--bg); color:var(--black);
+  transition:color .25s var(--ease), background .25s var(--ease), transform .35s var(--ease); }
+/* scrolling down slides the bar up out of sight (behind the frame when framed); scrolling up or pointing at the top brings it back */
+.nav.away{ transform:translateY(calc(-100% - var(--inset, 0px))); }
+/* black panel that the open menu sits on */
+.nav::after{ content:""; position:absolute; z-index:-1; left:0; right:0; top:0; height:calc(100% + var(--panel)); background:var(--black);
+  opacity:0; visibility:hidden; transition:opacity .25s var(--ease), visibility 0s linear .25s; }
+.logo{ display:block; width:max(101px, calc(124 * var(--u))); flex:none; }
+.logo svg{ display:block; width:100%; height:auto; }
+.burger{ display:none; }
+
+.mega{ align-self:stretch; display:flex; margin-left:auto; }
+/* each link owns a fixed-width cell; its column opens directly below it, so the pointer only moves down */
+.col{ --colw:calc(218 * var(--u)); position:relative; width:var(--colw); display:flex; align-items:center; }
+.title{ display:block; font-size:var(--fs-body); line-height:var(--lh-body); }
+
+/* right: icons, language, Frame online */
+.util{ display:flex; align-items:center; gap:calc(16 * var(--u)); margin-left:calc(20 * var(--u)); }
+.ico{ display:grid; place-items:center; width:max(24px, calc(26 * var(--u))); height:max(24px, calc(26 * var(--u))); }
+.ico svg{ width:max(17px, calc(19 * var(--u))); height:auto; }
+.ico-acc{ display:contents; }
+.lang{ font-size:var(--fs-small); line-height:var(--lh-body); white-space:nowrap; }
+/* nothing in the nav is underlined until it's hovered: the current language is full strength, the other one steps back */
+.lang a{ opacity:.7; transition:opacity .2s; }
+.lang a[aria-current]{ opacity:1; }
+.lang a:hover{ opacity:1; text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
+.title:hover{ text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
+.nav-cta{ padding:calc(5 * var(--u)) calc(14 * var(--u)); border:1px solid currentColor; font-size:var(--fs-small); line-height:var(--lh-body); white-space:nowrap;
+  transition:background .2s, border-color .2s, color .2s; }
+.nav-cta:hover, .nav-cta:focus-visible{ background:var(--ink-accent); border-color:var(--ink-accent); color:var(--white); }
+
+/* each link's column: completely hidden until the menu opens. Open, the five sit side by side under their own links:
+   picture (whole, every one the same height), promise line → overview page, main links; then the secondary links,
+   which line up across all columns in the panel's footer row */
+.drop{ position:absolute; top:100%; left:0; width:var(--colw); padding:var(--drop-pad) calc(22 * var(--u)) 0 0;
+  opacity:0; visibility:hidden; transform:translateY(calc(-8 * var(--u)));
+  transition:opacity .3s var(--ease), transform .3s var(--ease), visibility 0s linear .3s; }
+.col:nth-child(1) .drop{ --n:0; } .col:nth-child(2) .drop{ --n:1; } .col:nth-child(3) .drop{ --n:2; } .col:nth-child(4) .drop{ --n:3; } .col:nth-child(5) .drop{ --n:4; }
+.drop-main{ display:flex; flex-direction:column; align-items:flex-start; min-height:var(--main-h, 0px); }
+/* promise line first (the column's heading, in the sans like the rest of the menu, light; not a link), then the picture, then the links */
+.drop-title{ display:block; max-width:9em; min-height:calc(2em * var(--lh-snug) + .12em); /* always room for two lines, so the pictures line up across the columns */
+  margin:0; font-size:var(--fs-h3); font-weight:300; line-height:var(--lh-snug); letter-spacing:var(--ls-snug); text-wrap:balance; }
+.thumb{ display:block; height:calc(170 * var(--u)); width:auto; max-width:100%; object-fit:contain; flex:none; margin-top:calc(16 * var(--u)); }
+.links, .drop-more{ list-style:none; margin:0; padding:0; display:grid; white-space:nowrap; }
+.links{ margin-top:calc(16 * var(--u)); gap:calc(2 * var(--u)); }
+/* keyboard focus in the menu: a thin ring in the text colour, a little away from the text */
+.nav a:focus-visible, .nav button:focus-visible{ outline:1px solid currentColor; outline-offset:4px; }
+.links a{ font-size:var(--fs-body); line-height:var(--lh-body); }
+.drop-more{ margin-top:var(--more-gap); padding-top:var(--more-pad); gap:calc(1 * var(--u)); }
+.drop-more a{ font-size:var(--fs-small); line-height:var(--lh-body); }
+/* the panel's footer row: hairline across the full width, contact line under the logo */
+.mega-foot{ position:absolute; left:var(--pad); right:var(--pad); top:calc(100% + var(--drop-pad) + var(--main-h, calc(330 * var(--u))) + var(--more-gap));
+  margin:0; padding-top:var(--more-pad); border-top:1px solid rgba(255,255,255,.18); color:var(--on-dark-2); font-size:var(--fs-small); line-height:var(--lh-body);
+  opacity:0; visibility:hidden; transition:opacity .3s var(--ease), visibility 0s linear .3s; }
+.mega-foot a{ display:block; color:var(--white); }
+.menu-foot{ display:none; } /* phones only (the open menu's bottom), see the 1100px block */
+
+/* open (js adds .mega-open on hover/focus): white on black */
+.nav.mega-open{ color:var(--white); background:var(--black); }
+.nav.mega-open::after{ opacity:1; visibility:visible; transition-delay:0s; }
+.nav.mega-open .drop{ opacity:1; visibility:visible; transform:none; transition-delay:calc(var(--n) * 40ms); }
+.nav.mega-open .mega-foot{ opacity:1; visibility:visible; transition-delay:0s; }
+/* the column you're on is bright, the others step back */
+.nav.mega-open .col:not(.active) .drop{ opacity:.38; }
+.nav.mega-open .col:not(.active) > .title{ opacity:.55; }
+.title{ transition:opacity .2s; }
+.nav.mega-open .drop-more a{ color:var(--on-dark-2); transition:color .15s; }
+.nav.mega-open .drop-more a:hover{ color:var(--white); }
+.links a:hover, .links a:focus-visible{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+
+/* ---- data-menu="colour" (desktop, after juliajohnson.com): hovering a link opens the panel in that section's colour
+   (juliajohnson.com's: yellow, blue, lime, pink, grey) and shows only that section, directly under the link: its title big in
+   the serif, its links big in the sans (like Julia's words), the secondary links small. Each link has its own photo
+   (data-pic); it appears on the free side of the column while that link is hovered, one at a time, whole.
+   Plain fade, no slide; the panel is equally tall for every section (heights measured in landing.js).
+   data-menu="panel" is the old black panel with all five columns ---- */
+.mega-photo{ display:none; }
+@media (min-width: 1101px){
+  html[data-menu="colour"] .nav{ --sec-bg:var(--fw-framing); --sec-fg:var(--fw-ink); --more-gap:calc(18 * var(--u)); --more-pad:0px; --panel-end:calc(34 * var(--u));
+    --panel:calc(var(--drop-pad) + var(--drop-h, calc(380 * var(--u))) + var(--panel-end)); }
+  html[data-menu="colour"] .nav[data-sec="shop"]{ --sec-bg:var(--fw-shop); }
+  html[data-menu="colour"] .nav[data-sec="studio"]{ --sec-bg:var(--fw-studio); }
+  html[data-menu="colour"] .nav[data-sec="biz"]{ --sec-bg:var(--fw-biz); }
+  html[data-menu="colour"] .nav[data-sec="about"]{ --sec-bg:var(--fw-about); }
+
+  html[data-menu="colour"] .nav.mega-open{ background:var(--sec-bg); color:var(--sec-fg); }
+  /* opening: the colour grows down from the top of the bar to the bottom of the panel, then the column fades in;
+     closing runs it back up. Moving between links only changes the colour (the panel stays open) */
+  html[data-menu="colour"] .nav::after{ opacity:1; background:var(--sec-bg); clip-path:inset(0 0 100% 0);
+    transition:clip-path .3s var(--ease), visibility 0s linear .3s, background-color .25s var(--ease); }
+  html[data-menu="colour"] .nav.mega-open::after{ clip-path:inset(0); transition:clip-path .5s var(--ease), background-color .25s var(--ease); }
+  /* only the hovered section: one column, links → secondary links → the title at the bottom */
+  html[data-menu="colour"] .drop{ z-index:1; display:flex; flex-direction:column; height:calc(var(--drop-pad) + var(--drop-h, auto));
+    transform:none; transition:opacity .15s var(--ease), visibility 0s linear .15s; }
+  html[data-menu="colour"] .nav.mega-open .drop{ transition:opacity .35s var(--ease) .12s; }
+  html[data-menu="colour"] .nav.mega-open.switching .drop{ transition-delay:0s; }
+  html[data-menu="colour"] .drop-main{ display:contents; }
+  html[data-menu="colour"] .nav.mega-open .col:not(.active) .drop{ opacity:0; visibility:hidden; }
+  html[data-menu="colour"] .thumb{ display:none; }
+  /* three clear steps (about 3 : 1 : .5): the title in the serif at display size, the main links in the sans at lead size,
+     the secondary links at body size. The title sits on the panel's bottom line, the same for every section, like a poster */
+  html[data-menu="colour"] .links{ order:1; margin-top:0; gap:calc(10 * var(--u)); }
+  html[data-menu="colour"] .links a{ font-size:var(--fs-lead); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+  html[data-menu="colour"] .drop-more{ order:2; gap:calc(6 * var(--u)); }
+  html[data-menu="colour"] .drop-more a{ font-size:var(--fs-body); }
+  html[data-menu="colour"] .drop-title{ order:3; margin:auto 0 0; padding-top:calc(40 * var(--u)); min-height:0; width:max-content; max-width:min(var(--title-w, 100vw), 5.5em); text-wrap:balance; /* always two even lines, like a poster */
+    font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-display); line-height:.9; letter-spacing:var(--ls-display); }
+  html[data-menu="colour"] .nav.mega-open .drop-more a{ color:inherit; }
+  html[data-menu="colour"] .nav.mega-open .links a:hover, html[data-menu="colour"] .nav.mega-open .drop-more a:hover{ text-decoration:underline 1px currentColor; text-underline-offset:var(--ul-offset); }
+  html[data-menu="colour"] .mega-foot{ display:none; }
+  /* the photo spot: as tall as the column's text, on whichever side of it has more room (--ph-l / --ph-w from landing.js).
+     A gallery wall: all of the open section's pictures hang together (landing.js builds the cells `.mw`, each with --l/--t/--w/--h in px,
+     a salon hang with one even gap); every picture is whole at its own aspect ratio. Hovering a link brings its picture forward and dims the rest */
+  html[data-menu="colour"] .mega-photo{ display:block; position:absolute; z-index:0; left:var(--ph-l, 50%); width:var(--ph-w, 40%);
+    top:calc(100% + var(--drop-pad)); height:var(--drop-h, calc(380 * var(--u))); pointer-events:none; }
+  /* going, a picture just fades, quicker than it came */
+  .mw{ position:absolute; left:var(--l); top:var(--t); width:var(--w); height:var(--h); display:flex; align-items:center; justify-content:center;
+    opacity:0; transition:opacity .15s cubic-bezier(.64,0,.78,.39); }
+  .mw img{ display:block; width:100%; height:100%; box-shadow:0 calc(8 * var(--u)) calc(22 * var(--u)) rgb(0 0 0 / .16); }
+  html[data-menu="colour"] .nav.mega-open .mw{ opacity:1; transform:none; transition:opacity .25s var(--ease), transform .35s var(--ease); animation:rise .6s var(--ease) backwards; animation-delay:calc(var(--i) * 70ms); }
+  html[data-menu="colour"] .nav.mega-open .mega-photo.hovering .mw{ opacity:.28; }
+  html[data-menu="colour"] .nav.mega-open .mega-photo.hovering .mw.hot{ opacity:1; transform:scale(1.04); }
+  /* .wall-reveal (every wall but the shop): only the pictures already shown hang; a newly shown one rises in */
+  html[data-menu="colour"] .nav.mega-open .mega-photo.wall-reveal .mw:not(.shown){ opacity:0; animation:none; transition:opacity .3s cubic-bezier(.64,0,.78,.39); }
+  html[data-menu="colour"] .nav.mega-open .mega-photo.wall-reveal .mw.shown{ animation-delay:0s; }
+}
+
+/* data-menu="colour": no titles ("Online or in store", …) and pictures only in the shop (desktop wall + phone thumb) */
+html[data-menu="colour"] .drop .drop-title{ display:none; }
+html[data-menu="colour"] .col:not(:nth-child(2)) .thumb{ display:none; }
+
+/* data-menu="colour": every menu link (main and secondary, desktop and phone) ends in the same small arrow as the homepage
+   cards. Quiet: the arrow stays hidden (space reserved) and slides in on hover/focus; with no hover (touch, phone menu) it is faint */
+html[data-menu="colour"] .links a, html[data-menu="colour"] .drop-more a{ display:inline-flex; align-items:center; gap:.4em; }
+html[data-menu="colour"] .links a::after, html[data-menu="colour"] .drop-more a::after{ content:""; flex:none; width:.62em; height:.45em; background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='black' stroke-width='1.4'%3E%3Cpath d='M0 5h12.6M8.6 1l4 4-4 4'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='black' stroke-width='1.4'%3E%3Cpath d='M0 5h12.6M8.6 1l4 4-4 4'/%3E%3C/svg%3E") center / contain no-repeat;
+  opacity:0; transform:translateX(-4px); transition:transform .25s var(--ease), opacity .25s var(--ease); }
+html[data-menu="colour"] .links a:hover::after, html[data-menu="colour"] .drop-more a:hover::after,
+html[data-menu="colour"] .links a:focus-visible::after, html[data-menu="colour"] .drop-more a:focus-visible::after{ opacity:1; transform:none; }
+@media (hover:none), (max-width:1099px){
+  html[data-menu="colour"] .links a::after, html[data-menu="colour"] .drop-more a::after{ opacity:.4; transform:none; }
+  html[data-menu="colour"] .links a:active::after, html[data-menu="colour"] .drop-more a:active::after{ opacity:1; }
+}
+
+/* ---- the three cards (after the poster's About us): hung as framed pictures at three heights (frame + mat, whole photo at its own ratio),
+   then a number, the title in the serif and the grey line + arrow, all centred. They rise in one after another when scrolled into view (js adds .in) ---- */
+.entries[hidden]{ display:none; }
+.entries{ padding:calc(64 * var(--u)) calc(19 * var(--u)) calc(180 * var(--u)); background:var(--bg); } /* room above the hairline: How ends in the shop blue */
+.entries-label{ margin:0; padding-top:calc(20 * var(--u)); border-top:1px solid var(--ink); font-weight:400; font-size:var(--fs-micro); line-height:var(--lh-body); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.entries-row{ display:grid; grid-template-columns:repeat(3, 1fr); column-gap:calc(19 * var(--u)); align-items:start; margin-top:calc(20 * var(--u)); counter-reset:entry; }
+.entry{ display:flex; flex-direction:column; align-items:flex-start; justify-self:center; text-align:left; margin-top:var(--drop, 0px); counter-increment:entry; } /* text flush with the frame's left edge, the number above the frame */
+.entry:nth-child(1){ --drop:calc(70 * var(--u)); }
+.entry:nth-child(3){ --drop:calc(130 * var(--u)); }
+.entry img{ width:calc(320 * var(--u)); height:auto; padding:calc(24 * var(--u)); background:#fbfaf7; border:calc(10 * var(--u)) solid #2a2622;
+  box-shadow:calc(-8 * var(--u)) calc(12 * var(--u)) calc(26 * var(--u)) rgba(0,0,0,.18); transition:transform .5s var(--ease), box-shadow .5s var(--ease); }
+.entry:hover img, .entry:focus-visible img{ transform:translateY(calc(-6 * var(--u))); box-shadow:calc(-12 * var(--u)) calc(20 * var(--u)) calc(36 * var(--u)) rgba(0,0,0,.2); }
+.entry::before{ content:"0" counter(entry); order:-1; margin-bottom:calc(14 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); }
+.entry-title{ order:2; margin:calc(30 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.label{ order:3; display:grid; gap:calc(6 * var(--u)); margin-top:calc(12 * var(--u)); }
+.line{ font-size:var(--fs-small); color:var(--ink-2); }
+/* small arrow at the end of the grey line, centred on the lowercase letters; on hover it moves 4px right and the title is underlined */
+.arr{ width:.84em; height:.6em; margin-left:.35em; vertical-align:-.04em; transition:transform .25s var(--ease); }
+.entry:hover .arr, .entry:focus-visible .arr{ transform:translateX(4px); }
+.entry:hover .entry-title, .entry:focus-visible .entry-title{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.js .entry{ opacity:0; transform:translateY(calc(30 * var(--u))); transition:opacity .9s var(--ease), transform .9s var(--ease); transition-delay:calc(var(--i, 0) * .15s); }
+.js .entries.in .entry{ opacity:1; transform:none; }
+@keyframes rise{ from{ opacity:0; transform:translateY(calc(18 * var(--u))); } }
+
+/* ---- hero: one video, full width and as tall as the screen (100vh), 13vh of white space above it so the page invites a scroll.
+   The button + headline stick to the bottom of the screen while the video scrolls past. ---- */
+.hero{ position:relative; display:flex; flex-direction:column; justify-content:flex-end; height:calc(100vh - 2 * var(--inset, 0px)); min-height:360px;
+  margin-top:calc(20 * var(--u) + 13vh); background:#3d4a43; overflow:clip; }
+.hero-vid{ position:absolute; inset:0; }
+.hero-vid::after{ content:""; position:absolute; inset:0; background:rgba(0,0,0,.1); pointer-events:none; } /* light 10% over the whole video */
+.hero-vid video{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.hero-copy{ position:sticky; bottom:var(--inset, 0px); z-index:1; isolation:isolate; display:flex; flex-direction:column; align-items:flex-start; gap:calc(26 * var(--u));
+  padding:0 calc(19 * var(--u)) calc(36 * var(--u)); color:var(--white); transition:padding .7s cubic-bezier(.65,0,.35,1); }
+/* contrast for the text: a dark gradient that belongs to the sticky text block, so it moves with the text
+   and only darkens the bottom of the screen behind it (the hero clips it, so it leaves with the video) */
+.hero-copy::before{ content:""; position:absolute; z-index:-1; left:0; right:0; bottom:0; height:calc(100% + 240 * var(--u)); pointer-events:none;
+  background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.58) 45%, rgba(0,0,0,.22) 75%, rgba(0,0,0,0) 100%); }
+/* frame mode: lift the copy above the switcher + exit button */
+.framed .hero-copy{ padding-bottom:calc(36 * var(--u) + 62px); }
+.btn{ display:inline-flex; align-items:center; justify-content:center; height:max(36px, calc(40 * var(--u))); padding:0 max(28px, calc(45 * var(--u)));
+  background:var(--white); color:var(--ink); font-size:var(--fs-small); transition:background .2s, color .2s; }
+.btn:hover{ background:var(--ink); color:var(--white); }
+/* the quieter second link next to the button */
+.hero-actions{ display:flex; align-items:center; flex-wrap:wrap; gap:calc(14 * var(--u)) calc(28 * var(--u)); }
+.quiet{ font-size:var(--fs-small); text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
+.quiet:hover{ text-decoration-color:transparent; }
+/* trust line: just the Google rating, plain secondary text set off from the links by a hairline */
+.proof{ display:flex; flex-wrap:wrap; align-items:center; margin:0; padding-left:calc(28 * var(--u)); border-left:1px solid rgba(255,255,255,.3);
+  font-size:var(--fs-small); color:var(--on-dark-2); }
+.rating{ display:inline-flex; align-items:center; gap:.45em; transition:color .2s; }
+.rating svg{ width:.85em; height:.85em; fill:currentColor; }
+.rating:hover{ color:var(--white); }
+.hero h1{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-display); max-width:14em; line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.hero-title{ display:flex; flex-direction:column; gap:calc(14 * var(--u)); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+.hero-kicker{ box-sizing:border-box; display:flex; align-items:flex-end; height:calc(20 * var(--u) + 13vh); margin:0; padding:0 calc(19 * var(--u)) calc(14 * var(--u));
+  font-size:var(--fs-micro); line-height:1.2; letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink); } /* fills the white band above the video, sitting on it */
+.hero-kicker + .hero{ margin-top:0; }
+/* once the video fills the screen (.clear, landing.js) the headline + line step aside so the video shows;
+   the buttons stay, the dark gradient lightens to what they need. Scrolling back up brings the words back */
+.hero-copy::before{ transition:opacity .6s var(--ease); }
+.hero.clear .hero-title{ opacity:0; transform:translateY(calc(12 * var(--u))); }
+.hero.clear .hero-copy::before{ opacity:.45; }
+/* scroll cue: inside the video, bottom right on the line of the buttons. Just a thin line with a short light running slowly down it;
+   fades away (.gone, landing.js) once the page has been scrolled */
+.scroll-cue{ position:absolute; right:calc(19 * var(--u)); bottom:calc(36 * var(--u)); width:1px; height:calc(64 * var(--u)); overflow:hidden;
+  background:rgba(255,255,255,.3); transition:opacity .5s var(--ease); }
+.scroll-cue::after{ content:""; position:absolute; left:0; top:0; width:1px; height:40%; background:var(--white); animation:cue 3.2s cubic-bezier(.65,0,.35,1) infinite; }
+@keyframes cue{ from{ transform:translateY(-100%); } to{ transform:translateY(250%); } }
+.scroll-cue.gone{ opacity:0; pointer-events:none; }
+.framed .scroll-cue{ bottom:calc(36 * var(--u) + 62px); }
+.hero-sub{ margin:0; max-width:min(40em, 100%); text-wrap:balance; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+
+/* ---- about: one huge serif line, justified edge to edge (each row spreads out, like a poster),
+   framed pieces between the words. As the line scrolls up the screen, js adds .on in reading order:
+   words go from grey to ink, pieces fade + grow in. Without js / with reduced motion everything shows.
+   The whole section is one screen tall: landing.js (fitAbout) shrinks the line (--about-fs) until poster + foot fit 100svh,
+   the poster at the top, the foot at the bottom ---- */
+.about{ box-sizing:border-box; min-height:calc(100svh - 2 * var(--inset, 0px)); display:flex; flex-direction:column; justify-content:space-between; /* in frame mode: the screen inside the frame */
+  padding:calc(72 * var(--u)) calc(19 * var(--u)) calc(56 * var(--u)); }
+.about-line{ margin:0; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.14em .2em;
+  font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--about-fs, var(--fs-poster)); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.aw{ white-space:nowrap; }
+.pc{ position:relative; display:block; box-shadow:0 .02em .06em rgba(0,0,0,.12); }
+.pc img{ display:block; height:var(--h); width:auto; }
+.js .about .aw{ color:#c4c4c4; transition:color .35s; } /* unread grey: only a passing scroll state, it ends as --ink */
+.js .about .pc{ opacity:0; transform:scale(.88); transition:opacity .6s var(--ease), transform .6s var(--ease); }
+.js .about .on{ color:var(--ink); opacity:1; transform:none; }
+/* under the poster: a hairline, then the link on the left and the short text in the right half (lines up with the poster's centre) */
+.about-foot{ display:grid; grid-template-columns:1fr 1fr; column-gap:calc(19 * var(--u)); align-items:start;
+  margin-top:calc(56 * var(--u)); padding-top:calc(24 * var(--u)); border-top:1px solid var(--accent); }
+.about-text{ margin:0; max-width:26em; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.about-more{ justify-self:start; font-size:var(--fs-h3); letter-spacing:var(--ls-snug); text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); transition:color .2s; }
+.about-more:hover{ color:var(--ink-accent); }
+/* rises in when scrolled into view (js adds .in) */
+.js .reveal{ opacity:0; transform:translateY(calc(30 * var(--u))); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+.js .reveal.in{ opacity:1; transform:none; }
+
+/* no stamp teeth anywhere (removed Nov 2026 at the user's request): cards and photos have plain straight edges */
+/* ---- how it works (after Framebridge's): white, centred (the second exception to left-aligned heads, after the Closing).
+   Caps label, one serif sentence whose three ways to start are links, one framed piece (cut to the frame's edge, shadow down-left), the
+   button, "Book a visit" with its pin, one quiet line. It replaced four step cards: too many rows of cards in a row. Then the prices ---- */
+.how{ display:flex; flex-direction:column; align-items:center; padding:calc(88 * var(--u)) calc(19 * var(--u)) calc(88 * var(--u)); background:var(--fw-shop); color:var(--ink); } /* the shop blue from the nav, What it costs included (the user's call, 4 Nov 2026) */
+.how-intro{ display:flex; flex-direction:column; align-items:center; text-align:center; }
+.how-label{ margin:0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.how-title{ max-width:21em; margin:calc(20 * var(--u)) 0 0; font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); text-wrap:balance; } /* a sentence: the sans (the serif is for short statements) */
+.how-title a{ text-decoration:underline 1px var(--accent); text-decoration-thickness:max(1px, .04em); text-underline-offset:var(--ul-offset); transition:color .2s; }
+.how-title a:hover{ color:var(--ink-accent); text-decoration-color:var(--accent); }
+.how-piece{ position:relative; display:flex; flex-direction:column; align-items:center; margin:calc(52 * var(--u)) 0 0; } /* the piece centred over its caption, even when the caption is wider */
+/* the pieces stack in one box as wide as a piece and as tall as the tallest (Christo Mosca, 536×738); each fits whole, centred on the bottom line */
+.how-stage{ display:grid; align-items:end; justify-items:center; width:calc(190 * var(--u)); aspect-ratio:536 / 738; }
+.how-stage img{ grid-area:1 / 1; display:block; max-width:100%; max-height:100%; width:auto; height:auto; opacity:0; transition:opacity .6s ease; box-shadow:calc(-10 * var(--u)) calc(14 * var(--u)) calc(28 * var(--u)) rgb(0 0 0 / .18); } /* light from the top right */
+.how-stage img.on{ opacity:1; }
+.how-piece figcaption{ display:grid; margin-top:calc(20 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.how-piece figcaption span{ grid-area:1 / 1; opacity:0; transition:opacity .5s ease; }
+.how-piece figcaption span.on{ opacity:1; transition-delay:.3s; }
+.how .btn-dark{ margin-top:calc(40 * var(--u)); }
+.how-visit{ display:inline-flex; align-items:center; margin-top:calc(18 * var(--u)); font-size:var(--fs-body); text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
+.how-visit svg{ width:.9em; height:1.15em; margin-right:.45em; }
+.how-visit:hover{ text-decoration-color:transparent; }
+.how-made{ max-width:32em; margin:calc(18 * var(--u)) 0 0; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--ink-2); }
+.stamp{ --r:max(3px, calc(4 * var(--u))); --paper:#F2F0E6;
+  display:flex; flex-direction:column; flex:1 1 0; min-width:0; background:var(--white); /* four share the row, edges in line with the head */ color:var(--fw-ink); text-align:left; }
+.stamp img{ display:block; width:100%; height:auto; } /* all four are square */
+.stamp-text{ flex:1; display:flex; flex-direction:column; min-height:calc(220 * var(--u)); padding:calc(22 * var(--u)) calc(22 * var(--u)) calc(24 * var(--u)); }
+.stamp-top{ display:flex; justify-content:space-between; align-items:center; margin:0 0 auto; }
+.stamp-mark{ height:max(18px, calc(24 * var(--u))); width:auto; }
+.stamp-n{ font-size:var(--fs-h3); font-weight:300; line-height:1; }
+.stamp-name{ margin:calc(28 * var(--u)) 0 0; font-size:var(--fs-h3); font-weight:400; line-height:var(--lh-snug); letter-spacing:var(--ls-snug); text-wrap:balance; }
+.stamp-line{ margin:calc(8 * var(--u)) 0 0; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--ink-2); }
+/* what it costs: a tape measure. One ruler 0–170 cm (length + width; a faint tick every 10 cm), a tick at each size's limit; the price
+   above it, "up to 51 cm" + the name under it, all set flush right against their tick. Every step sits in the same grid cell, as wide as
+   its share of 170 cm, and subgrid keeps the price / ruler / size / name rows in line. The ruler's empty start holds the key (what the
+   rows are), and one worked example (70 cm) is a green dot on the ruler, explained in the line under it */
+.cost{ width:100%; margin-top:calc(80 * var(--u)); padding-top:calc(32 * var(--u)); border-top:1px solid rgb(0 0 0 / .16); text-align:left; }
+.cost-head{ display:grid; grid-template-columns:1fr auto; column-gap:20px; align-items:end; }
+.cost-label{ grid-column:1 / -1; margin:0; font-size:var(--fs-micro); font-weight:400; letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.cost-title{ margin:calc(14 * var(--u)) 0 0; font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); text-wrap:balance; } /* a sentence: the sans */
+.cost-text{ margin:0; max-width:26em; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--ink-2); }
+.cost-row{ position:relative; display:grid; grid-template-columns:100%; grid-template-rows:auto calc(26 * var(--u)) auto auto; row-gap:0;
+  margin:calc(48 * var(--u)) 0 0; padding:0; list-style:none; }
+.cost-row::before{ content:""; grid-area:2 / 1; border-top:1px solid var(--ink); /* the tape, with a 10 cm tick every 1/17 */
+  background:repeating-linear-gradient(to right, rgb(0 0 0 / .28) 0 1px, transparent 1px calc(100% / 17)) top left / 100% calc(8 * var(--u)) no-repeat;
+  box-shadow:inset 1px 0 var(--ink); } /* 0 */
+.cost-step, .cost-key{ grid-area:1 / 1 / span 4; display:grid; grid-template-rows:subgrid; }
+.cost-step{ width:calc(var(--s) / 170 * 100%); justify-items:end; text-align:right; }
+.cost-step::after{ content:""; grid-row:2; width:1px; height:100%; background:var(--ink); } /* the size's tick */
+.cost-step > *{ padding-right:calc(12 * var(--u)); }
+.cost-from{ grid-row:1; align-self:end; padding-bottom:calc(10 * var(--u)); font-size:var(--fs-lead); line-height:var(--lh-tight); white-space:nowrap; }
+.cost-size{ grid-row:3; margin-top:calc(10 * var(--u)); font-size:var(--fs-small); line-height:var(--lh-body); white-space:nowrap; }
+.cost-name{ grid-row:4; margin-top:calc(4 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); white-space:nowrap; }
+/* the key, in the ruler's empty start (Mini begins at 0) */
+.cost-key{ justify-items:start; padding-left:calc(12 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.cost-key > :first-child{ grid-row:1; align-self:end; padding-bottom:calc(12 * var(--u)); }
+.cost-key > :last-child{ grid-row:3; margin-top:calc(12 * var(--u)); }
+/* the worked example: a dot on the ruler at 70 cm */
+.cost-eg{ grid-area:2 / 1; width:calc(var(--s) / 170 * 100%); position:relative; }
+.cost-eg::after, .cost-dot{ width:calc(11 * var(--u)); height:calc(11 * var(--u)); min-width:9px; min-height:9px; border-radius:50%; background:var(--accent); }
+.cost-eg::after{ content:""; position:absolute; right:0; top:0; transform:translate(50%, -50%); }
+.cost-ex{ display:flex; align-items:center; gap:calc(10 * var(--u)); margin:calc(32 * var(--u)) 0 0; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--ink-2); }
+.cost-dot{ flex:none; }
+/* each stamp (Frame styles) rises in on its own as you scroll to it (landing.js seqCheck adds .in) */
+.js .stamp{ opacity:0; transform:translateY(calc(48 * var(--u))); transition:opacity .9s var(--ease), transform 1s var(--ease); }
+.js .stamp.in{ opacity:1; transform:none; }
+.btn-dark{ flex:none; margin-top:calc(32 * var(--u)); background:var(--fw-ink); color:var(--white); }
+.btn-dark:hover{ background:var(--white); color:var(--fw-ink); }
+
+/* ---- shop row (after Framebridge's "New & Trending"): serif title, three tabs, arrows right.
+   Each tab is a row of four cards that scrolls sideways: a coral feature card, then products / collections.
+   Right after the three cards, on white (one step up from the page grey). Only the feature card is a stamp (shop blue, teeth from the .perf mask);
+   the products are just the photo, full width, with name + price and one grey line under it ---- */
+.shop{ --gap:calc(22 * var(--u)); padding:calc(110 * var(--u)) calc(19 * var(--u)) calc(120 * var(--u)); background:var(--bg); }
+.shop-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.shop-bar{ display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:calc(30 * var(--u)); }
+.shop-tabs{ display:flex; gap:calc(32 * var(--u)); }
+.shop-tab{ padding:4px 0; border:0; background:none; color:var(--ink-2); font:inherit; font-size:var(--fs-body); cursor:pointer;
+  text-decoration:underline 1px transparent; text-underline-offset:var(--ul-offset); transition:color .2s, text-decoration-color .2s; }
+.shop-tab:hover{ color:var(--ink); }
+.shop-tab[aria-selected="true"]{ color:var(--ink); text-decoration-color:var(--fw-green-bottom); }
+.shop-arrows{ display:flex; gap:10px; }
+.shop-arrow{ display:grid; place-items:center; width:max(38px, calc(44 * var(--u))); aspect-ratio:1; padding:0; border:1px solid currentColor; border-radius:50%;
+  background:none; color:var(--ink); cursor:pointer; transition:background .2s, color .2s, opacity .2s; }
+.shop-arrow svg{ width:7px; height:11px; }
+.shop-arrow:hover:not(:disabled){ background:var(--ink); color:var(--white); }
+.shop-arrow:disabled{ opacity:.25; cursor:default; }
+
+.shop-row{ display:grid; grid-auto-flow:column; grid-auto-columns:calc((100% - 3 * var(--gap)) / 4); gap:var(--gap); margin-top:calc(40 * var(--u));
+
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none; }
+.shop-row::-webkit-scrollbar{ display:none; }
+.feat, .card{ scroll-snap-align:start; }
+/* the feature card is a stamp: same teeth as How / Frame styles */
+/* the cards rise in one after another when the row scrolls into view, and again on every tab switch (js adds .in) */
+.js .shop .feat, .js .shop .card{ opacity:0; }
+.js .shop.in .feat, .js .shop.in .card{ opacity:1; animation:rise .9s var(--ease) both; animation-delay:calc(var(--i, 0) * .09s); }
+
+/* feature card in the shop's menu colour with grain, ink text at the bottom, ink button */
+.feat{ display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; gap:calc(18 * var(--u)); padding:calc(30 * var(--u));
+  background:var(--fw-shop); color:var(--fw-ink); }
+/* small uppercase labels: same sans, spaced out so the capitals breathe */
+.feat-kicker, .tag{ font-size:var(--fs-micro); line-height:1.2; letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.feat-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.feat-text{ margin:0; font-size:var(--fs-body); line-height:var(--lh-body); max-width:32ch; }
+.feat .btn{ flex:none; margin-top:calc(8 * var(--u)); background:var(--fw-ink); color:var(--white); }
+.feat .btn:hover{ background:var(--white); color:var(--fw-ink); } /* flex:none: the phone rule for the hero button would stretch it */
+
+.card{ display:flex; flex-direction:column; }
+/* stand-in product picture: a frame drawn on a wall, lit from the top right (shadow falls down-left) */
+.mock{ position:relative; display:grid; place-items:center; aspect-ratio:1; overflow:hidden; background:var(--wall, #e9e4da); }
+.piece{ --fb:calc(14 * var(--u)); width:var(--w, 46%); aspect-ratio:var(--r, 3/4); padding:var(--fb);
+  box-shadow:calc(-6 * var(--u)) calc(10 * var(--u)) calc(22 * var(--u)) rgba(0,0,0,.22); transition:transform .5s var(--ease); }
+
+/* real product photo instead of the drawn frame: whole, at its own ratio, centred on the paper */
+.mock:has(> img){ background:none; }
+.mock > img{ width:100%; height:100%; object-fit:contain; }
+/* .pic is the mat (--mw wide, 0 = no mat), its ::after the picture; the inset shadow is the frame shading the top and right */
+.pic{ position:relative; height:100%; background:#fbfaf6; box-shadow:inset -2px 3px 6px rgba(0,0,0,.22); }
+.pic::after{ content:""; position:absolute; inset:calc(var(--mw, 0%) / 2); background:var(--pic, #ddd); box-shadow:0 0 0 1px rgba(0,0,0,.06); }
+.fr-chipped{ background:url(../assets/textures/grain.jpg) 0 0 / 160px, #efece4; background-blend-mode:soft-light; }
+.fr-chipped .pic{ outline:calc(3 * var(--u)) solid #e3c24a; } /* the yellow slip */
+.fr-oak{ background:linear-gradient(90deg, rgba(0,0,0,.06), transparent 30%, rgba(0,0,0,.08)), url(../assets/textures/grain.jpg) 0 0 / 120px, #b9895a; background-blend-mode:normal, soft-light; }
+.fr-black{ --fb:calc(9 * var(--u)); background:#1e1e1e; }
+.fr-box{ --fb:calc(20 * var(--u)); border:var(--fb) solid #111; border-image:url(../assets/frames/shadow-box.jpg) 40 / var(--fb) stretch; padding:0; }
+/* a T-shirt shape, pinned in a shadow box */
+.pic.tee::before{ content:""; position:absolute; z-index:1; inset:16% 12% 12%; background:var(--tee);
+  clip-path:polygon(32% 0, 68% 0, 100% 16%, 90% 36%, 78% 30%, 78% 100%, 22% 100%, 22% 30%, 10% 36%, 0 16%); }
+
+/* only what you need to choose: name + price on one line, one grey line under it. Tag, place and wood dots stay in the markup for the product page */
+.card-info{ display:grid; grid-template-columns:minmax(0, 1fr) auto; align-items:baseline; column-gap:calc(16 * var(--u)); row-gap:calc(4 * var(--u)); padding-top:calc(16 * var(--u)); }
+.card-info .tag, .card-info .eyebrow, .card-info .dots{ display:none; }
+.card-info .spec{ grid-column:1; }
+.card-info .price, .card-info .more{ grid-column:2; grid-row:1; margin:0; padding:0; }
+.card-info .more{ display:flex; align-self:center; }
+.card-info .more > span{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); } /* just the arrow; the whole card is the link */
+.more .arr{ width:max(14px, calc(16 * var(--u))); transition:transform .2s; }
+.card:hover .more .arr{ transform:translateX(4px); }
+.tag{ margin-bottom:calc(6 * var(--u)); color:var(--ink-accent); }
+.eyebrow{ font-size:var(--fs-small); color:var(--ink-2); }
+.card-name{ margin:0; font-weight:400; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.spec{ font-size:var(--fs-small); color:var(--ink-2); }
+.dots{ display:flex; gap:calc(8 * var(--u)); margin:calc(10 * var(--u)) 0 calc(4 * var(--u)); }
+.dots i{ width:max(18px, calc(22 * var(--u))); aspect-ratio:1; border-radius:50%; background:var(--c); box-shadow:inset 0 0 0 1px rgba(0,0,0,.12), inset 0 0 0 3px var(--edge, transparent); }
+.dots i:first-child{ outline:1px solid var(--ink); outline-offset:2px; }
+.price{ margin-top:auto; padding-top:calc(6 * var(--u)); font-size:var(--fs-body); font-variant-numeric:tabular-nums; }
+.more{ margin-top:auto; padding-top:calc(14 * var(--u)); font-size:var(--fs-body); }
+.card:hover .card-name{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+
+a:focus-visible, button:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
+
+/* ---- frame mode: one rounded block, bottom centre (inside the frame), only while framed: the frame switcher (css/frame.css) slides open
+   to the left of the exit. Frame mode is entered from the Closing's link. On phones + tablets the menu button (.fb-menu) leads it:
+   framed, it stands in for the nav pill (see the pill below) ---- */
+.frame-bar{ position:fixed; z-index:26; left:50%; bottom:calc(var(--inset, 0px) + 18px + env(safe-area-inset-bottom, 0px));
+  display:grid; grid-template-columns:0fr auto; align-items:center; padding:6px; background:var(--white); border-radius:6px; box-shadow:0 2px 10px rgba(0,0,0,.08);
+  transform:translate(-50%, 12px); opacity:0; visibility:hidden;
+  transition:grid-template-columns .5s cubic-bezier(.65,0,.35,1), transform .5s var(--ease), opacity .5s var(--ease), visibility 0s .5s; }
+.framed .frame-bar{ grid-template-columns:1fr auto; transform:translate(-50%, 0); opacity:1; visibility:visible; transition-delay:0s; }
+.frame-bar .switcher{ position:static; transform:none; min-width:0; overflow:hidden; padding:0 12px 0 12px; margin-right:6px; background:none; box-shadow:none; border-radius:0;
+  border-right:1px solid rgba(0,0,0,.1); align-self:stretch; }
+html.frameable:not(.framed) .frame-bar .switcher{ padding:0; margin:0; border:0; }
+.frame-bar .sw{ flex:none; }
+.frame-toggle{ display:inline-flex; align-items:center; gap:10px; height:36px; padding:0 14px 0 12px; border:0; border-radius:4px; background:none; color:var(--ink);
+  font:inherit; font-size:14px; white-space:nowrap; cursor:pointer; transition:background .2s; }
+.frame-toggle:hover{ background:#efefef; }
+.frame-toggle svg{ width:16px; height:16px; flex:none; }
+.frame-toggle:focus-visible{ outline-color:var(--ink); outline-offset:0; }
+
+/* ---- phones + tablets: past the hero the nav is one block at the bottom (.pill, landing.js): Frame online · the name of the section you're in
+   (just a name, not a link) · cart · menu. One width, so it doesn't change size from section to section. White; the menu grows out of it
+   (--pill-t/r/b/l: the pill's edges, set by js) with the menu section that part of the page belongs to open (data-sec), then folds back
+   into it; while the menu is open the pill reads Frame online + "Close ×" in the menu's colour.
+   The top bar only shows over the hero. Framed, the frame bar stands in for the pill (menu · frames · Exit) ---- */
+.pill, .fb-menu{ display:none; }
+@media (max-width: 1100px){
+  .pill{ --pill-bg:var(--white); position:fixed; z-index:30; left:50%; bottom:calc(var(--inset, 0px) + 16px + env(safe-area-inset-bottom, 0px));
+    display:flex; align-items:center; width:min(calc(100vw - 2 * var(--inset, 0px) - 24px), 400px); box-sizing:border-box; padding:4px;
+    background:var(--pill-bg); color:var(--fw-ink); border-radius:6px; box-shadow:0 2px 12px rgba(0,0,0,.12);
+    font-family:var(--f-sans); font-size:14px; line-height:1;
+    transform:translate(-50%, 14px); opacity:0; visibility:hidden;
+    transition:background-color .45s var(--ease), transform .5s var(--ease), opacity .4s var(--ease), visibility 0s .5s; }
+  /* open, it takes the colour of the menu around it (the open section's; grey while none is open) */
+  html.pill-sheet .pill{ --pill-bg:var(--fw-about); }
+  html.pill-sheet:has(.nav[data-sec="framing"]) .pill{ --pill-bg:var(--fw-framing); } html.pill-sheet:has(.nav[data-sec="shop"]) .pill{ --pill-bg:var(--fw-shop); }
+  html.pill-sheet:has(.nav[data-sec="studio"]) .pill{ --pill-bg:var(--fw-studio); } html.pill-sheet:has(.nav[data-sec="biz"]) .pill{ --pill-bg:var(--fw-biz); }
+  html.pill-on .pill, html.pill-sheet .pill{ transform:translate(-50%, 0); opacity:1; visibility:visible; transition-delay:0s; }
+  /* it steps aside framed (the frame bar has it), for the menu opened from the top bar, and for a + card's sheet */
+  html.framed:not(.pill-sheet) .pill, html.framed.pill-folding .pill, html.menu-open:not(.pill-sheet) .pill, body:has(.piece-card.in) .pill{
+    transform:translate(-50%, 14px); opacity:0; visibility:hidden; transition-delay:0s, 0s, 0s, .5s; }
+  .pill > *{ flex:none; }
+  .pill-menu, .pill-cart, .pill-go, .fb-menu{ display:inline-flex; align-items:center; justify-content:center; gap:8px; height:40px; padding:0 12px; border:0; border-radius:3px;
+    background:none; color:inherit; font:inherit; font-size:14px; white-space:nowrap; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:background-color .2s; }
+  .pill-menu, .fb-menu{ width:44px; padding:0; }
+  .pill-menu svg, .fb-menu svg{ width:20px; height:10px; flex:none; overflow:visible; }
+  .pill-menu path{ transform-box:fill-box; transform-origin:center; transition:transform .45s cubic-bezier(.65,0,.35,1); }
+  .pill-close{ display:none; }
+  .pill-here{ flex:1 1 auto; min-width:0; padding:0 8px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .pill-here.swap{ animation:pillSwap .45s var(--ease); }
+  .pill-sep{ width:1px; align-self:stretch; margin:9px 4px; background:rgb(18 20 18 / .16); }
+  .pill-cart{ width:40px; padding:0; }
+  .pill-cart svg{ width:18px; height:18px; }
+  .pill-go{ margin-right:4px; padding:0 16px; background:var(--fw-ink); color:var(--white); }
+  .pill-menu:active, .pill-cart:active, .fb-menu:active{ background:rgb(18 20 18 / .08); }
+  .pill :focus-visible, .fb-menu:focus-visible{ outline:1px solid var(--fw-ink); outline-offset:0; }
+  .pill .pill-go:focus-visible{ outline-offset:2px; }
+  /* the menu is open: the pill is its close */
+  html.pill-sheet:not(.pill-folding) .pill{ width:max-content; }
+  html.pill-sheet:not(.pill-folding) :is(.pill-here, .pill-sep, .pill-cart){ display:none; }
+  html.pill-sheet:not(.pill-folding) .pill-menu{ width:auto; padding:0 12px 0 14px; }
+  html.pill-sheet:not(.pill-folding) .pill-close{ display:inline; }
+  html.pill-sheet:not(.pill-folding) .pill-menu .l1{ transform:translateY(3px) rotate(45deg) scaleX(.7); }
+  html.pill-sheet:not(.pill-folding) .pill-menu .l2{ transform:translateY(-3px) rotate(-45deg) scaleX(.7); }
+  /* the top bar: only over the hero. Past it it stays away, without the slide (the pill is the nav) */
+  html.pill-on .nav, html.pill-sheet .nav{ transition:color .25s var(--ease), background-color .35s var(--ease); }
+  html.pill-on .nav:not(.open){ transform:translateY(calc(-100% - var(--inset, 0px))); }
+  /* the menu, opened from the pill: grows out of it, room at its foot for it, its own close + Frame online button give way to the pill's */
+  html.pill-sheet .nav.open{ padding-bottom:calc(76px + env(safe-area-inset-bottom, 0px)); animation:pillUp .55s cubic-bezier(.65,0,.35,1) both; }
+  html.pill-sheet .nav.open.folding{ animation:pillDown .4s cubic-bezier(.65,0,.35,1) both; }
+  html.pill-sheet .nav.open .burger, html.pill-sheet .menu-foot .btn-dark{ display:none; }
+  html.pill-sheet .nav.open .mega{ min-height:calc(100dvh - 2 * var(--inset, 0px) - 88px - 66px); }
+  /* frame mode: menu · frames · Exit */
+  .fb-menu{ display:inline-flex; margin-right:2px; }
+  .frame-bar{ grid-template-columns:auto 0fr auto; }
+  .framed .frame-bar{ grid-template-columns:auto 1fr auto; }
+}
+@keyframes pillSwap{ from{ opacity:0; transform:translateY(5px); } }
+@keyframes pillUp{ from{ clip-path:inset(var(--pill-t, 90%) var(--pill-r, 12px) var(--pill-b, 16px) var(--pill-l, 12px) round 6px); } to{ clip-path:inset(0 0 0 0 round 0px); } }
+@keyframes pillDown{ from{ clip-path:inset(0 0 0 0 round 0px); } to{ clip-path:inset(var(--pill-t, 90%) var(--pill-r, 12px) var(--pill-b, 16px) var(--pill-l, 12px) round 6px); } }
+@media (prefers-reduced-motion: reduce){ html.pill-sheet .nav.open{ animation:none; } .pill, .pill-here.swap{ transition:none; animation:none; } }
+
+/* ---- tablet + mobile: logo + burger, cards scroll sideways, video still fills the screen ---- */
+@media (max-width: 1100px){
+  .page{ --nav-h:64px; }
+  .page > *, .piece-card{ --u: calc(100cqw / 390);
+    --fs-display: clamp(42px, 12vw, 66px);
+    --fs-poster:  clamp(40px, 12.5vw, 72px);
+    --fs-pull:    clamp(34px, 9.6vw, 56px);
+    --fs-stack:   clamp(34px, calc((100cqw - 40px) / 8.7), 72px); /* the longest staggered line (+ its .6em indent) fills the screen width */
+    --fs-h1: clamp(40px, 11.3vw, 56px);  /* section titles: 44px on a 390px phone */
+    --fs-h2: clamp(30px, 8.2vw, 40px);   /* sub-titles: 32px */
+    --fs-lead: clamp(20px, 5.4vw, 28px);
+    --fs-h3: 22px;                       /* card names, intro lines */
+    --fs-body: 16px; --fs-small: 14px; --fs-micro: 12px;
+    /* one vertical rhythm on phones: section padding, gaps between blocks, small gaps */
+    --sp-l: 64px; --sp-m: 40px; --sp-s: 24px; }
+  .nav{ flex-wrap:wrap; height:auto; min-height:var(--nav-h); padding:10px 20px; }
+  .nav::after{ display:none; }
+  .nav.open{ background:var(--black); color:var(--white); }
+  .logo{ width:115px; }
+  .util{ margin-left:auto; gap:14px; }
+  .nav-cta, .mega-foot{ display:none; }
+  /* the button: two lines that fold into a × while the menu is open */
+  .burger{ display:grid; place-items:center; margin-left:10px; margin-right:-4px; width:64px; height:44px; padding:0; border:0; background:none; color:inherit; cursor:pointer; }
+  .burger svg{ overflow:visible; }
+  .burger path{ transform-box:fill-box; transform-origin:center; transition:transform .45s cubic-bezier(.65,0,.35,1); }
+  .nav.open .burger .l1{ transform:translateY(4px) rotate(45deg) scaleX(.55); }
+  .nav.open .burger .l2{ transform:translateY(-4px) rotate(-45deg) scaleX(.55); }
+  /* menu (black, the full screen; the page behind is locked by html.menu-open): the five links rise in one after another,
+     each with an arrow; tapping one slides it open (js animates the height) and turns its arrow down: picture left,
+     promise + main links right, the secondary links smaller and grey underneath. The contact line closes the list */
+  .nav.open{ height:calc(100svh - 2 * var(--inset, 0px)); height:calc(100dvh - 2 * var(--inset, 0px)); align-content:flex-start; overflow-y:auto; overscroll-behavior:contain; }
+  .mega{ order:5; display:none; flex:1 0 100%; margin:16px 0 8px; flex-direction:column; align-items:stretch; gap:0; }
+  .nav.open .mega{ display:flex; min-height:calc(100dvh - 2 * var(--inset, 0px) - 88px); } /* fills the screen under the bar, so the footer sits at the bottom */
+  .nav.open .menu-foot{ display:grid; justify-items:start; gap:16px; margin-top:auto; padding:32px 0 calc(8px + env(safe-area-inset-bottom, 0px));
+    animation:rise .55s var(--ease) both; animation-delay:.3s; }
+  .menu-foot .btn-dark{ margin:0; }
+  .menu-addr{ margin:0; font-size:var(--fs-small); line-height:var(--lh-body); }
+  .menu-addr a{ text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
+  .col:nth-child(1){ --k:0; } .col:nth-child(2){ --k:1; } .col:nth-child(3){ --k:2; } .col:nth-child(4){ --k:3; } .col:nth-child(5){ --k:4; }
+  .nav.open .col, .nav.open .mega-foot{ animation:rise .55s var(--ease) both; animation-delay:calc(.05s + var(--k, 5) * 45ms); }
+  .col > .title{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .col > .title::after{ content:""; flex:none; width:18px; height:13px; background:currentColor; transition:transform .45s var(--ease);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='black' stroke-width='1.2'%3E%3Cpath d='M0 5h12.6M8.6 1l4 4-4 4'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' fill='none' stroke='black' stroke-width='1.2'%3E%3Cpath d='M0 5h12.6M8.6 1l4 4-4 4'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .col.open > .title::after{ transform:rotate(90deg); }
+  .nav.open .mega-foot{ display:block; position:static; order:6; flex:1 0 100%; margin:8px 0 24px; opacity:1; visibility:visible; }
+  .col{ width:auto; display:block; margin:0; border-top:1px solid rgba(255,255,255,.18); }
+  .mega{ align-self:auto; }
+  .nav.mega-open .col:not(.active) .drop, .nav.mega-open .col:not(.active) > .title{ opacity:1; }
+  .title{ padding:14px 0; font-size:var(--fs-h3); line-height:var(--lh-snug); }
+  .drop{ position:static; display:block; height:0; overflow:hidden; width:auto; padding:0; opacity:1; visibility:visible; transform:none; transition:height .45s var(--ease); }
+  .drop > *{ opacity:0; transform:translateY(-6px); transition:opacity .3s var(--ease), transform .4s var(--ease); }
+  .col.open .drop > *{ opacity:1; transform:none; transition-delay:.1s; }
+  /* an open column stacks like on desktop: promise line, picture, links under it (not beside it) */
+  .drop-main{ display:flex; flex-direction:column; align-items:flex-start; min-height:0; padding-top:2px; }
+  .drop-title{ max-width:none; min-height:0; font-size:20px; }
+  .thumb{ height:140px; max-width:100%; margin-top:14px; }
+  .links{ margin-top:14px; gap:6px; }
+  .drop-more{ margin-top:16px; padding:0 0 20px; gap:4px; }
+  .drop-more a{ color:var(--on-dark-2); }
+  /* data-menu="colour" on phones: the same look as the desktop panel. The menu takes the colour of the open section
+     (juliajohnson.com's; grey while none is open), ink text. An open section: main links with its photo beside them,
+     secondary links, then the title big in the serif. Sizes in clear steps: title 3×, section names 1.5×, links 1×, secondary .65× */
+  html[data-menu="colour"] .nav.open{ background:var(--fw-about); color:var(--fw-ink); transition:background-color .35s var(--ease); }
+  html[data-menu="colour"] .nav.open[data-sec="framing"]{ background:var(--fw-framing); }
+  html[data-menu="colour"] .nav.open[data-sec="shop"]{ background:var(--fw-shop); }
+  html[data-menu="colour"] .nav.open[data-sec="studio"]{ background:var(--fw-studio); }
+  html[data-menu="colour"] .nav.open[data-sec="biz"]{ background:var(--fw-biz); }
+  html[data-menu="colour"] .col{ border-top-color:rgba(27,30,27,.2); }
+  html[data-menu="colour"] .title{ font-size:clamp(34px, 9.6vw, 44px); line-height:var(--lh-tight); letter-spacing:var(--ls-snug); padding:18px 0; }
+  html[data-menu="colour"] .drop{ display:grid; grid-template-columns:1fr auto; column-gap:16px; align-content:start; }
+  html[data-menu="colour"] .drop-main{ display:contents; }
+  html[data-menu="colour"] .drop-main > *{ opacity:0; transform:translateY(-6px); transition:opacity .3s var(--ease), transform .4s var(--ease); }
+  html[data-menu="colour"] .col.open .drop-main > *{ opacity:1; transform:none; transition-delay:.1s; }
+  html[data-menu="colour"] .links{ grid-column:1; grid-row:1; margin:0; gap:6px; }
+  html[data-menu="colour"] .links a{ font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+  html[data-menu="colour"] .thumb{ grid-column:2; grid-row:1 / 3; align-self:start; height:128px; margin:0; }
+  html[data-menu="colour"] .drop-more{ grid-column:1; grid-row:2; margin-top:22px; padding:0; gap:8px; }
+  html[data-menu="colour"] .drop-more a{ color:inherit; opacity:.75; font-size:var(--fs-micro); text-transform:uppercase; letter-spacing:var(--ls-caps); }
+  html[data-menu="colour"] .drop-title{ grid-column:1 / -1; grid-row:3; margin:26px 0 24px; max-width:none; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400;
+    font-size:var(--fs-display); line-height:.95; letter-spacing:var(--ls-display); text-wrap:balance; }
+
+  /* cards in a row you can swipe, the next one peeking in (like +Halle on mobile) */
+  .entries{ padding:var(--sp-m) 0 var(--sp-l); }
+  .entries-label{ margin:0 20px; padding-top:var(--sp-s); }
+  .entries-row{ display:flex; gap:20px; margin-top:var(--sp-s); padding:8px 20px 0; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-padding:0 20px; scrollbar-width:none; }
+  .entries-row::-webkit-scrollbar{ display:none; }
+  .entry{ flex:0 0 min(70%, 300px); scroll-snap-align:start; margin-top:0; }
+  .entry img{ width:100%; padding:16px; border-width:7px; }
+  .entry::before{ margin-bottom:10px; }
+  .entry-title{ margin-top:20px; }
+
+  .hero{ margin-top:calc(20px + 13vh); }
+  .scroll-cue{ right:20px; bottom:24px; } .hero-actions{ padding-right:24px; } /* keep the button clear of the cue */
+  .hero-copy{ gap:20px; padding:0 20px 24px; }
+  .hero-kicker{ height:calc(20px + 13vh); padding:0 20px 12px; }
+  /* the frame mode block sits bottom right on the same strip as the copy: keep the copy above it (home bar included) */
+  .framed .hero-copy{ padding-bottom:calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .btn{ height:40px; padding:0 40px; }
+  .hero h1 br{ display:none; } /* let it wrap naturally */
+  .proof{ flex-basis:100%; padding-left:0; border-left:0; } /* own line under the links, no divider */
+
+  /* how it works: same, smaller; the piece a third of the screen */
+  .how{ padding:var(--sp-l) 20px; } /* centred, like the closing (the user's call, 4 Nov 2026) */
+  .how-title{ margin-top:14px; }
+  .how-piece{ margin-top:32px; } .how-stage{ width:min(40vw, 160px); } .how-piece figcaption{ margin-top:18px; }
+  .how .btn-dark{ margin-top:var(--sp-s); } .how-visit{ margin-top:18px; } .how-made{ margin-top:18px; }
+  .stamp{ --r:3px; flex:0 0 min(70%, 270px); scroll-snap-align:start; }
+  .stamp-text{ min-height:190px; padding:18px; }
+  .stamp-name{ margin-top:20px; }
+  /* phones: a short list, one size a row (name + size left, price right), each with its piece of tape under it */
+  .cost{ width:100%; margin:var(--sp-m) 0 0; padding-top:var(--sp-s); }
+  .cost-head{ display:block; } .cost-title{ margin-top:12px; } .cost-text{ margin-top:10px; }
+  .cost-row{ display:block; margin-top:20px; }
+  .cost-row::before{ content:none; }
+  .cost-step{ width:auto; display:grid; grid-template-columns:1fr auto; grid-template-rows:auto auto; column-gap:12px; padding:12px 0 14px; text-align:left; justify-items:start; position:relative; }
+  .cost-step > *{ padding:0; }
+  .cost-step::after{ position:absolute; left:0; bottom:0; width:calc(var(--s) / 170 * 100%); height:5px; background:none;
+    border-top:1px solid var(--ink); border-right:1px solid var(--ink); }
+  .cost-name{ grid-area:1 / 1; margin:0; } .cost-size{ grid-area:2 / 1; margin:2px 0 0; color:var(--ink-2); }
+  .cost-from{ grid-area:1 / 2 / span 2; align-self:center; justify-self:end; padding:0; }
+  .cost-from::before{ content:"from "; font-size:var(--fs-small); color:var(--ink-2); }
+  html[lang="de"] .cost-from::before{ content:"ab "; }
+  .cost-key, .cost-eg{ display:none; }
+  .cost-ex{ margin-top:20px; } .cost-dot{ display:none; }
+  .about{ padding:56px 20px 40px; }
+  .about-line{ justify-content:flex-start; } /* phones: left-aligned, no gaps opening between the words */
+  .about-foot{ grid-template-columns:1fr; row-gap:20px; margin-top:32px; padding-top:20px; }
+  .about-text{ grid-row:1; } /* text first, link under it */
+
+  /* shop: swipe the cards, the next one peeking in; no arrows */
+  .shop{ --gap:14px; padding:var(--sp-l) 0; }
+  .shop-head{ padding:0 20px; }
+  .shop-bar{ margin-top:20px; }
+  .shop-tabs{ gap:22px; }
+  .shop-arrows{ display:none; }
+  .shop-row{ grid-auto-columns:min(74%, 320px); margin-top:24px; padding:0 20px; scroll-padding:0 20px; }
+  .feat{ padding:22px; gap:14px; }
+  .piece{ --fb:12px; }
+  .fr-black{ --fb:8px; } .fr-box{ --fb:16px; }
+  .fr-chipped .pic{ outline-width:2px; }
+  .card-info{ padding-top:12px; }
+  .tag{ margin-bottom:4px; }
+  .dots{ gap:7px; margin:8px 0 2px; }
+}
+/* phones */
+@media (max-width: 600px){
+  .ico-acc{ display:none; } /* room for logo, search, cart, language, burger */
+  .hero-copy{ gap:18px; }
+  .btn{ flex:1 1 auto; max-width:280px; }
+  .how .btn{ flex:none; } /* would stretch to the phone button width rule; keep it its own size */
+
+  /* frame mode on phones: framed it opens full width along the bottom of the picture, with the copy lifted above it */
+  .hero-copy{ padding-bottom:24px; }
+  .framed .hero-copy{ padding-bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .framed .scroll-cue{ bottom:calc(80px + env(safe-area-inset-bottom, 0px)); }
+  .frame-bar{ min-width:0; transition:grid-template-columns .5s cubic-bezier(.65,0,.35,1), min-width .5s cubic-bezier(.65,0,.35,1), transform .5s var(--ease), opacity .5s var(--ease), visibility 0s .5s; }
+  .framed .frame-bar{ min-width:calc(100vw - 2 * var(--inset) - 36px); }
+  .frame-toggle{ padding:0 10px; font-size:13px; }
+  .frame-bar .switcher{ padding:0 10px 0 6px; }
+}
+
+
+/* page progress: a hairline around the screen that draws itself as you scroll (landing.js: path + --p, 0 → 1 at the closing).
+   Ink on light sections, white on dark ones (.dark, from the section in the middle of the screen); gone while framed (the real frame takes over) */
+.trace{ position:fixed; inset:0; z-index:24; width:100%; height:100%; pointer-events:none; overflow:visible;
+  color:var(--ink); transition:opacity .5s var(--ease), color .4s var(--ease); }
+.trace.dark{ color:var(--white); }
+.trace.hide{ opacity:0; } /* the video has the screen: it fades in after half a screen, with the frame button */
+/* the faint full frame it fills (like the loader's bar), the four corners a little stronger, the line, and a dot at its drawing end */
+.trace path{ fill:none; stroke:currentColor; stroke-width:1; stroke-linecap:square; }
+.tr-track{ stroke-opacity:.1; } .trace.dark .tr-track{ stroke-opacity:.16; }
+.tr-corners{ stroke-opacity:.3; } .trace.dark .tr-corners{ stroke-opacity:.4; }
+.tr-line{ stroke-opacity:.5; stroke-dasharray:var(--len, 9999); stroke-dashoffset:calc((1 - var(--p, 0)) * var(--len, 9999)); }
+.trace.dark .tr-line{ stroke-opacity:.65; }
+.tr-tip{ fill:currentColor; fill-opacity:.7; transition:opacity .4s var(--ease); }
+.trace.done .tr-tip, .trace.start .tr-tip{ opacity:0; } /* no dot before it starts or once the frame is closed */
+.trace.done .tr-line, .trace.done .tr-corners{ stroke-opacity:.7; }
+/* section dots: only the one you are in (filled, a touch bigger) and the one coming next (a faint ring) show; the bigger invisible circle is what you point at */
+.tr-dot{ cursor:pointer; opacity:0; pointer-events:none; transition:opacity .4s var(--ease); }
+.tr-dot.cur, .tr-dot.next{ opacity:1; pointer-events:auto; }
+.tr-hit{ fill:transparent; pointer-events:all; }
+.tr-dot:not(.cur):not(.next) .tr-hit{ pointer-events:none; }
+.tr-d{ fill:var(--bg); stroke:currentColor; stroke-width:1; stroke-opacity:.45; transition:fill .3s var(--ease), stroke-opacity .3s var(--ease), transform .3s var(--ease); }
+.trace.dark .tr-d{ fill:var(--fw-ink); }
+.tr-dot.cur .tr-d{ fill:currentColor; stroke-opacity:0; transform:scale(1.4); }
+.tr-dot:hover .tr-d{ stroke-opacity:.8; transform:scale(1.6); }
+/* the name of the section you point at, small caps, on the inside of the frame next to its dot */
+.trace-label{ position:fixed; z-index:25; left:0; top:0; padding:5px 8px; background:var(--fw-ink); color:var(--white); border-radius:3px; pointer-events:none;
+  font-family:var(--f-sans); font-size:11px; line-height:1; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;
+  opacity:0; transition:opacity .2s var(--ease); --tx:-50%; --ty:10px; transform:translate(var(--tx), var(--ty)); }
+.trace-label[data-edge="1"]{ --tx:calc(-100% - 12px); --ty:-50%; }
+.trace-label[data-edge="2"]{ --tx:-50%; --ty:calc(-100% - 10px); }
+.trace-label[data-edge="3"]{ --tx:12px; --ty:-50%; }
+.trace-label.on{ opacity:1; }
+.framed .trace-label, html.menu-open .trace-label{ display:none; }
+/* parked for now (user: not right yet, an idea to work on): remove this line to bring it back */
+.trace, .trace-label{ display:none !important; }
+html:not(.js) .trace, .framed .trace, html.menu-open .trace, html:has(.nav.mega-open) .trace{ opacity:0; } /* the open menu panel has the screen */
+html.menu-open{ overflow:hidden; } /* the full-screen menu is open: the page behind stays put */
+html.menu-open .frame-bar{ opacity:0; visibility:hidden; } /* nothing over the menu */
+
+
+/* ==== lower half. Each section stages one idea at its own scale and colour instead of repeating title + grid:
+   mint sample wall → pull quote → black gallery room → pinned story → ink material library → the studio → FAQ → coral salon wall → footer ==== */
+
+/* rows that scroll sideways: lock the vertical axis (a row a few px taller inside than its box would otherwise catch the
+   mouse wheel and stall the page) and keep sideways swipes in the row (no browser back gesture) */
+.shop-row{ overflow-y:hidden; overscroll-behavior-x:contain; }
+
+/* small caps links with an arrow (reviews, projects, sustainability, magazine, FAQ) */
+.rev-all, .proj-all, .sust-more, .mag-all, .faq-all{ display:inline-flex; align-items:center; gap:.6em; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.rev-all .arr, .proj-all .arr, .sust-more .arr, .mag-all .arr, .faq-all .arr{ width:1.1em; transition:transform .2s; }
+.rev-all:hover .arr, .proj-all:hover .arr, .sust-more:hover .arr, .mag-all:hover .arr, .faq-all:hover .arr{ transform:translateX(4px); }
+
+/* ---- frame styles: the eight styles as cards exactly the size of the How stamps (.stamp: white, mark + number, name, line, photo 4:5):
+   four share the screen width like the How row, the other four wait off the edge; the row scrolls sideways (arrows via landing.js sideRow,
+   swipe, scroll), so nobody has to scroll down through all eight ---- */
+.styles{ padding:calc(90 * var(--u)) 0 calc(110 * var(--u)); background:var(--fw-ink); color:var(--white); } /* the same ink as How */
+.styles-head{ display:grid; grid-template-columns:auto 1fr; column-gap:calc(80 * var(--u)); align-items:end; padding:0 calc(19 * var(--u)); }
+.styles-title{ margin:0; white-space:nowrap; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.styles-tools{ display:flex; justify-content:space-between; align-items:end; gap:20px; }
+.styles-text{ margin:0; max-width:26em; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.styles-arrows[hidden]{ display:none; }
+.styles-row{ position:relative; display:flex; gap:calc(22 * var(--u)); margin:calc(72 * var(--u)) 0 0;
+  padding:0 calc(19 * var(--u)); list-style:none; overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-padding-inline:calc(19 * var(--u)); scrollbar-width:none; overscroll-behavior-x:contain; }
+.styles-row::-webkit-scrollbar{ display:none; }
+.styles-row:focus-visible{ outline:1px solid var(--white); outline-offset:4px; }
+.styles .shop-arrow{ color:var(--white); } .styles .shop-arrow:hover:not(:disabled){ background:var(--white); color:var(--fw-ink); } /* on the ink band */
+.styles-row .stamp{ position:relative; flex:none; width:calc((100% - 3 * 22 * var(--u)) / 4); scroll-snap-align:start; } /* the How stamp's width: a quarter of the row */
+/* every card text on top (like 01; How alternates, these don't). The photos lose the top quarter of their green wall (the user asked for less
+   green; the one crop here): the corner still shows whole with room above it. The corners start about 32–36% down the photo, so don't crop past ~25% */
+.styles-row .stamp img{ aspect-ratio:16 / 15; object-fit:cover; object-position:50% 100%; }
+.styles-row .stamp-name a::after{ content:""; position:absolute; inset:0; } /* the whole card is the link */
+.styles-row .stamp-name a{ text-decoration:underline 1px transparent; text-underline-offset:var(--ul-offset); transition:text-decoration-color .2s; }
+.styles-row .stamp:hover .stamp-name a{ text-decoration-color:var(--accent); }
+/* desktop: two at most, the third peeks in at the edge (like the phone row) so it invites a scroll. Two full-height cards would be taller
+   than the screen, so each card lies on its side: text left, photo right, the same 16:15 photo */
+@media (min-width:1101px){
+  .styles-row .stamp{ flex-direction:row; width:calc((100% - 22 * var(--u)) / 2.2); }
+  .styles-row .stamp-text{ flex:1 1 0; min-height:0; padding:calc(28 * var(--u)); }
+  .styles-row .stamp img{ flex:none; width:52%; }
+}
+
+/* ---- Real feedback: white. Title, rating link + prev/next, then the reviews in full: two share the width, the rest scroll sideways
+   (snap; landing.js sideRow, shared with Projects). Each under a hairline. Rise in one after another ---- */
+.reviews{ background:var(--bg); padding:calc(160 * var(--u)) 0 calc(180 * var(--u)); }
+.rev-head{ display:flex; justify-content:space-between; align-items:end; gap:20px; padding:0 calc(19 * var(--u)); }
+.rev-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.rev-tools{ display:flex; align-items:center; gap:calc(32 * var(--u)); }
+.rev-arrows[hidden]{ display:none; }
+.rev-board{ --gap:calc(80 * var(--u)); display:flex; gap:var(--gap); margin-top:calc(90 * var(--u)); padding:0 calc(19 * var(--u));
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-padding-inline:calc(19 * var(--u)); scrollbar-width:none; }
+.rev-board::-webkit-scrollbar{ display:none; }
+.rev-board:focus-visible{ outline:1px solid var(--ink); outline-offset:4px; }
+.note{ flex:0 0 calc((100% - var(--gap)) / 2); scroll-snap-align:start; display:flex; flex-direction:column; justify-content:space-between; gap:calc(40 * var(--u));
+  margin:0; padding-top:calc(24 * var(--u)); border-top:1px solid var(--ink); }
+.note blockquote{ margin:0; }
+.note p{ margin:0; font-size:var(--fs-lead); font-weight:300; line-height:var(--lh-body); letter-spacing:var(--ls-snug); } /* the sans, light (like their site), not the display serif */
+.note figcaption{ font-size:var(--fs-small); color:var(--ink-2); }
+.js .note{ opacity:0; translate:0 calc(24 * var(--u)); transition:opacity .8s var(--ease), translate .9s var(--ease); transition-delay:calc(var(--i, 0) * .12s); }
+.js .rev-board.in .note{ opacity:1; translate:none; }
+
+/* ---- projects: the gallery room. White (the project photos have white backgrounds). After plushalle's "Featured collections":
+   a head bar between hairlines (title + count, link, prev/next), then one row that scrolls sideways, every picture whole at the same
+   size, three filling the screen width (all 4:5), name + line under it; more projects would scroll. Nothing pins. Then the clients as a slow ticker ---- */
+.projects{ background:var(--bg); color:var(--ink); padding-top:calc(110 * var(--u)); }
+.proj-bar{ display:flex; align-items:center; justify-content:space-between; gap:20px; padding:calc(22 * var(--u)) calc(19 * var(--u));
+  border-block:1px solid rgba(0,0,0,.12); }
+.proj-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.proj-count{ margin-left:.25em; font-family:var(--f-sans); font-size:var(--fs-micro); letter-spacing:0; vertical-align:super; line-height:0; }
+.proj-tools{ display:flex; align-items:center; gap:calc(40 * var(--u)); }
+.proj-arrows[hidden]{ display:none; }
+.proj-list{ --gap:calc(12 * var(--u)); position:relative; display:flex; gap:var(--gap); padding:calc(22 * var(--u)) calc(19 * var(--u)) calc(110 * var(--u));
+  overflow-x:auto; overflow-y:hidden; scroll-snap-type:x mandatory; scroll-padding-inline:calc(19 * var(--u)); scrollbar-width:none; }
+.proj-list::-webkit-scrollbar{ display:none; }
+.proj{ flex:0 0 calc((100% - 2 * var(--gap)) / 3); min-width:0; display:grid; justify-items:start; align-content:start; gap:calc(18 * var(--u)); scroll-snap-align:start; }
+/* three to a screen width, whatever the screen: the cards share the row edge to edge (all photos 4:5, so all the same size);
+   a 4th or 5th project would run off the edge and the arrows show (js hides them while nothing overflows) */
+.proj img{ display:block; width:100%; height:auto; }
+.proj-label{ display:grid; gap:calc(4 * var(--u)); }
+.proj-name{ font-size:var(--fs-h3); letter-spacing:var(--ls-snug); }
+.proj-line{ max-width:34em; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--ink-2); }
+.proj:hover .proj-name, .proj:focus-visible .proj-name{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.proj-trust{ position:relative; display:flex; align-items:center; gap:calc(48 * var(--u)); padding:calc(48 * var(--u)) 0 calc(110 * var(--u)); background:var(--bg);
+  border-top:1px solid rgba(0,0,0,.12); }
+.proj-trust-label{ flex:none; margin:0; padding-left:calc(19 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.ticker{ flex:1; min-width:0; display:flex; overflow:hidden; mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.ticker-run{ flex:none; display:flex; gap:calc(80 * var(--u)); margin:0; padding:0 calc(80 * var(--u)) 0 0; list-style:none; white-space:nowrap;
+  font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-snug); animation:tick 32s linear infinite; } /* names, not a statement: the sans */
+@keyframes tick{ to{ transform:translateX(-100%); } }
+
+/* ---- sustainability: five statements in the serif, each set in staggered lines (first left, the middle ones indented, the last
+   pushed right; after a poster layout). Desktop: the section is a scroll track, its stage stays pinned for one screen, split in two:
+   left the shop-blue panel (+ grain) with label, statement, light paragraph and the link; right the photo, whole, on a blurred,
+   darkened copy of itself (decoration only), with a round step badge. js steps through the statements as the track scrolls (.on).
+   Phones: see the 1100px query ---- */
+/* track length: --beat of scroll per statement. Short (default, ~3 screens) = 50svh; data-track="long" is the first version (65svh, ~3.6 screens),
+   kept to compare: add ?sust=long to the URL */
+.sust{ --steps:5; --beat:50svh; height:calc(100svh + (var(--steps) - 1) * var(--beat)); border-top:1px solid #d6d4cf; }
+.sust[data-track="long"]{ --beat:65svh; }
+.sust-stage{ position:sticky; top:var(--inset, 0px); height:calc(100svh - 2 * var(--inset, 0px)); display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); }
+.sust-steps{ grid-column:1; grid-row:1; display:grid; grid-template-rows:auto 1fr auto; padding:calc(var(--nav-h) + calc(28 * var(--u))) calc(72 * var(--u)) calc(40 * var(--u));
+  background:var(--fw-ink); color:var(--white); } /* black (was shop blue, Nov 2026) */
+.sust-label{ margin:0; font-family:var(--f-sans); font-weight:400; font-size:var(--fs-micro); line-height:var(--lh-body); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.sust-title{ margin:calc(20 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.sust-label{ color:var(--on-dark-2); }
+/* all five share one cell, so the panel never jumps; the open one rises in, line by line */
+.sust-list{ display:grid; align-items:center; }
+.sust-step{ grid-area:1 / 1; }
+.sust-big{ display:grid; justify-items:start; width:fit-content; margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-stack); line-height:var(--lh-tight); letter-spacing:var(--ls-display); text-wrap:nowrap; }
+.sust-big span{ display:block; }
+.sust-big .i{ padding-left:1em; }
+.sust-big .r{ justify-self:end; }
+/* "See the materials" under the doors statement: its own line, caps like the other small links, white on the ink (ink on phones) */
+.sust-link{ display:flex; width:max-content; align-items:center; gap:.6em; margin-top:1.2em; font-size:var(--fs-micro); font-weight:400; letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--white); }
+.sust-link .arr{ width:1.1em; transition:transform .2s; }
+.sust-link:hover .arr{ transform:translateX(4px); }
+.sust-small{ max-width:22em; margin:calc(36 * var(--u)) 0 0 var(--fs-stack); font-size:var(--fs-body); line-height:var(--lh-body); font-weight:300; color:var(--on-dark-2); }
+/* changing statement: the old one leaves quickly the way you scroll (.past ones rest above, later ones below), then the new one rises
+   in from the other side, line by line (--d), once the old one is gone */
+.js .sust-step{ visibility:hidden; transition:visibility 0s linear .4s; }
+.js .sust-step.on{ visibility:visible; transition:none; }
+.js .sust-step .sust-big span, .js .sust-step .sust-small{ --y:calc(36 * var(--u)); opacity:0; transform:translateY(var(--y));
+  transition:opacity .3s var(--ease), transform .4s var(--ease); }
+.js .sust-step.past .sust-big span, .js .sust-step.past .sust-small{ --y:calc(-36 * var(--u)); }
+.js .sust-step.on .sust-big span, .js .sust-step.on .sust-small{ opacity:1; transform:none; transition:opacity .7s var(--ease) var(--d, .3s), transform 1s var(--ease) var(--d, .3s); }
+.js .sust-step.on .sust-big span:nth-child(2){ --d:.36s; }
+.js .sust-step.on .sust-big span:nth-child(3){ --d:.42s; }
+.js .sust-step.on .sust-big span:nth-child(4){ --d:.48s; }
+.js .sust-step.on .sust-small{ --d:.56s; }
+.sust-more{ justify-self:start; }
+/* links: an ink button for the main action, underlined sans for a secondary link (these two, About us, Book a visit),
+   caps + arrow only for "see all" links (reviews, projects, magazine, FAQ) */
+.sust-more, .sust-link{ font-size:var(--fs-body); letter-spacing:var(--ls-snug); text-transform:none;
+  text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); transition:text-decoration-color .2s; }
+.sust-more:hover, .sust-link:hover{ text-decoration-color:transparent; }
+.sust-more .arr, .sust-link .arr{ display:none; }
+/* desktop, data-mode="flow" (default): no scroll track. The statements are ordinary content scrolling up the blue column, each about a
+   screen tall, rising in line by line the first time they come into view (.seen); the photo column stays put (sticky) and shows the
+   statement crossing the middle of the screen. Nothing is hidden, so fast scrolling can't skip anything. data-mode="pinned" = the old track */
+@media (min-width:1101px){
+  .sust[data-mode="flow"]{ height:auto; }
+  .sust[data-mode="flow"] .sust-stage{ position:static; height:auto; align-items:start; }
+  .sust[data-mode="flow"] .sust-steps{ align-self:stretch; display:block; padding-bottom:calc(72 * var(--u)); }
+  .sust[data-mode="flow"] .sust-media{ position:sticky; top:var(--inset, 0px); height:calc(100svh - 2 * var(--inset, 0px)); }
+  .sust[data-mode="flow"] .sust-list{ display:block; }
+  .sust[data-mode="flow"] .sust-step{ display:flex; flex-direction:column; justify-content:center; min-height:78svh; }
+  .sust[data-mode="flow"] .sust-step:first-child{ min-height:70svh; }
+  .js .sust[data-mode="flow"] .sust-step{ visibility:visible; transition:none; }
+  .js .sust[data-mode="flow"] .sust-step .sust-big span, .js .sust[data-mode="flow"] .sust-step .sust-small{ --y:calc(40 * var(--u)); opacity:0; transform:translateY(var(--y)); transition:none; }
+  .js .sust[data-mode="flow"] .sust-step.seen .sust-big span, .js .sust[data-mode="flow"] .sust-step.seen .sust-small{ opacity:1; transform:none;
+    transition:opacity .8s var(--ease) var(--d, 0s), transform 1s var(--ease) var(--d, 0s); }
+  .js .sust[data-mode="flow"] .sust-step.seen .sust-big span:nth-child(2){ --d:.07s; }
+  .js .sust[data-mode="flow"] .sust-step.seen .sust-big span:nth-child(3){ --d:.14s; }
+  .js .sust[data-mode="flow"] .sust-step.seen .sust-big span:nth-child(4){ --d:.21s; }
+  .js .sust[data-mode="flow"] .sust-step.seen .sust-small{ --d:.3s; }
+  .sust[data-mode="flow"] .sust-more{ display:inline-flex; }
+  /* the photo fills the whole right half, edge to edge (cropped to fit: the user asked for it, Nov 2026; the one place here a photo is cut) */
+  .sust .sust-media{ z-index:1; padding:0; overflow:visible; } /* above the text half (it comes later in the markup), so the badge on the seam shows whole */
+  .sust .sust-badge{ left:0; z-index:2; transform:translate(-50%, -50%); } /* on the seam between text and photo, in the middle of the screen */
+  .sust .sust-pics{ filter:none; }
+  .sust .sust-pic, .sust .sust-pic.past{ width:100%; height:100%; max-width:none; max-height:none; object-fit:cover; transform:none; } /* only a cross-fade: no second image behind, nothing to show at the edges */
+  .sust .sust-pic.on{ transform:none; transition:opacity .9s var(--ease); }
+}
+/* the photo side (desktop: the photo fills it edge to edge, see the flow query above) */
+.sust-media{ grid-column:2; grid-row:1; position:relative; overflow:hidden; display:grid; place-items:center; padding:calc(var(--nav-h) + calc(56 * var(--u))) calc(96 * var(--u)) calc(72 * var(--u));
+  background:var(--fw-ink); }
+.sust-pics{ position:relative; width:100%; height:100%; display:grid; grid-template:100% / 100%; filter:drop-shadow(0 calc(14 * var(--u)) calc(30 * var(--u)) rgb(0 0 0 / .35)); }
+/* the img shrinks to the photo itself (whole, never cropped), so the shadow follows the photo's edge, not an empty box */
+.sust-pic{ --r:max(3px, calc(5 * var(--u))); grid-area:1 / 1; place-self:center; width:auto; height:auto; max-width:100%; max-height:100%; opacity:0;
+  --y:4%; transform:translateY(var(--y)) scale(.97); transition:opacity .4s var(--ease), transform .5s var(--ease); }
+.sust-pic.past{ --y:-4%; }
+.sust-pic.on{ opacity:1; transform:none; transition:opacity .8s var(--ease) .2s, transform 1.1s var(--ease) .2s; } /* comes in once the old one is half gone */
+.sust-badge{ position:absolute; left:calc(48 * var(--u)); top:50%; display:flex; align-items:center; justify-content:center; width:calc(84 * var(--u)); aspect-ratio:1; margin:0; transform:translateY(-50%);
+  border:1px solid rgb(255 255 255 / .6); border-radius:50%; background:rgb(0 0 0 / .28); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+  font-size:var(--fs-small); letter-spacing:var(--ls-snug); color:var(--on-dark-2); }
+.sust-badge .sust-no{ display:inline-block; color:var(--white); }
+
+/* ---- material library: what a frame is made of. Left, pinned: an exploded drawing of one frame in thin white lines (top to
+   bottom: moulding, glass, mount, art; each layer is a flat rectangle under the same isometric matrix, pushed down by --i × --gap).
+   Right: the ten materials in four chapters, one per layer. The chapter in the middle of the screen sets data-part on the section,
+   which lights its layer; a picked material (.filled) lays its photo into the layer as texture. At the end (data-part="built")
+   --gap closes and the layers become one frame ---- */
+.library{ display:grid; grid-template-columns:1fr 1fr; column-gap:calc(92 * var(--u)); padding:0 calc(19 * var(--u)) 0 0; background:var(--fw-ink); color:var(--white); }
+.lib-media{ grid-column:1; grid-row:1; align-self:start; position:sticky; top:var(--inset, 0px); height:calc(100svh - 2 * var(--inset, 0px));
+  display:flex; align-items:center; justify-content:center; padding:calc(var(--nav-h) + 40 * var(--u)) calc(40 * var(--u)) calc(56 * var(--u)) calc(56 * var(--u)); }
+.lib-svg{ --gap:110; width:100%; height:100%; overflow:visible; }
+/* the stack stays centred as it closes up, and gets a soft shadow down-left once it is one frame (light from the top right) */
+.lib-stack{ transform:translateY(calc((110 - var(--gap)) * 1.5px)); transition:transform .9s cubic-bezier(.6, 0, .2, 1), filter .9s; }
+.lib-svg .ly{ transform:translateY(calc(var(--i) * var(--gap) * 1px)); transition:transform .9s cubic-bezier(.6, 0, .2, 1); }
+.lib-svg .pl{ transform:matrix(.866, .5, -.866, .5, 349, 20); transition:transform 1.1s cubic-bezier(.6, 0, .2, 1); }
+.lib-svg path, .lib-svg rect, .lib-svg circle, .lib-svg line{ fill:none; stroke:rgb(255 255 255 / .3); stroke-width:1; vector-effect:non-scaling-stroke; transition:stroke .45s, fill .45s, opacity .45s; }
+.lib-svg .ly-fill{ fill:var(--fw-ink); }
+.lib-svg [data-part="glass"] .ly-fill{ fill:rgb(255 255 255 / .04); }
+.lib-svg .ly-glint{ stroke:rgb(255 255 255 / .18); }
+.lib-svg .lip{ stroke:none; opacity:0; }
+.lib-svg .fin{ stroke:none; opacity:0; pointer-events:none; }
+.lib-svg text{ fill:rgb(255 255 255 / .45); font-family:var(--f-sans); font-size:13px; letter-spacing:.14em; text-transform:uppercase; transition:fill .45s, opacity .45s; }
+/* the moulding layer carries two labels, "01 The moulding" and under it "02 The finish" (the finish has no layer of its own), so the
+   numbers run 01–04 down the drawing; only the one being read lights up */
+.lib-svg .lbl-finish{ transform:translateY(1.7em); }
+.library[data-part="mould"] .lib-svg .ly text.lbl-finish, .library[data-part="finish"] .lib-svg .ly text.lbl-mould{ fill:rgb(255 255 255 / .45); }
+/* the guides: dashed lines that join the corners of the layers; they shrink with the gap */
+.lib-guides line{ stroke-dasharray:2 5; transform-box:fill-box; transform-origin:top; transform:scaleY(calc(var(--gap) / 110)); transition:transform .9s cubic-bezier(.6, 0, .2, 1), opacity .45s; }
+/* the layer being read: bright lines */
+.library[data-part="mould"] .ly[data-part="mould"] :is(path, rect, circle),
+.library[data-part="finish"] .ly[data-part="mould"] :is(path, rect, circle),
+.library[data-part="mount"] .ly[data-part="mount"] :is(path, rect, circle),
+.library[data-part="glass"] .ly[data-part="glass"] :is(path, rect, circle){ stroke:var(--white); }
+.library[data-part="mould"] .ly[data-part="mould"] text, .library[data-part="finish"] .ly[data-part="mould"] text,
+.library[data-part="mount"] .ly[data-part="mount"] text, .library[data-part="glass"] .ly[data-part="glass"] text{ fill:var(--white); }
+/* picked materials. The moulding: a strip of the wood's own photo along each side (landing.js fits it). The finish goes on top of
+   the wood as a tint: colour (the green of their photo), gold leaf (a metallic sheen that keeps the grain), wax & oil (warmer, deeper).
+   The mount: one flat museum-board colour. The glass: clear, just a reflection */
+.ly.filled .side{ fill:var(--tex); }
+.ly[data-fin] .fin{ opacity:1; }
+.ly[data-fin="colour"] .fin{ fill:#23523f; opacity:.82; }
+.ly[data-fin="gold"] .fin{ fill:url(#lg-gold); mix-blend-mode:hard-light; opacity:.85; }
+.ly[data-fin="wax"] .fin{ fill:#6a3a14; mix-blend-mode:multiply; opacity:.55; }
+.ly[data-mount="white"] .ly-fill{ fill:#efebe1; }
+.ly[data-mount="black"] .ly-fill{ fill:#161616; }
+.ly[data-mount="colour"] .ly-fill{ fill:#4c6f55; } /* the green board in their card photo */
+.ly:is([data-mount="white"], [data-mount="black"], [data-mount="colour"]) .bevel{ stroke:rgb(255 255 255 / .9); }
+/* no mount: a dashed ghost while exploded, gone once the frame is built (the print then runs to the frame) */
+.ly[data-mount="none"] :is(.ly-fill, .bevel, .bevel-c){ fill:none; stroke-dasharray:3 5; }
+.library[data-part="built"] .ly[data-mount="none"]{ opacity:0; }
+.ly[data-part="glass"].filled .ly-fill{ fill:url(#lg-glass); }
+/* built: no gap, the layers turn to face you and the drawing becomes the object: outlines go, the mitres stay as faint joints,
+   the backing turns to paper, the frame shades the top and right of the mount */
+.library[data-part="built"] .lib-svg{ --gap:0; }
+.library[data-part="built"] .lib-stack{ filter:drop-shadow(-14px 22px 26px rgb(0 0 0 / .55)); }
+.library[data-part="built"] .pl{ transform:matrix(1.2, 0, 0, 1.2, 134, -38); }
+.library[data-part="built"] .lib-svg text, .library[data-part="built"] .lib-guides line{ opacity:0; }
+.library[data-part="built"] .lib-svg :is(path, rect, circle){ stroke:transparent; }
+.library[data-part="built"] .lib-svg .side{ stroke:rgb(0 0 0 / .28); }
+.library[data-part="built"] .lip{ opacity:1; }
+.library[data-part="built"] .lib-svg .bevel{ stroke:rgb(255 255 255 / .95); }
+.library[data-part="built"] .lib-svg .bevel-c{ stroke:rgb(0 0 0 / .1); }
+.library[data-part="built"] [data-part="art"] .ly-fill{ fill:var(--paper, #F2F0E6); }
+
+.lib-text{ grid-column:2; grid-row:1; padding-top:calc(120 * var(--u)); }
+.lib-label{ margin:0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--on-dark-2); }
+.lib-title{ margin:calc(24 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.lib-intro{ margin:calc(22 * var(--u)) 0 0; max-width:26em; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); color:var(--on-dark-2); }
+.lib-ch{ margin-top:calc(120 * var(--u)); padding-top:calc(40 * var(--u)); border-top:1px solid rgb(0 0 0 / .16); text-align:left; }
+.js .lib-ch{ opacity:.6; transition:opacity .45s; }
+.js .lib-ch.on{ opacity:1; }
+.lib-n{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-size:var(--fs-pull); line-height:.8; letter-spacing:var(--ls-display); }
+.lib-ch-name{ margin:calc(20 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.lib-ch-line{ margin:calc(16 * var(--u)) 0 0; max-width:30em; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--on-dark-2); }
+.lib-sws{ display:grid; grid-template-columns:1fr 1fr; gap:calc(40 * var(--u)) calc(24 * var(--u)); margin:calc(48 * var(--u)) 0 0; padding:0; list-style:none; }
+.lib-sw{ display:block; width:100%; padding:0; border:0; background:none; color:inherit; font:inherit; text-align:left; cursor:pointer; }
+.lib-sw img{ display:block; width:100%; height:auto; }
+/* mount boards without a photo: a flat tile at the photos' 4:3 */
+.lib-chip{ display:block; aspect-ratio:4 / 3; }
+.lib-chip-white{ background:#efebe1; }
+.lib-chip-black{ background:#111; box-shadow:inset 0 0 0 1px rgb(255 255 255 / .16); }
+.lib-chip-none{ box-shadow:inset 0 0 0 1px rgb(255 255 255 / .3); background:repeating-linear-gradient(-45deg, transparent 0 14px, rgb(255 255 255 / .06) 14px 15px); }
+.lib-sw:focus-visible .lib-chip{ outline:1px solid var(--white); outline-offset:4px; }
+.lib-name{ display:block; margin:calc(16 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h3); line-height:var(--lh-tight); letter-spacing:var(--ls-display);
+  text-decoration:underline 1px transparent; text-underline-offset:var(--ul-offset); transition:text-decoration-color .2s; }
+.lib-sw:hover .lib-name, .lib-sw:focus-visible .lib-name{ text-decoration-color:currentColor; }
+.lib-sw:focus{ outline:none; }
+.lib-sw:focus-visible img{ outline:1px solid var(--white); outline-offset:4px; }
+.lib-sw[aria-pressed="true"] .lib-name{ text-decoration-color:var(--accent); text-decoration-thickness:2px; }
+.lib-line{ display:block; margin:calc(8 * var(--u)) 0 0; max-width:30em; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--on-dark-2); }
+.lib-end{ min-height:calc(100svh - 2 * var(--inset, 0px)); display:flex; flex-direction:column; justify-content:center; margin-top:calc(80 * var(--u)); padding:calc(60 * var(--u)) 0; }
+.lib-end-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+/* the museum label: small, two lines, like the card next to a picture on a gallery wall */
+.lib-cap{ display:flex; flex-direction:column; gap:calc(6 * var(--u)); margin:calc(32 * var(--u)) 0 0; padding-left:calc(16 * var(--u)); border-left:1px solid rgb(255 255 255 / .3);
+  font-size:var(--fs-small); line-height:var(--lh-body); }
+.lib-cap-mat{ color:var(--on-dark-2); }
+.lib-end-line{ margin:calc(32 * var(--u)) 0 0; max-width:30em; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--on-dark-2); }
+.lib-acts{ display:flex; flex-wrap:wrap; align-items:center; gap:calc(18 * var(--u)) calc(32 * var(--u)); margin-top:calc(32 * var(--u)); font-size:var(--fs-small); }
+
+/* sample book (default, Nov 2026; ?lib=photos shows the earlier two-column photo grid): less to read. Each chapter is its name, number
+   and one line, then a row of small swatches (whole photos at their 4:3, five columns, so every swatch is the same size in every chapter);
+   the picked one's name + line show in one caption under the row, a hovered / focused one takes the caption over while pointed at.
+   Each chapter stays most of a screen tall, so scrolling still lights one layer of the drawing at a time */
+.library[data-layout="book"] .lib-label{ padding-bottom:calc(14 * var(--u)); border-bottom:1px solid rgb(255 255 255 / .3); }
+/* three type steps only: the chapter name big in the serif (its number a small caps tag above it), the chapter line in body grey,
+   the caption under the swatches a small museum label in the sans */
+.library[data-layout="book"] .lib-ch{ min-height:60svh; margin-top:calc(64 * var(--u)); }
+.library[data-layout="book"] .lib-n{ font-family:var(--f-sans); font-size:var(--fs-micro); line-height:1; letter-spacing:var(--ls-caps); color:var(--on-dark-2); }
+.library[data-layout="book"] .lib-ch-name{ margin-top:calc(28 * var(--u)); }
+.library[data-layout="book"] .lib-ch-line{ margin-top:calc(20 * var(--u)); max-width:28em; }
+.library[data-layout="book"] .lib-sws{ --say-h:calc(118 * var(--u)); position:relative; grid-template-columns:repeat(5, 1fr); gap:calc(12 * var(--u));
+  margin-top:calc(48 * var(--u)); padding-bottom:var(--say-h); }
+.library[data-layout="book"] .lib-sw > :is(img, .lib-chip){ outline:1px solid transparent; outline-offset:4px; transition:outline-color .2s, transform .3s var(--ease); }
+.library[data-layout="book"] .lib-sw:hover > :is(img, .lib-chip){ transform:translateY(-3px); }
+.library[data-layout="book"] .lib-sw:is([aria-pressed="true"], :focus-visible) > :is(img, .lib-chip){ outline-color:var(--white); }
+/* the caption: every swatch's name + line sit in the same spot under the row, only one shows */
+.library[data-layout="book"] :is(.lib-name, .lib-line){ position:absolute; left:0; right:0; margin:0; opacity:0; pointer-events:none; transition:opacity .25s; }
+.library[data-layout="book"] .lib-name{ top:calc(100% - var(--say-h) + 24 * var(--u)); font-family:var(--f-sans); font-size:var(--fs-body); line-height:1.3; letter-spacing:0; text-decoration:none; }
+.library[data-layout="book"] .lib-line{ top:calc(100% - var(--say-h) + 24 * var(--u) + var(--fs-body) * 1.3 + 4px); max-width:34em; }
+.library[data-layout="book"] .lib-sw[aria-pressed="true"] :is(.lib-name, .lib-line),
+.library[data-layout="book"] .lib-sw:is(:hover, :focus-visible) :is(.lib-name, .lib-line){ opacity:1; }
+.library[data-layout="book"] .lib-sws:has(.lib-sw:is(:hover, :focus-visible)) .lib-sw[aria-pressed="true"]:not(:hover, :focus-visible) :is(.lib-name, .lib-line){ opacity:0; }
+/* nothing picked yet (the finish starts bare on purpose): the first one's caption stands in, so the row never has an empty caption */
+.library[data-layout="book"] .lib-sws:not(:has(.lib-sw:is([aria-pressed="true"], :hover, :focus-visible))) > li:first-child :is(.lib-name, .lib-line){ opacity:1; }
+
+/* ---- magazine (.studio): the contents page of a magazine cover (after "Run Don't Walk" Issue 0, the user's pick). A white sheet on the
+   page grey: masthead in the serif with the issue line beside it, a rule, the stories in three columns (the lead in the middle, two a
+   side, rules under each), the "In the shop:" line and a small foot. Every photo whole ---- */
+.studio{ padding:calc(130 * var(--u)) calc(19 * var(--u)) calc(120 * var(--u)); }
+.mag{ padding:calc(56 * var(--u)) calc(56 * var(--u)) calc(26 * var(--u)); background:var(--white); color:var(--fw-ink); }
+.mag-mast{ display:grid; grid-template-columns:1fr auto; column-gap:calc(48 * var(--u)); align-items:start; }
+.mag-title{ margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.mag-title span{ display:block; }
+.mag-issue{ max-width:17em; padding-top:calc(22 * var(--u)); }
+.mag-label{ margin:0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.mag-mast > .mag-label{ grid-column:1 / -1; margin-bottom:calc(20 * var(--u)); } /* "Magazine" above the title, like a cover's running head */
+.mag-blurb{ margin:calc(12 * var(--u)) 0 0; font-size:var(--fs-body); line-height:var(--lh-body); color:var(--ink-2); }
+.mag-sub{ margin:calc(40 * var(--u)) 0 0; padding-bottom:calc(14 * var(--u)); border-bottom:1px solid currentColor; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.mag-grid{ display:grid; grid-template-columns:1fr 1.2fr 1fr; column-gap:calc(40 * var(--u)); }
+.mag-story{ position:relative; display:flex; flex-direction:column; align-items:flex-start; padding:calc(22 * var(--u)) 0 calc(24 * var(--u)); border-bottom:1px solid currentColor; }
+.mag-lead{ grid-column:2; grid-row:1 / 3; }
+.mag-s1{ grid-column:1; grid-row:1; } .mag-s3{ grid-column:3; grid-row:1; }
+.mag-s4{ grid-column:1; grid-row:2; } .mag-s5{ grid-column:3; grid-row:2; }
+.mag-mark{ width:calc(14 * var(--u)); height:calc(14 * var(--u)); min-width:11px; min-height:11px; }
+.mag-h{ margin:calc(10 * var(--u)) 0 0; max-width:14em; font-weight:400; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.mag-h a::after{ content:""; position:absolute; inset:0; } /* the whole story is the link */
+.mag-h a{ text-decoration:underline 1px transparent; text-underline-offset:var(--ul-offset); transition:text-decoration-color .2s; }
+.mag-story:hover .mag-h a{ text-decoration-color:var(--accent); }
+.mag-story img{ display:block; width:72%; height:auto; margin-top:calc(18 * var(--u)); } /* side stories smaller, so two of them stand as tall as the lead */
+.mag-lead img{ width:100%; }
+.mag-meta{ align-self:stretch; margin:calc(14 * var(--u)) 0 0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+/* the lead: a lime tag, the title in the serif, one line of text, "Read the story" at the end of its meta line */
+.mag-kick{ margin:calc(14 * var(--u)) 0 0; padding:.4em .7em .35em; background:var(--fw-studio); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.mag-lead .mag-h{ max-width:none; margin-top:calc(16 * var(--u)); font-size:var(--fs-h2); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); } /* two sentences: the sans */
+.mag-text{ margin:calc(16 * var(--u)) 0 0; max-width:30em; font-size:var(--fs-body); line-height:var(--lh-body); }
+.mag-read{ float:right; display:inline-flex; align-items:center; gap:.6em; color:var(--fw-ink); }
+.mag-read .arr{ width:1.1em; transition:transform .2s; }
+.mag-lead:hover .mag-read .arr{ transform:translateX(4px); }
+.mag-plus{ display:grid; grid-template-columns:auto 1fr; column-gap:calc(56 * var(--u)); margin:0; padding:calc(26 * var(--u)) 0 calc(30 * var(--u)); border-bottom:1px solid currentColor;
+  font-size:var(--fs-lead); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.mag-plus-k{ color:var(--ink-2); }
+.mag-foot{ display:flex; justify-content:space-between; align-items:center; gap:20px; padding-top:calc(22 * var(--u)); font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.mag-foot a:not(.mag-all):hover{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+
+/* ---- a magazine story on its own page (story-espresso.html): head + photo pinned left, the text right ---- */
+.story{ display:grid; grid-template-columns:1fr 1fr; column-gap:calc(92 * var(--u)); padding:calc(90 * var(--u)) calc(19 * var(--u)) calc(130 * var(--u)); }
+.story-head{ position:sticky; top:calc(var(--inset, 0px) + var(--nav-h) + calc(30 * var(--u))); align-self:start; }
+.story-label{ margin:0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.story-label a:hover{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.story-title{ margin:calc(24 * var(--u)) 0 0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.story-photo{ display:block; width:min(100%, calc(560 * var(--u))); height:auto; margin-top:calc(40 * var(--u)); }
+.story-text{ max-width:34em; padding-top:calc(4 * var(--u)); font-size:var(--fs-h3); line-height:var(--lh-body); font-weight:300; }
+.story-text h3{ margin:1.8em 0 0; font-size:var(--fs-micro); font-weight:400; letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.story-text h3:first-child{ margin-top:0; }
+.story-text p{ margin:.8em 0 0; }
+.story-text h3 + p{ margin-top:.6em; }
+.story-text a{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.story-sign{ margin-top:2em !important; padding-top:1em; border-top:1px solid currentColor; font-size:var(--fs-body); }
+
+/* ---- FAQ: a ruled sheet on white (after a functionalist studio site the user picked). Ink hairlines: a bar of cells (kicker, phone,
+   email, all questions), the intro (ask line top left, team photo whole top right, "FAQs" big at its foot), then numbered rows
+   (01/ + the question in caps + a hairline plus); an open row sets its answer large, indented to the question ---- */
+.faq{ --no:calc(150 * var(--u)); --pad:calc(18 * var(--u));
+  padding:calc(110 * var(--u)) calc(19 * var(--u)) calc(150 * var(--u)); background:var(--bg); }
+.faq-sheet{ border:1px solid var(--ink); }
+.faq-bar{ display:flex; border-bottom:1px solid var(--ink); }
+.faq-cell{ display:flex; align-items:center; gap:.6em; padding:calc(14 * var(--u)) var(--pad); border-left:1px solid var(--ink);
+  font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; transition:background .2s, color .2s; }
+.faq-kick{ flex:1; border-left:0; }
+a.faq-cell:hover, a.faq-cell:focus-visible{ background:var(--ink); color:var(--white); }
+.faq-head{ display:grid; grid-template-columns:1fr calc(300 * var(--u)); grid-template-areas:"ask img" "title img";
+  column-gap:var(--pad); row-gap:calc(140 * var(--u)); padding:var(--pad) var(--pad) calc(22 * var(--u)); }
+.faq-ask{ grid-area:ask; margin:0; max-width:22em; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.faq-img{ grid-area:img; width:100%; height:auto; }
+.faq-title{ grid-area:title; align-self:end; margin:0; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.faq-item{ border-top:1px solid var(--ink); }
+.faq-item summary{ position:relative; display:grid; grid-template-columns:var(--no) 1fr; align-items:baseline; padding:calc(14 * var(--u)) calc(56 * var(--u)) calc(14 * var(--u)) var(--pad);
+  cursor:pointer; list-style:none; font-size:var(--fs-body); letter-spacing:var(--ls-snug); transition:color .2s; } /* sentence case: two-line caps were hard to read */
+.faq-item summary::-webkit-details-marker{ display:none; }
+.faq-item summary:hover{ color:var(--ink-accent); }
+/* + drawn from two hairlines; the upright one turns flat when open */
+.faq-item summary::before, .faq-item summary::after{ content:""; position:absolute; right:var(--pad); top:50%; width:max(14px, calc(16 * var(--u))); height:1px;
+  background:currentColor; transition:transform .3s var(--ease); }
+.faq-item summary::after{ transform:rotate(90deg); }
+.faq-item[open] summary::after{ transform:none; }
+.faq-item p{ box-sizing:border-box; margin:0; max-width:calc(28 * var(--fs-lead) + var(--no) + 2 * var(--pad)); padding:calc(14 * var(--u)) var(--pad) calc(44 * var(--u)) calc(var(--no) + var(--pad));
+  font-size:var(--fs-lead); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); text-wrap:pretty; }
+.faq-link{ color:var(--ink); text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.faq-link:hover{ text-decoration-color:transparent; }
+
+/* ---- closing: an empty room that fills up. The wall photo (closing-wall.jpg) is shown whole: the section is 3:2 like the photo, so
+   nothing is cut, and every size is in --u, so the room scales as one. The framed pieces hang on its wall in % of the photo, js adds .on
+   one after another as the room scrolls in (and takes them down again going back up); the last one leans on the sideboard.
+   Text sits on the empty wall above the cactus. Light from the top right: shadows fall down-left ---- */
+.closing{ position:relative; overflow:clip; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; text-align:center;
+  aspect-ratio:3 / 2; padding:calc(84 * var(--u)) calc(19 * var(--u)) 0; color:var(--fw-ink);
+  background:#E9E9E4 url(../assets/landing/closing-wall.jpg) center / 100% 100% no-repeat; }
+.closing > :not(.wall){ position:relative; } /* above the hang */
+.wall{ position:absolute; inset:0; pointer-events:none; }
+.hang{ position:absolute; left:var(--x); top:var(--y); width:var(--w);
+  box-shadow:calc(-6 * var(--u)) calc(9 * var(--u)) calc(18 * var(--u)) rgba(40,36,28,.2), calc(-1 * var(--u)) calc(2 * var(--u)) calc(3 * var(--u)) rgba(40,36,28,.18);
+  opacity:0; transform:translateY(calc(-14 * var(--u))); transition:opacity .5s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+  translate:calc(var(--mx, 0) * var(--s, 0) * -14 * var(--u)) calc(var(--p, 0) * var(--s, 0) * -36 * var(--u) + var(--my, 0) * var(--s, 0) * -10 * var(--u)); }
+  /* a slight drift, each at its own speed: with the scroll (--p, -1 → 1) and, on desktop, away from the cursor (--mx/--my, -1 → 1); js sets them */
+.hang img{ display:block; width:100%; height:auto; }
+.hang.on{ opacity:1; transform:none; }
+.hang.lean{ transform-origin:50% 100%; transform:translateY(calc(-14 * var(--u))) rotate(-1.5deg); }
+.hang.lean.on{ transform:rotate(-1.5deg); } /* stood on the sideboard, a touch off straight */
+/* ---- the + on every framed piece (about poster, how, closing wall; after artframers.com's wall): a small white button on the frame's
+   bottom-right corner opens a card about the piece (landing.js PIECES): what it is, what frame it's in, buy it framed and/or have the
+   frame made for your own piece. Its own sizes: the about pieces are in em of a huge serif. On a piece not yet in (still fading) it hides ---- */
+.plus{ position:absolute; right:calc(10 * var(--u)); bottom:calc(10 * var(--u)); translate:50% 50%; width:max(18px, calc(20 * var(--u))); aspect-ratio:1;
+  padding:0; border:0; border-radius:50%; background:rgb(255 255 255 / .72); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12); cursor:pointer;
+  -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); transition:background .2s, color .2s, scale .2s var(--ease), rotate .3s var(--ease); }
+.plus::before, .plus::after{ content:""; position:absolute; left:50%; top:50%; width:40%; height:1px; translate:-50% -50%; background:currentColor; }
+.plus::after{ rotate:90deg; }
+.plus:hover, .plus:focus-visible{ background:var(--white); scale:1.15; } /* quiet until you point at it */
+.plus[aria-expanded="true"]{ background:var(--ink); color:var(--white); }
+.plus:focus-visible{ outline:1px solid var(--ink); outline-offset:3px; }
+/* touch screens have no hover to call it out, so there it is solid white, a bit bigger and bolder from the start */
+@media (hover: none){
+  .plus{ width:24px; background:var(--white); box-shadow:-1px 2px 6px rgba(0,0,0,.25); }
+  .plus::before, .plus::after{ height:1.5px; width:44%; }
+}
+.plus[aria-expanded="true"]{ rotate:45deg; } /* + turns into × while its card is open */
+.wall .plus, .wall .hang img{ pointer-events:auto; }
+.pc img, .hang img, .how-stage img{ cursor:pointer; } /* the whole piece opens the card */
+.pc:hover .plus:not([aria-expanded="true"]), .hang:hover .plus:not([aria-expanded="true"]), .how-piece:has(.how-stage img:hover) .plus:not([aria-expanded="true"]){ background:var(--white); scale:1.15; } /* the wall itself lets clicks through */
+.how-plus{ right:auto; bottom:auto; translate:calc(-50% - 10 * var(--u)) calc(-50% - 10 * var(--u)); transition:background .2s, color .2s, rotate .3s var(--ease), left .6s var(--ease), top .6s var(--ease); }
+@media (prefers-reduced-motion: no-preference){
+  .js .about .pc:not(.on) .plus, .js .hang:not(.on) .plus{ visibility:hidden; }
+}
+/* the card: white, shadow down-left like the hung pieces, square corners like the buttons. Kept short (the user asked): the piece big
+   on a grey panel (whole), a caps label, the name, one grey line, then two buttons side by side: the main one ink, the other outlined */
+.piece-card{ position:fixed; z-index:29; left:0; top:0; box-sizing:border-box; width:min(calc(100vw - 24px), max(340px, calc(400 * var(--u))));
+  background:var(--white); color:var(--ink); font-family:var(--f-sans);
+  box-shadow:calc(-10 * var(--u)) calc(14 * var(--u)) calc(36 * var(--u)) rgb(0 0 0 / .16), -1px 2px 4px rgb(0 0 0 / .08);
+  opacity:0; translate:0 6px; transition:opacity .25s var(--ease), translate .25s var(--ease); }
+.piece-card[hidden]{ display:none; }
+.piece-card.in{ opacity:1; translate:none; }
+.pcard-pic{ display:flex; align-items:center; justify-content:center; height:max(230px, calc(280 * var(--u))); padding:max(22px, calc(28 * var(--u))); box-sizing:border-box; background:var(--bg); }
+.pcard-pic img{ display:block; min-width:0; min-height:0; max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; box-shadow:-6px 9px 18px rgb(0 0 0 / .18); }
+.pcard-body{ padding:max(18px, calc(22 * var(--u))); }
+.pcard-kicker{ margin:0; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.pcard-name{ margin:.4em 0 0; font-weight:400; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.pcard-line{ margin:.3em 0 0; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--ink-2); }
+.pcard-btns{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:max(8px, calc(10 * var(--u))); margin-top:max(18px, calc(22 * var(--u))); }
+.pcard-btns .btn{ max-width:none; padding:0 1em; border:1px solid var(--fw-ink); white-space:nowrap; }
+.pcard-btns .btn-dark{ margin:0; }
+.pcard-btns .btn-line{ background:var(--white); color:var(--fw-ink); }
+.pcard-btns .btn-line:hover{ background:var(--fw-ink); color:var(--white); }
+.pcard-btns .btn-dark:hover{ background:var(--white); color:var(--fw-ink); }
+.pcard-close{ position:absolute; z-index:1; top:8px; right:8px; width:32px; height:32px; padding:0; border:0; border-radius:50%; background:var(--white); color:var(--ink); cursor:pointer; }
+.pcard-close::before, .pcard-close::after{ content:""; position:absolute; left:50%; top:50%; width:13px; height:1px; translate:-50% -50%; rotate:45deg; background:currentColor; }
+.pcard-close::after{ rotate:-45deg; }
+.pcard-close:focus-visible{ outline:1px solid currentColor; }
+@media (max-width: 600px){
+  /* phones: a sheet along the bottom of the screen, full width */
+  .piece-card{ left:0 !important; top:auto !important; bottom:0; width:100%; padding-bottom:env(safe-area-inset-bottom); translate:0 100%; transition-duration:.35s; }
+  .piece-card.in{ translate:none; }
+  .pc .plus{ width:22px; right:6px; bottom:6px; } /* the about pieces are small on a phone */
+  .pcard-pic{ height:34svh; }
+  .pcard-body{ padding:20px; }
+  .pcard-btns .btn{ flex:none; }
+}
+@media (prefers-reduced-motion: reduce){ .piece-card{ transition:none; } }
+@media (prefers-reduced-motion: reduce){ .hang{ transition:none; opacity:1; transform:none; } .hang.lean{ transform:rotate(-1.5deg); } }
+.closing-title{ margin:0; max-width:9em; font-family:var(--f-serif); word-spacing:var(--ws-display); font-weight:400; font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.closing-text{ margin:calc(22 * var(--u)) 0 0; max-width:24em; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.closing-actions{ display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:calc(14 * var(--u)) calc(28 * var(--u)); margin-top:calc(30 * var(--u)); }
+.closing .btn-dark{ margin-top:0; }
+
+/* ---- footer: black like the open menu. Their tote-bag line + studio left, the nav's groups right (--colw like the nav cells),
+   the wordmark across the full width, the legal line ---- */
+.foot{ --colw:calc(218 * var(--u)); padding:calc(90 * var(--u)) calc(19 * var(--u)) calc(28 * var(--u) + 64px); background:var(--fw-ink); color:var(--white); } /* + room for the frame mode button */
+.foot-top{ display:flex; justify-content:space-between; gap:calc(40 * var(--u)); }
+.foot-tag{ margin:0; max-width:7em; font-family:var(--f-serif); word-spacing:var(--ws-display); font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.foot address{ margin-top:calc(40 * var(--u)); font-style:normal; font-size:var(--fs-small); line-height:var(--lh-body); color:var(--on-dark-2); }
+.foot a{ transition:color .2s; }
+.foot address a:hover, .foot-col a:hover, .foot-legal a:hover{ color:var(--white); }
+.foot-nav{ display:flex; }
+.foot-col{ width:var(--colw); }
+.foot-col h2{ margin:0; font-size:var(--fs-micro); font-weight:400; letter-spacing:var(--ls-caps); text-transform:uppercase; }
+.foot ul{ margin:0; padding:0; list-style:none; }
+.foot-col ul{ display:grid; gap:calc(4 * var(--u)); margin-top:calc(16 * var(--u)); font-size:var(--fs-small); line-height:var(--lh-body); }
+.foot-col a, .foot-legal{ font-size:var(--fs-small); line-height:var(--lh-body); color:var(--on-dark-2); }
+.foot-logo{ display:block; margin-top:calc(120 * var(--u)); }
+.foot-logo svg{ display:block; width:100%; height:auto; }
+.foot-legal{ display:flex; justify-content:space-between; gap:20px; margin-top:calc(40 * var(--u)); padding-top:calc(18 * var(--u)); border-top:1px solid rgba(255,255,255,.18); }
+.foot-legal p{ margin:0; }
+.foot-legal ul{ display:flex; gap:calc(28 * var(--u)); }
+
+@media (max-width: 1100px){
+  /* frame styles: no fixed height, the cards are swiped like the How stamps (no arrows) */
+  .styles{ padding:var(--sp-l) 0; }
+  .styles-head{ grid-template-columns:minmax(0, 1fr); row-gap:14px; padding:0 20px; }
+  .styles-title{ white-space:normal; }
+  .styles-tools{ display:block; }
+  .styles-row{ gap:16px; margin-top:28px; padding:8px 20px; scroll-padding-inline:20px; }
+  .styles-row .stamp{ width:auto; flex:0 0 min(70%, 270px); }
+  /* reviews: the head stacks, the reviews are swiped, one at a time with the next peeking in */
+  .reviews{ padding:var(--sp-l) 0; }
+  .rev-head{ flex-direction:column; align-items:start; gap:20px; padding:0 20px; }
+  .rev-arrows{ display:none; }
+  .rev-board{ --gap:20px; margin-top:var(--sp-m); padding:0 20px; scroll-padding-inline:20px; }
+  .note{ flex-basis:86%; gap:16px; padding-top:16px; }
+  /* projects */
+  .projects{ padding-top:var(--sp-l); }
+  .proj-bar{ flex-wrap:wrap; padding:16px 20px; }
+  .proj-arrows{ display:none; }
+  .proj-list{ --gap:10px; padding:16px 20px var(--sp-m); scroll-padding-inline:20px; }
+  .proj{ gap:12px; }
+  .proj{ flex-basis:78%; }
+  .proj-label{ gap:2px; }
+  .proj-trust{ flex-direction:column; align-items:stretch; gap:16px; padding:var(--sp-s) 0 var(--sp-l); }
+  .proj-trust-label{ padding-left:20px; }
+  .ticker-run{ gap:40px; padding-right:40px; }
+  /* sustainability on phones: no track, no blue. The picture pins on top on the page background (every picture full width, capped so
+     short phones still see the text), the statements scroll under it in the same staggered lines; the one in view is ink, the rest grey */
+  .sust{ height:auto; padding:0 20px; }
+  .sust-stage{ position:static; height:auto; display:block; }
+  .sust-media{ position:sticky; z-index:1; top:var(--inset, 0px); display:block; overflow:hidden; margin:0 -20px; padding:0; background:var(--fw-ink); }
+  .sust-badge{ display:none; }
+  .sust-pics{ height:auto; filter:none; }
+  .sust-pic{ --r:0; width:100%; height:40svh; max-height:none; object-fit:cover; transform:none; } /* full width, edge to edge (the user's call); a band, so cropped like the desktop half */
+  .sust{ border-top:0; }
+  .sust-steps{ display:block; margin:0 -20px; padding:var(--sp-m) 20px 0; } /* the desktop's black panel (+ grain), full width */
+  .sust-intro{ display:block; }
+  .sust-list{ display:block; }
+  .sust-step{ min-height:44svh; display:flex; flex-direction:column; justify-content:flex-start; padding-top:var(--sp-m); } /* starts right under the photo, no empty gap */
+  .js .sust-step{ visibility:visible; color:rgb(255 255 255 / .22); transition:color .45s; }
+  .js .sust-step.on{ color:var(--white); }
+  .js .sust-step .sust-big span, .js .sust-step .sust-small{ opacity:1; transform:none; transition:color .45s; }
+  /* staggered like the desktop poster: first line left, middle lines indented, the last one ends on the right edge; the line under it indented too */
+  .sust-big{ width:auto; font-size:var(--fs-stack); }
+  .sust-big .i{ padding-left:.6em; } .sust-big .r{ justify-self:end; }
+  .sust-small{ max-width:18em; margin:20px 0 0 calc(.6 * var(--fs-stack)); font-size:var(--fs-body); color:inherit; }
+  .js .sust-step:not(.on) .sust-small{ color:rgb(255 255 255 / .22); }
+  .js .sust-step.on .sust-small{ color:var(--on-dark-2); }
+  .sust-link, .sust-more{ color:var(--white); }
+  .sust-more{ display:inline-flex; margin:8px 0 var(--sp-l); }
+  /* material library: the drawing pinned on top (labels bigger, it's drawn small), the chapters scroll under it */
+  .library{ grid-template-columns:1fr; padding:0; }
+  .lib-media{ grid-column:1; grid-row:1; z-index:1; height:38svh; padding:12px 20px; background:var(--fw-ink); }
+  /* the pinned drawing (and the sustainability picture) sit under the nav while it shows and move up with it when it slides away */
+  .lib-media, .sust-media{ transition:top .35s var(--ease); }
+  .page:has(.nav:not(.away)) :is(.lib-media, .sust-media){ top:calc(var(--inset, 0px) + var(--nav-h)); }
+  .lib-svg text{ font-size:19px; }
+  .lib-text{ grid-column:1; grid-row:2; padding:24px 20px 0; }
+  .lib-title{ margin-top:14px; }
+  .lib-intro{ margin-top:14px; }
+  .lib-ch{ margin-top:56px; padding-top:24px; }
+  .lib-ch-name{ margin-top:12px; }
+  .lib-sws{ gap:24px 12px; margin-top:24px; }
+  .lib-name{ margin-top:10px; }
+  .lib-end{ min-height:62svh; margin-top:32px; padding:32px 0 72px; }
+  .library[data-layout="book"] .lib-ch{ min-height:46svh; }
+  .library[data-layout="book"] .lib-ch-name{ margin-top:16px; }
+  .library[data-layout="book"] .lib-ch-line{ margin-top:12px; }
+  .library[data-layout="book"] .lib-sws{ --say-h:100px; gap:8px; margin-top:24px; }
+  .library[data-layout="book"] .lib-name{ top:calc(100% - var(--say-h) + 14px); }
+  .library[data-layout="book"] .lib-line{ top:calc(100% - var(--say-h) + 14px + var(--fs-body) * 1.3 + 4px); }
+  /* magazine: the sheet runs to the screen edges; tablets two columns (the lead across both, its photo held smaller), phones one */
+  .studio{ padding:var(--sp-l) 0; }
+  .mag{ padding:28px 20px 18px; }
+  .mag-mast{ grid-template-columns:1fr; row-gap:16px; }
+  .mag-title{ line-height:1; }
+  .mag-issue{ padding-top:0; }
+  .mag-sub{ margin-top:28px; }
+  .mag-grid{ grid-template-columns:1fr 1fr; column-gap:20px; }
+  .mag-lead, .mag-s1, .mag-s3, .mag-s4, .mag-s5{ grid-column:auto; grid-row:auto; }
+  .mag-lead{ grid-column:1 / -1; }
+  .mag-story img{ width:100%; }
+  .mag-lead img{ width:min(100%, 520px); }
+  .mag-story{ padding:18px 0 20px; }
+  .mag-mark{ width:12px; height:12px; }
+  .mag-plus{ grid-template-columns:1fr; row-gap:4px; padding:20px 0 22px; }
+  .mag-foot{ flex-wrap:wrap; padding-top:16px; }
+  .story{ grid-template-columns:1fr; padding:40px 20px 80px; }
+  .story-head{ position:static; }
+  .story-photo{ width:100%; margin-top:24px; }
+  .story-text{ margin-top:36px; font-size:var(--fs-body); }
+  /* FAQ: the bar wraps (kicker + all questions, then phone, then email), photo beside the ask line, rows tighter */
+  .faq{ --no:44px; --pad:12px; padding:var(--sp-l) 20px; }
+  .faq-bar{ flex-wrap:wrap; }
+  .faq-cell{ padding:12px var(--pad); }
+  .faq-tel, .faq-mail{ order:2; flex-basis:100%; border-left:0; border-top:1px solid var(--ink); }
+  .faq-mail{ order:3; }
+  .faq-head{ grid-template-columns:1fr 38%; row-gap:48px; }
+  .faq-item summary{ padding:14px 40px 14px var(--pad); }
+  .faq-item p{ padding-top:6px; padding-bottom:28px; }
+  /* closing: the room is too low at 3:2 on a phone, so the wall photo sits at the bottom, wider than the screen (sideboard + cactus
+     in the middle), its top fading into the wall colour that runs up behind the text; a little row of pieces above the title */
+  .closing{ aspect-ratio:auto; min-height:0; padding:var(--sp-l) 20px 158vw;
+    background:linear-gradient(#D8DBD4, rgba(216,219,212,0) 30%) 50% 100% / 100% 120vw no-repeat,
+      url(../assets/landing/closing-wall-s.jpg) 50% 100% / 180vw auto no-repeat, #D8DBD4; }
+  /* the pieces hang under the text as a salon wall over the cactus (three columns, one even gap), placed in vw from the room's bottom
+     (--pl / --pb / --pw on each); the last stands on the sideboard. Pieces without a phone place stay off */
+  .hang{ left:var(--pl); top:auto; bottom:var(--pb); width:var(--pw); translate:none; box-shadow:-4px 7px 14px rgba(40,36,28,.22), -1px 2px 3px rgba(40,36,28,.16); }
+  .hang:not([style*="--pl"]){ display:none; }
+  .closing-text{ margin-top:18px; }
+  .closing-actions{ gap:14px 24px; margin-top:28px; }
+  /* footer */
+  .foot{ padding:var(--sp-l) 20px calc(96px + env(safe-area-inset-bottom, 0px)); }
+  .foot-top{ flex-direction:column; gap:40px; }
+  .foot address{ margin-top:24px; }
+  .foot-nav{ display:grid; grid-template-columns:1fr 1fr; gap:32px 20px; }
+  .foot-col{ width:auto; }
+  .foot-col ul{ gap:6px; margin-top:12px; }
+  .foot-logo{ margin-top:56px; }
+  .foot-legal{ flex-direction:column; margin-top:28px; padding-top:16px; }
+  .foot-legal ul{ gap:24px; }
+}
+
+/* Loader (first visit per session, js/loader.js): the logo on black, a hairline draws a frame around it,
+   the line at the bottom counts the loading; at 100% it all fades away. Without js, or later in the session
+   (html.seen, set in the head), it never shows. Sits outside .page, so sizes are plain px (= --fs-micro's floor) */
+.loader{ display:none; }
+html.js:not(.seen) .loader{ position:fixed; inset:0; z-index:100; display:grid; place-items:center; background:var(--black); color:var(--white);
+  transition:opacity .55s var(--ease), visibility 0s linear .55s; }
+html.js .loader.done{ opacity:0; visibility:hidden; }
+html.loading{ overflow:hidden; }
+.loader-mark{ width:min(340px, 76vw); height:auto; overflow:visible; }
+.lm-logo{ opacity:0; animation:lm-fade .4s var(--ease) .1s forwards; }
+.lm-frame{ stroke-dasharray:1; stroke-dashoffset:1; animation:lm-draw .95s cubic-bezier(.65,0,.35,1) .3s forwards; }
+@keyframes lm-fade{ to{ opacity:1; } }
+@keyframes lm-draw{ to{ stroke-dashoffset:0; } }
+.loader-bar{ position:absolute; left:50%; bottom:calc(34px + env(safe-area-inset-bottom, 0px)); width:180px; margin-left:-90px;
+  display:flex; justify-content:space-between; font-family:var(--f-sans); font-size:11px; line-height:1; letter-spacing:.14em;
+  text-transform:uppercase; font-variant-numeric:tabular-nums; }
+.loader-bar::before, .loader-bar::after{ content:""; position:absolute; left:0; right:0; top:-12px; height:1px; background:rgba(255,255,255,.22); }
+.loader-bar::after{ background:currentColor; transform-origin:0 0; transform:scaleX(var(--p, 0)); }
+.lb-pct{ letter-spacing:.04em; }
+
+@media (prefers-reduced-motion: reduce){
+  .js .sust[data-mode="flow"] .sust-step .sust-big span, .js .sust[data-mode="flow"] .sust-step .sust-small{ opacity:1; transform:none; transition:none; }
+  .lm-logo, .lm-frame{ animation:none; opacity:1; stroke-dashoffset:0; }
+  .scroll-cue::after{ animation:none; transform:none; }
+  html[data-menu="colour"] .nav::after, html[data-menu="colour"] .nav.mega-open::after{ transition:none; }
+  html[data-menu="colour"] .nav.mega-open .mw{ animation:none; }
+  .drop, .entry img, .arr, .js .reveal{ transition:none; }
+  .burger path, .col > .title::after, .drop > *{ transition:none; }
+  .nav.open .col, .nav.open .mega-foot{ animation:none; }
+  .js .stamp, .faq-item summary::after, .js .sust-step, .sust-pic, .js .note{ transition:none; }
+  .rev, .js .sust-step.on .sust-big span, .js .sust-step.on .sust-small{ animation:none; }
+  .js .sust-step .sust-big span, .js .sust-step .sust-small{ transition:none; }
+  .ticker{ mask-image:none; } .ticker-run{ animation:none; white-space:normal; flex-wrap:wrap; flex:1; } .ticker-run + .ticker-run{ display:none; }
+  .lib-stack, .lib-svg .ly, .lib-svg .pl, .lib-guides line, .js .lib-ch{ transition:none; }
+  .js .about .aw, .js .about .pc{ transition:none; color:var(--ink); opacity:1; transform:none; }
+  .js .shop.in .feat, .js .shop.in .card{ animation:none; }
+  .js .entry{ opacity:1; transform:none; transition:none; }
+  .js .note{ opacity:1; translate:none; }
+  .piece{ transition:none; }
+  .shop-row{ scroll-behavior:auto; }
+}
+
+/* magazine on phones (after the 1100px rules): one column, the side stories as rows, title left, picture right */
+@media (max-width: 600px){
+  .mag-grid{ grid-template-columns:1fr; }
+  .mag-story:not(.mag-lead){ display:grid; grid-template-columns:1fr 34%; grid-template-rows:auto auto 1fr; column-gap:16px; }
+  .mag-story:not(.mag-lead) > :not(img){ grid-column:1; }
+  .mag-story:not(.mag-lead) img{ grid-column:2; grid-row:1 / 4; margin-top:0; }
+  .mag-story:not(.mag-lead) .mag-meta{ align-self:end; }
+  .mag-lead img{ width:100%; }
+}
+
+/* magazine on tablets: the lead's text beside its photo, so the photo never leaves half the row empty */
+@media (min-width: 601px) and (max-width: 1100px){
+  .mag-lead{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto auto 1fr auto; column-gap:20px; align-items:start; }
+  .mag-lead > :not(img){ grid-column:1; }
+  .mag-lead img{ grid-column:2; grid-row:1 / 6; width:100%; margin-top:0; }
+  .mag-lead .mag-meta{ align-self:end; }
+}

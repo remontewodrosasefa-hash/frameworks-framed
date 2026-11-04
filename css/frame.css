@@ -1,0 +1,66 @@
+/* The Frameworks frame around a page: moulding, mat, shadows and the frame switcher. Used by index.html in frame mode
+   (html.frameable: off until .framed is added). Built by js/frame.js. */
+@property --k { syntax: '<number>'; inherits: true; initial-value: 1; }
+@property --mat { syntax: '<color>'; inherits: true; initial-value: #efede8; }
+@property --ms { syntax: '<length>'; inherits: true; initial-value: 0px; }
+:root{
+  --fw: clamp(calc(7px * var(--k)), calc(3.6vw * var(--k)), calc(56px * var(--k)));
+  --ms: clamp(0px, 2vw, 28px);
+  --inset: calc(var(--fw) + var(--ms));   /* from the screen edge to the picture */
+  --img:none; --slice:86;
+}
+html[data-frame="chipped"]{ --k:1.07; --mat:#efede8; --ms:clamp(8px, 2.8vw, 40px); --depth:10px; --lift:9px; }
+html[data-frame="box"]{ --ms:clamp(18px, 5.6vw, 86px); --depth:22px; --lift:14px; --lipa:2.2; --sa:2.4; --img:url(../assets/frames/shadow-box.jpg); --slice:40; --k:.62; --mat:#2c2a2b; }
+html{ transition: --k .7s var(--frame-ease), --ms .7s var(--frame-ease), --mat .7s var(--frame-ease); --frame-ease:cubic-bezier(.65,0,.35,1); }
+/* switching frames: 1) moulding and shadows fade out, 2) mat and site glide to the new size together, 3) new moulding fades in */
+.frame, .lip, .opening{ transition:opacity .5s ease; }
+html.swapping .frame, html.swapping .lip, html.swapping .opening{ opacity:0; transition:opacity .28s ease; }
+
+/* Mobile browsers hide their toolbars on scroll and only resize the screen once that animation ends, so anything
+   stretched from top to bottom lags and lets the page show below it. So: top + sides are as tall as the screen
+   without toolbars (lvh) and simply run off the bottom; the bottom edge (moulding + corners, mat strip) is pinned
+   to the bottom on its own, which browsers move along with the toolbar. On desktop lvh = the window, nothing changes. */
+.frame{ position:fixed; top:0; left:0; right:0; height:100vh; height:100lvh; z-index:30; pointer-events:none;
+  border-style:solid; border-width:var(--fw); border-color:transparent;
+  border-image-source:var(--img); border-image-slice:var(--slice); border-image-repeat:stretch;
+  }
+.frame::after{ content:""; position:fixed; left:0; right:0; bottom:0; height:var(--fw);
+  border-style:solid; border-width:0 var(--fw) var(--fw); border-color:transparent;
+  border-image-source:var(--img); border-image-slice:var(--slice); border-image-repeat:stretch; }
+html.building .frame{ opacity:0; }
+.mat{ position:fixed; top:0; left:0; right:0; height:100vh; height:100lvh; z-index:18; pointer-events:none; border:calc(var(--fw) + var(--ms)) solid var(--mat); }
+/* Floating picture, light from the top right (like the Frameworks product photos):
+   1) the frame lip shades the mat at its inner edge: top strongest, right medium, left faint, bottom none
+   2) the picture floats a few mm in front of the mat and casts a soft shadow down and to the left */
+.mat::after{ content:""; position:fixed; left:0; right:0; bottom:0; height:calc(var(--fw) + var(--ms)); background:var(--mat); }
+.lip{ position:fixed; inset:calc(var(--fw) - 1px); bottom:auto; height:calc(100lvh - 2 * var(--fw) + 2px); z-index:22; pointer-events:none;
+  box-shadow:
+    inset 0 1px 1px rgba(0,0,0,calc(.30 * var(--lipa, 1))),
+    inset 0 calc(var(--depth) * .45) calc(var(--depth) * .9) calc(var(--depth) * -.3) rgba(0,0,0,calc(.24 * var(--lipa, 1))),
+    inset calc(var(--depth) * -.35) 0 calc(var(--depth) * .8) calc(var(--depth) * -.3) rgba(0,0,0,calc(.16 * var(--lipa, 1))),
+    inset calc(var(--depth) * .15) 0 calc(var(--depth) * .5) calc(var(--depth) * -.3) rgba(0,0,0,calc(.06 * var(--lipa, 1))); }
+.opening{ position:fixed; inset:calc(var(--fw) + var(--ms)); z-index:19; pointer-events:none;
+  box-shadow:
+    calc(var(--lift) * -.2) calc(var(--lift) * .25) calc(var(--lift) * .35) rgba(0,0,0,calc(.09 * var(--sa, 1))),
+    calc(var(--lift) * -.6) calc(var(--lift) * .75) calc(var(--lift) * 1.6) rgba(0,0,0,calc(.06 * var(--sa, 1))),
+    calc(var(--lift) * -1.2) calc(var(--lift) * 1.5) calc(var(--lift) * 3.5) rgba(0,0,0,calc(.03 * var(--sa, 1))); }
+
+.switcher{ position:fixed; z-index:25; left:50%; transform:translateX(-50%); bottom:calc(var(--fw) + var(--ms) + 18px + env(safe-area-inset-bottom, 0px)); box-shadow:0 2px 10px rgba(0,0,0,.08);
+  display:flex; align-items:center; gap:10px; padding:8px 12px 8px 18px;
+  background:#fff; border-radius:6px; white-space:nowrap; font-family:var(--f-sans, sans-serif); }
+.switcher .name{ font-size:13px; line-height:1.3; margin-right:8px; min-width:30ch; display:grid; }
+.switcher .name b{ font-weight:400; color:#000; }
+.switcher .name span{ color:#6b675f; }
+.sw{ width:28px; height:28px; border-radius:50%; border:0; padding:0; cursor:pointer; background-size:cover; background-position:center;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.2); transition:transform .15s; }
+.sw:hover{ transform:scale(1.1); }
+.sw[aria-pressed="true"]{ box-shadow:0 0 0 2px #fff, 0 0 0 3.5px #000; }
+@media (max-width: 560px){ .switcher .name{ display:none; } .switcher{ padding:8px 10px; } }
+
+/* frame mode: no frame until .framed; then --k and --ms grow from 0 and the moulding fades in */
+html.frameable:not(.framed){ --k:0; --ms:0px; }
+html.frameable:not(.framed) .frame, html.frameable:not(.framed) .lip, html.frameable:not(.framed) .opening{ opacity:0; }
+html.frameable .switcher{ transition:opacity .4s ease, visibility 0s; }
+html.frameable:not(.framed) .switcher{ opacity:0; visibility:hidden; transition:opacity .25s ease, visibility 0s linear .25s; }
+
+@media (prefers-reduced-motion: reduce){ html, .frame, .lip, .opening, html.frameable .switcher{ transition:none; } }

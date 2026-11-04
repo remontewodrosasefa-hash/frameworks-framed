@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en" class="frameable" data-frame="chipped" data-menu="colour">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frameworks Berlin – custom picture frames, handmade in Berlin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Instrument+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/frame.css">
+<link rel="stylesheet" href="css/landing.css">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('fw-seen'))document.documentElement.classList.add('seen')}catch(e){}</script>
+</head>
+<body>
+<!-- loader, first visit per session (js/loader.js, styles in landing.css): the logo on black, a hairline draws a frame around it,
+     the line at the bottom counts the loading; at 100% it fades away -->
+<div class="loader" id="loader" role="status" aria-label="Loading Frameworks Berlin">
+  <svg class="loader-mark" viewBox="-62 -62 345 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <g class="lm-logo">
+    <path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/>
+    <path d="M.94 39.27v32.3M98.26 12.03v32.3M221 72.52h-32.02" stroke="currentColor" stroke-width="3"/>
+    <path d="M106.572 36.1V12.6825H120.629V13.9099H107.885V23.3415H119.828V24.5689H107.885V36.1H106.572ZM125.676 36.1V12.6825H132.593C137.908 12.6825 141.718 13.6515 141.718 18.9164C141.718 23.0508 139.221 24.3751 136.243 24.9888L142.071 36.1H140.598L134.898 25.2149C134.258 25.2795 133.585 25.2795 132.913 25.2795H126.989V36.1H125.676ZM126.989 24.0521H132.529C136.915 24.0521 140.31 23.4707 140.31 18.981C140.31 14.459 136.915 13.9099 132.529 13.9099H126.989V24.0521ZM145.38 36.1L154.346 12.6825H155.722L164.72 36.1H163.311L160.878 29.7369H149.158L146.757 36.1H145.38ZM149.639 28.5095H160.429L155.018 14.2975L149.639 28.5095ZM169.482 36.1V12.6825H171.627L180.465 34.5496L189.302 12.6825H191.448V36.1H190.135V13.9745L181.105 36.1H179.825L170.795 13.9745V36.1H169.482ZM198.687 36.1V12.6825H213.224V13.9099H200V23.3415H212.423V24.5689H200V34.8726H213.224V36.1H198.687ZM111.439 62.7L104.395 39.2825H105.835L112.143 60.762L118.035 39.2825H119.508L125.496 60.8266L131.707 39.2825H133.148L126.136 62.7H124.759L118.771 41.382L112.816 62.7H111.439ZM145.305 63.1199C138.837 63.1199 134.739 58.2426 134.739 50.9751C134.739 43.7076 138.837 38.8626 145.305 38.8626C151.773 38.8626 155.872 43.7076 155.872 50.9751C155.872 58.2426 151.773 63.1199 145.305 63.1199ZM145.305 61.8602C150.557 61.8602 154.463 57.9196 154.463 50.9751C154.463 44.0306 150.557 40.1223 145.305 40.1223C140.054 40.1223 136.148 44.0306 136.148 50.9751C136.148 57.9196 140.054 61.8602 145.305 61.8602ZM160.184 62.7V39.2825H167.1C172.415 39.2825 176.226 40.2515 176.226 45.5164C176.226 49.6508 173.728 50.9751 170.75 51.5888L176.578 62.7H175.105L169.406 51.8149C168.765 51.8795 168.093 51.8795 167.42 51.8795H161.497V62.7H160.184ZM161.497 50.6521H167.036C171.423 50.6521 174.817 50.0707 174.817 45.581C174.817 41.059 171.423 40.5099 167.036 40.5099H161.497V50.6521ZM180.721 62.7V39.2825H182.033V52.3317L194.937 39.2825H196.602L187.253 48.7787L197.147 62.7H195.514L186.324 49.7477L182.033 54.0759V62.7H180.721ZM204.828 49.5862L207.71 50.1676C212 51.0397 215.298 52.2025 215.298 56.4338C215.298 60.9235 211.2 63.1199 206.813 63.1199C201.754 63.1199 198.264 60.6005 197.463 55.7232H198.84C199.769 60.116 202.842 61.8602 206.749 61.8602C209.631 61.8602 213.921 60.7297 213.921 56.4984C213.921 53.4622 211.872 52.2671 207.485 51.4273L204.411 50.8459C201.402 50.2645 198.264 48.6495 198.264 45.0642C198.264 40.7037 202.522 38.8626 206.269 38.8626C210.719 38.8626 214.017 41.0267 214.85 45.1934H213.473C212.641 41.7696 209.887 40.1223 206.173 40.1223C203.099 40.1223 199.641 41.4143 199.641 44.935C199.641 47.5513 201.69 48.9402 204.828 49.5862Z" fill="currentColor"/>
+    </g>
+    <path class="lm-frame" d="M-57 -57H278V133H-57Z" pathLength="1" stroke="currentColor" stroke-width="1.3"/>
+  </svg>
+  <div class="loader-bar" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span>Loading</span><span class="lb-pct">0%</span></div>
+</div>
+<script src="js/loader.js"></script>
+<!-- frame mode: the page shrinks into a real Frameworks frame (built by js/frame.js) -->
+<div class="frame" id="frame" aria-hidden="true"></div>
+<div class="mat" aria-hidden="true"></div>
+<div class="opening" aria-hidden="true"></div>
+<div class="lip" aria-hidden="true"></div>
+<!-- frame mode: one rounded block, bottom centre, only while framed: the frame switcher + the exit (on phones + tablets the menu button leads it) -->
+<div class="frame-bar">
+<button class="fb-menu" type="button" aria-controls="mega" aria-label="Open menu"><svg viewBox="0 0 20 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path class="l1" d="M0 2h20"/><path class="l2" d="M0 8h20"/></svg></button>
+<div class="switcher" role="group" aria-label="Choose a frame">
+  <span class="name" aria-live="polite"><b id="name">Reclaimed wood, chipped white</b><span id="sub">with yellow slip · handmade in Berlin</span></span>
+  <button class="sw" data-sw="chipped" data-sub="with yellow slip · handmade in Berlin" aria-pressed="true" aria-label="Reclaimed wood, chipped white" title="Reclaimed wood, chipped white" style="background-image:url(assets/frames/swatch-chipped.jpg)"></button>
+  <button class="sw" data-sw="box" data-sub="solid wood, deep profile · handmade in Berlin" aria-pressed="false" aria-label="Black shadow box" title="Black shadow box" style="background-image:url(assets/frames/swatch-shadow-box.jpg)"></button>
+</div>
+<button class="frame-toggle" id="frame-toggle" type="button"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="1.5" y="1.5" width="13" height="13"/><rect x="4.5" y="4.5" width="7" height="7"/></svg><span data-i18n="frame.enter">Try frame mode</span></button>
+</div>
+<!-- where you are on the page: a hairline draws a frame around the screen as you scroll (clockwise from the top left, like the loader's),
+     closed by the time you reach the closing, which offers the real frame (landing.js sets the path + --p) -->
+<svg class="trace" aria-hidden="true"><path class="tr-track"/><path class="tr-corners"/><path class="tr-line"/><g class="tr-dots"></g><circle class="tr-tip" r="2"/></svg>
+<div class="trace-label" aria-hidden="true"></div>
+
+<div class="page">
+
+  <header class="nav">
+    <a class="logo" href="./" aria-label="Frameworks Berlin – home"><svg viewBox="0 0 221 76" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/>
+      <path d="M.94 39.27v32.3M98.26 12.03v32.3M221 72.52h-32.02" stroke="currentColor" stroke-width="3"/>
+      <path d="M106.572 36.1V12.6825H120.629V13.9099H107.885V23.3415H119.828V24.5689H107.885V36.1H106.572ZM125.676 36.1V12.6825H132.593C137.908 12.6825 141.718 13.6515 141.718 18.9164C141.718 23.0508 139.221 24.3751 136.243 24.9888L142.071 36.1H140.598L134.898 25.2149C134.258 25.2795 133.585 25.2795 132.913 25.2795H126.989V36.1H125.676ZM126.989 24.0521H132.529C136.915 24.0521 140.31 23.4707 140.31 18.981C140.31 14.459 136.915 13.9099 132.529 13.9099H126.989V24.0521ZM145.38 36.1L154.346 12.6825H155.722L164.72 36.1H163.311L160.878 29.7369H149.158L146.757 36.1H145.38ZM149.639 28.5095H160.429L155.018 14.2975L149.639 28.5095ZM169.482 36.1V12.6825H171.627L180.465 34.5496L189.302 12.6825H191.448V36.1H190.135V13.9745L181.105 36.1H179.825L170.795 13.9745V36.1H169.482ZM198.687 36.1V12.6825H213.224V13.9099H200V23.3415H212.423V24.5689H200V34.8726H213.224V36.1H198.687ZM111.439 62.7L104.395 39.2825H105.835L112.143 60.762L118.035 39.2825H119.508L125.496 60.8266L131.707 39.2825H133.148L126.136 62.7H124.759L118.771 41.382L112.816 62.7H111.439ZM145.305 63.1199C138.837 63.1199 134.739 58.2426 134.739 50.9751C134.739 43.7076 138.837 38.8626 145.305 38.8626C151.773 38.8626 155.872 43.7076 155.872 50.9751C155.872 58.2426 151.773 63.1199 145.305 63.1199ZM145.305 61.8602C150.557 61.8602 154.463 57.9196 154.463 50.9751C154.463 44.0306 150.557 40.1223 145.305 40.1223C140.054 40.1223 136.148 44.0306 136.148 50.9751C136.148 57.9196 140.054 61.8602 145.305 61.8602ZM160.184 62.7V39.2825H167.1C172.415 39.2825 176.226 40.2515 176.226 45.5164C176.226 49.6508 173.728 50.9751 170.75 51.5888L176.578 62.7H175.105L169.406 51.8149C168.765 51.8795 168.093 51.8795 167.42 51.8795H161.497V62.7H160.184ZM161.497 50.6521H167.036C171.423 50.6521 174.817 50.0707 174.817 45.581C174.817 41.059 171.423 40.5099 167.036 40.5099H161.497V50.6521ZM180.721 62.7V39.2825H182.033V52.3317L194.937 39.2825H196.602L187.253 48.7787L197.147 62.7H195.514L186.324 49.7477L182.033 54.0759V62.7H180.721ZM204.828 49.5862L207.71 50.1676C212 51.0397 215.298 52.2025 215.298 56.4338C215.298 60.9235 211.2 63.1199 206.813 63.1199C201.754 63.1199 198.264 60.6005 197.463 55.7232H198.84C199.769 60.116 202.842 61.8602 206.749 61.8602C209.631 61.8602 213.921 60.7297 213.921 56.4984C213.921 53.4622 211.872 52.2671 207.485 51.4273L204.411 50.8459C201.402 50.2645 198.264 48.6495 198.264 45.0642C198.264 40.7037 202.522 38.8626 206.269 38.8626C210.719 38.8626 214.017 41.0267 214.85 45.1934H213.473C212.641 41.7696 209.887 40.1223 206.173 40.1223C203.099 40.1223 199.641 41.4143 199.641 44.935C199.641 47.5513 201.69 48.9402 204.828 49.5862Z" fill="currentColor"/>
+    </svg></a>
+
+    <!-- like +Halle: logo left, links right. Hovering any link opens the whole menu on a tall black panel: five columns,
+         each a promise line (links to the overview page, serif, no arrow) + a picture + the main links; the secondary links sit in the panel's
+         own footer row under a hairline, each under its column. On phones/tablets the two-line button (folds into × when open) opens it full screen and a tap on a link slides its column open. -->
+    <nav class="mega" id="mega" aria-label="Main">
+      <div class="col">
+        <a class="title" href="#" aria-expanded="false" data-i18n="nav.framing">framing</a>
+        <div class="drop">
+          <div class="drop-main">
+            <p class="drop-title" data-i18n="nav.p1">Online or in store</p>
+            <img class="thumb" src="assets/landing/nav-start-framing.jpg" alt="" width="270" height="335">
+            <ul class="links">
+              <li><a href="frame-online.html" class="go" data-i18n="nav.online" data-pic="assets/landing/entry-02-start-framing.jpg">Frame online</a></li>
+              <li><a href="#" data-i18n="nav.consult" data-pic="assets/landing/entry-01-custom-framing.jpg">Book a visit</a></li>
+            </ul>
+          </div>
+          <ul class="drop-more">
+              <li><a href="#" data-i18n="nav.prices" data-pic="assets/landing/style-passepartout.jpg">Prices &amp; how it works</a></li>
+              <li><a href="materials.html" data-i18n="nav.materials" data-pic="assets/landing/mat-upcycled.jpg">Materials</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <a class="title" href="#" aria-expanded="false" data-i18n="nav.shop">shop</a>
+        <div class="drop">
+          <div class="drop-main">
+            <p class="drop-title" data-i18n="nav.p2">Ready to hang</p>
+            <img class="thumb" src="assets/landing/best-milk-and-flamingo.jpg" alt="" width="800" height="1000">
+            <ul class="links">
+              <li><a href="#" data-i18n="nav.all" data-wall="all" data-pic="assets/landing/frame-erle-40x50.jpg">Shop all</a></li>
+              <li><a href="#" data-i18n="nav.frames" data-pic="assets/landing/frame-nuss-30x40.jpg">Picture frames</a></li>
+              <li><a href="#" data-i18n="nav.framedArt" data-pic="assets/landing/frame-square-yellow.jpg">Framed art</a></li>
+              <li><a href="#" data-i18n="nav.gift" data-pic="assets/landing/frame-dina4-neon.jpg">Gift cards</a></li>
+            </ul>
+          </div>
+          <ul class="drop-more">
+              <li><a href="#" data-i18n="nav.coll" data-pic="assets/landing/frame-photobooth.jpg">Collections</a></li>
+            </ul>
+        </div>
+      </div>
+      <div class="col">
+        <a class="title" href="#" aria-expanded="false" data-i18n="nav.studio">open studio</a>
+        <div class="drop">
+          <div class="drop-main">
+            <p class="drop-title" data-i18n="nav.p3">Frame it yourself</p>
+            <img class="thumb perf" src="assets/landing/entry-03-workshops.jpg" alt="" width="438" height="552">
+            <ul class="links">
+              <li><a href="#" data-i18n="nav.courses" data-pic="assets/landing/mag-handmade.jpg">Courses</a></li>
+              <li><a href="#" class="go" data-i18n="nav.desk" data-pic="assets/landing/entry-03-workshops.jpg">Book a workstation</a></li>
+              <li><a href="#" data-i18n="nav.events" data-pic="assets/landing/mag-espresso.jpg">Events</a></li>
+            </ul>
+          </div>
+          <ul class="drop-more">
+              <li><a href="#" data-i18n="nav.aboutStudio" data-pic="assets/landing/mag-handcraft.jpg">About the studio</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col">
+        <a class="title" href="#" aria-expanded="false" data-i18n="nav.biz">for businesses</a>
+        <div class="drop">
+          <div class="drop-main">
+            <p class="drop-title" data-i18n="nav.p4">For your space</p>
+            <img class="thumb perf" src="assets/landing/entry-02-interiors.jpg" alt="" width="438" height="552">
+            <ul class="links">
+              <li><a href="#" data-i18n="nav.projects" data-pic="assets/landing/entry-03-curated.jpg">Projects</a></li>
+              <li><a href="#" data-i18n="nav.interiors" data-pic="assets/landing/entry-02-interiors.jpg">Interiors</a></li>
+              <li><a href="#" class="go" data-i18n="nav.enquiry" data-pic="assets/landing/proj-music-poster.jpg">Get a quote</a></li>
+            </ul>
+          </div>
+          <ul class="drop-more">
+              <li><a href="#" data-i18n="nav.collab" data-pic="assets/landing/art-halsman-tippi-hedren.jpg">Collaborations</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col end">
+        <a class="title" href="#" aria-expanded="false" data-i18n="nav.about">about</a>
+        <div class="drop">
+          <div class="drop-main">
+            <p class="drop-title" data-i18n="nav.p5">Since 2014</p>
+            <img class="thumb perf" src="assets/landing/nav-about-us.jpg" alt="" width="291" height="435">
+            <ul class="links">
+              <li><a href="#" data-i18n="nav.story" data-pic="assets/landing/nav-our-story.jpg">Our story</a></li>
+              <li><a href="#" data-i18n="nav.team" data-pic="assets/landing/nav-about-us.jpg">Team</a></li>
+              <li><a href="#" data-i18n="nav.places" data-pic="assets/landing/nav-berlin-store.jpg">Locations</a></li>
+            </ul>
+          </div>
+          <ul class="drop-more">
+              <li><a href="#" data-i18n="nav.sust" data-pic="assets/landing/best-gallery-frames.jpg">Sustainability</a></li>
+              <li><a href="#" data-i18n="nav.mag" data-pic="assets/landing/art-christo-mosca.jpg">Magazine</a></li>
+              <li><a href="#" data-i18n="nav.faq" data-pic="assets/landing/art-ronald-puhle.jpg">FAQ &amp; contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- phones: the bottom of the open menu (the thumb's reach) holds the main action + where to find us. Hidden on desktop -->
+      <div class="menu-foot">
+        <a class="btn btn-dark" href="frame-online.html" data-i18n="nav.cta">Frame online</a>
+        <p class="menu-addr">Mariannenstraße 26, 10999 Berlin-Kreuzberg<br><a href="tel:+4917631387306">0176 31387306</a></p>
+      </div>
+    </nav>
+
+    <div class="util">
+      <a class="ico" href="#" aria-label="Search"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="6"/><path d="m13 13 5 5"/></svg></a>
+      <span class="ico-acc"><a class="ico" href="#" aria-label="Account"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><circle cx="10" cy="6.5" r="3.5"/><path d="M3 18c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/></svg></a></span>
+      <a class="ico" href="#" aria-label="Cart"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M3.5 6.5h13l-1 11h-11z"/><path d="M7 6.5V5a3 3 0 0 1 6 0v1.5"/></svg></a>
+      <div class="lang"><a href="#" lang="de" data-lang="de">DE</a> <span aria-hidden="true">•</span> <a href="#" lang="en" data-lang="en" aria-current="true">EN</a></div>
+      <a class="nav-cta" href="frame-online.html" data-i18n="nav.cta">Frame online</a>
+    </div>
+
+    <button class="burger" id="burger" aria-expanded="false" aria-controls="mega" aria-label="Open menu"><svg width="56" height="14" viewBox="0 0 56 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path class="l1" d="M0 3h56"/><path class="l2" d="M0 11h56"/></svg></button>
+    <!-- data-menu="colour": a gallery wall of the open section's photos (one per link), on the free side of the open column (placed by landing.js) -->
+    <div class="mega-photo" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <!-- one video, full width and as tall as the screen.
+         The button + headline stick to the bottom of the screen while the video scrolls past. -->
+    <!-- says what and where before anything else is read (the 5-second test on a phone): in the white band, just above the video -->
+    <p class="hero-kicker" data-i18n="hero.kicker">Picture framing studio · Berlin-Kreuzberg</p>
+    <section class="hero" aria-label="Frameworks">
+      <div class="hero-vid"><video id="vid" src="assets/video/hero.mp4" poster="assets/video/poster.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video></div>
+      <div class="hero-copy">
+        <div class="hero-title">
+          <h1 data-i18n="hero.title">Art looks better framed.</h1>
+          <p class="hero-sub" data-i18n="hero.sub">Sustainably handmade in Berlin.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="btn" href="frame-online.html" data-i18n="hero.online">Frame online</a>
+          <a class="quiet" href="#" data-i18n="hero.visit">Book a visit</a>
+          <!-- trust line: just the Google rating, kept as quiet text (no badge, no chips, no row of stars) -->
+          <p class="proof">
+            <a class="rating" href="https://www.google.com/maps/search/?api=1&amp;query=Frameworks+Berlin" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6-4.9-4.6 6.6-.8z"/></svg>
+              <span data-i18n="hero.rating">4.9 from 208 Google reviews</span>
+            </a>
+          </p>
+        </div>
+        <!-- scroll cue: a thin line, bottom right in the video, a light running slowly down it -->
+        <a class="scroll-cue" href="#about" aria-label="Scroll down"></a>
+      </div>
+    </section>
+
+    <!-- about (after the "Your space isn't boring" poster): one huge serif line, justified edge to edge,
+         with real framed pieces sitting between the words (--h = height in em). Words go grey → ink and pieces fade in, in reading order, as it scrolls up the screen -->
+    <section class="about" id="about" aria-labelledby="about-title">
+      <h2 class="about-line" id="about-title">
+        <span class="aw" data-i18n="about.w1">Your</span>
+        <span class="pc" style="--h:1.5em"><img src="assets/landing/hang-lilika.jpg" alt="" width="628" height="834" loading="lazy"><button class="plus" type="button" data-piece="lilika" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="aw" data-i18n="about.w2">walls</span>
+        <span class="pc" style="--h:1.0em"><img src="assets/landing/hang-spearmint.jpg" alt="" width="470" height="598" loading="lazy"><button class="plus" type="button" data-piece="spearmint" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="pc" style="--h:2.0em"><img src="assets/landing/hang-christo-mosca.jpg" alt="" width="536" height="738" loading="lazy"><button class="plus" type="button" data-piece="christo-mosca" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="aw" data-i18n="about.w3">aren’t</span>
+        <span class="pc" style="--h:1.2em"><img src="assets/landing/hang-halsman.jpg" alt="" width="496" height="604" loading="lazy"><button class="plus" type="button" data-piece="halsman" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="aw" data-i18n="about.w4">empty.</span>
+        <span class="pc" style="--h:1.7em"><img src="assets/landing/hang-ronald-puhle.jpg" alt="" width="496" height="636" loading="lazy"><button class="plus" type="button" data-piece="ronald-puhle" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="aw" data-i18n="about.w5">They’re</span>
+        <span class="pc" style="--h:1.9em"><img src="assets/landing/hang-curated.jpg" alt="" width="524" height="528" loading="lazy"><button class="plus" type="button" data-piece="curated" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="pc" style="--h:1.0em"><img src="assets/landing/hang-horst-janssen.jpg" alt="" width="284" height="314" loading="lazy"><button class="plus" type="button" data-piece="horst-janssen" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="aw" data-i18n="about.w6">waiting.</span>
+        <span class="pc" style="--h:1.6em"><img src="assets/landing/hang-milk-roses.jpg" alt="" width="554" height="710" loading="lazy"><button class="plus" type="button" data-piece="milk-roses" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+      </h2>
+      <div class="about-foot reveal">
+        <a class="about-more" href="#" data-i18n="about.more">About us</a>
+        <p class="about-text" data-i18n="about.text">A picture framing studio in the heart of Berlin. We build every frame by hand from sustainable and reclaimed wood, one of a kind or in series.</p>
+      </div>
+    </section>
+
+    <section class="how" aria-labelledby="how-title">
+      <!-- how it works (after Framebridge's): one sentence with the three ways to start as links, one framed piece, one button.
+           On white, centred (the second exception to left-aligned heads, after the Closing). Replaced four step cards (too many card rows) -->
+      <div class="how-intro">
+        <p class="how-label" data-i18n="how.label">How it works</p>
+        <h2 class="how-title" id="how-title"><a href="#" data-i18n="how.a1">Upload</a><span data-i18n="how.p1"> a photo, </span><a href="#" data-i18n="how.a2">enter your size</a><span data-i18n="how.p2">, or </span><a href="#" data-i18n="how.a3">bring your piece</a><span data-i18n="how.p3"> to our Kreuzberg studio.</span></h2>
+        <!-- the framed piece cycles through five framed works (landing.js, every 2s while in view; reduced motion: the first stays).
+             Each whole at its own ratio, fitted into one box and standing on its bottom line, so the caption never moves -->
+        <figure class="how-piece reveal">
+          <div class="how-stage">
+            <img class="on" src="assets/landing/hang-halsman.jpg" alt="Philip Halsman’s photograph of Tippi Hedren, framed" width="496" height="604" loading="lazy">
+            <img src="assets/landing/hang-christo-mosca.jpg" alt="Christo Mosca’s photograph of a person with pink hair, in a bright pink frame" width="536" height="738" loading="lazy" aria-hidden="true">
+            <img src="assets/landing/hang-lilika.jpg" alt="Lilika Strezoska’s small portrait among blue bubbles, on a wide blue mat in a black frame" width="628" height="834" loading="lazy" aria-hidden="true">
+            <img src="assets/landing/hang-ronald-puhle.jpg" alt="Ronald Puhle’s small sepia photograph on a black mat in an ornate gold frame" width="496" height="636" loading="lazy" aria-hidden="true">
+            <img src="assets/landing/hang-horst-janssen.jpg" alt="A sepia artwork by Horst Janssen in a pale green and oak frame" width="284" height="314" loading="lazy" aria-hidden="true">
+          </div>
+          <button class="plus how-plus" type="button" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button>
+          <figcaption><span class="on">Philip Halsman, Tippi Hedren</span><span aria-hidden="true">Christo Mosca</span><span aria-hidden="true">Lilika Strezoska</span><span aria-hidden="true">Ronald Puhle</span><span aria-hidden="true">Horst Janssen</span></figcaption>
+        </figure>
+        <a class="btn btn-dark" href="frame-online.html" data-i18n="how.cta">Frame online</a>
+        <a class="how-visit" href="#"><svg viewBox="0 0 16 20" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M8 19s6-6.1 6-11A6 6 0 0 0 2 8c0 4.9 6 11 6 11z"/><circle cx="8" cy="8" r="2.2"/></svg><span data-i18n="how.visit">Book a visit</span></a>
+        <p class="how-made" data-i18n="how.made">Handmade in our Kreuzberg workshop, delivered ready to hang, usually in about a week.</p>
+      </div>
+      <!-- what it costs (prices from frameworksberlin.com, "Wie berechnen wir den Preis?"): made to measure is priced by length + width of the
+           piece, in six sizes. Drawn as a tape measure 0–170 cm with a tick at each size's limit (--s, cm), price above, size + name under, a key at the
+           ruler's empty start and one worked example marked on it (.cost-eg, 70 cm);
+           phones: a list, each size with its piece of tape. They are there from the start (no rise-in) -->
+      <div class="cost" id="price">
+        <div class="cost-head">
+          <p class="cost-label" data-i18n="price.label">What it costs</p>
+          <h3 class="cost-title" data-i18n="price.title">Made to measure, from €56.</h3>
+          <p class="cost-text" data-i18n="price.text">Add up the length and width of your piece: that’s your size. Depth doesn’t count.</p>
+        </div>
+        <ol class="cost-row">
+          <li class="cost-key" aria-hidden="true"><span data-i18n="price.k1">Price from</span><span data-i18n="price.k2">Length + width</span></li>
+          <li class="cost-step" style="--s:51;--i:0"><span class="cost-from">€56</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 51&nbsp;cm</span><span class="cost-name" data-i18n="price.n1">Mini</span></li>
+          <li class="cost-step" style="--s:76;--i:1"><span class="cost-from">€74</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 76&nbsp;cm</span><span class="cost-name" data-i18n="price.n2">Small</span></li>
+          <li class="cost-step" style="--s:100;--i:2"><span class="cost-from">€106</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 100&nbsp;cm</span><span class="cost-name" data-i18n="price.n3">Medium</span></li>
+          <li class="cost-step" style="--s:126;--i:3"><span class="cost-from">€124</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 126&nbsp;cm</span><span class="cost-name" data-i18n="price.n4">Large</span></li>
+          <li class="cost-step" style="--s:151;--i:4"><span class="cost-from">€162</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 151&nbsp;cm</span><span class="cost-name" data-i18n="price.n5">Extra large</span></li>
+          <li class="cost-step" style="--s:170;--i:5"><span class="cost-from">€190</span><span class="cost-size"><span data-i18n="price.upto">up to</span> 170&nbsp;cm</span><span class="cost-name" data-i18n="price.n6">Oversize</span></li>
+          <li class="cost-eg" style="--s:70" aria-hidden="true"></li>
+        </ol>
+        <p class="cost-ex"><span class="cost-dot" aria-hidden="true"></span><span data-i18n="price.ex">Example: a 30 × 40 cm print is 30 + 40 = 70 cm, so it’s Small, from €74.</span></p>
+      </div>
+    </section>
+
+    <!-- what we do: the three services as three framed pictures hung at three heights, right after How (hidden 3 Nov, back 4 Nov 2026: the user wants the services shown) -->
+    <section class="entries" id="entries" aria-labelledby="entries-label">
+      <h2 class="entries-label" id="entries-label" data-i18n="entries.label">What we do</h2>
+      <div class="entries-row">
+      <!-- each whole card is one link. TODO: real URLs for "#": custom framing page, B2B / projects page, workshops page (Open Studio info lives there) -->
+      <a class="entry" href="#" style="--i:0">
+        <img src="assets/landing/entry-01-custom-framing.jpg" alt="A framer holding up a wooden frame in front of moulding samples" width="146" height="184">
+        <h2 class="entry-title" data-i18n="c1.title">Framing</h2>
+        <span class="label"><span class="line"><span data-i18n="c1.line">Online or in our Berlin store</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span></span>
+      </a>
+      <a class="entry" href="#" style="--i:1">
+        <img src="assets/landing/entry-02-interiors.jpg" alt="Two large framed prints on a concrete wall above restaurant tables" width="146" height="184">
+        <h2 class="entry-title" data-i18n="c2.title">Interiors</h2>
+        <span class="label"><span class="line"><span data-i18n="c2.line">Bespoke framing for businesses</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span></span>
+      </a>
+      <a class="entry" href="#" style="--i:2">
+        <img src="assets/landing/entry-03-workshops.jpg" alt="Hands cutting a mount board next to a photo and an empty wooden frame on a red table" width="146" height="184">
+        <h2 class="entry-title" data-i18n="c3.title">Workshops</h2>
+        <span class="label"><span class="line"><span data-i18n="c3.line">4-hour framing course</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span></span>
+      </a>
+      </div>
+    </section>
+
+
+    <!-- frame styles: after "choose your frame", the answer to "which one?". The eight styles are cards like the How stamps (white,
+         FW mark + number, name, line; odd ones text on top, even ones photo on top; photos all 4:5, whole) in one row that scrolls
+         sideways (arrows, swipe, or skip it): the section is at most 80svh tall, so people who don't care scroll on quickly -->
+    <section class="styles" aria-labelledby="styles-title">
+      <div class="styles-head">
+        <h2 class="styles-title" id="styles-title" data-i18n="styles.title">Eight ways to frame it.</h2>
+        <div class="styles-tools">
+          <p class="styles-text" data-i18n="styles.text">Every piece asks for something different. Here’s where to start.</p>
+          <div class="shop-arrows styles-arrows">
+            <button class="shop-arrow" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6.5 1l-5 5 5 5"/></svg></button>
+            <button class="shop-arrow" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1.5 1l5 5-5 5"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <ul class="styles-row" tabindex="0" aria-label="Frame styles">
+        <li class="stamp" style="--i:0">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">01</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.1.name">Passe&shy;partout</a></h3>
+            <p class="stamp-line" data-i18n="styles.1.line">A mat around the picture: classic for photos, and small pieces look bigger.</p>
+          </div>
+          <img src="assets/landing/style-passepartout.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:1">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">02</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.2.name">Object frame</a></h3>
+            <p class="stamp-line" data-i18n="styles.2.line">Floats objects, watercolours and collages, so their edges stay visible.</p>
+          </div>
+          <img src="assets/landing/style-object.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:2">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">03</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.3.name">Poster frame</a></h3>
+            <p class="stamp-line" data-i18n="styles.3.line">No mat: the picture fills the whole frame.</p>
+          </div>
+          <img src="assets/landing/style-poster.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:3">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">04</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.4.name">Removable frame</a></h3>
+            <p class="stamp-line" data-i18n="styles.4.line">The quickest way: swap the picture at home whenever you like.</p>
+          </div>
+          <img src="assets/landing/style-removable.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:4">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">05</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.5.name">Antique frame</a></h3>
+            <p class="stamp-line" data-i18n="styles.5.line">For special pieces that only come into their own in an old frame.</p>
+          </div>
+          <img src="assets/landing/style-antique.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:5">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">06</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.6.name">Stretcher frame</a></h3>
+            <p class="stamp-line" data-i18n="styles.6.line">For paintings on canvas, large or small, that need stretching.</p>
+          </div>
+          <img src="assets/landing/style-stretcher.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:6">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">07</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.7.name">Shadow gap</a></h3>
+            <p class="stamp-line" data-i18n="styles.7.line">A floating gap and no glass: for paintings and mounted photos.</p>
+          </div>
+          <img src="assets/landing/style-shadow-gap.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+        <li class="stamp" style="--i:7">
+          <div class="stamp-text">
+            <p class="stamp-top"><svg class="stamp-mark" viewBox="0 0 100 76" aria-hidden="true"><path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/><path d="M.94 39.27v32.3M98.26 12.03v32.3" stroke="currentColor" stroke-width="3"/></svg><span class="stamp-n">08</span></p>
+            <h3 class="stamp-name"><a href="#" data-i18n="styles.8.name">Mirror</a></h3>
+            <p class="stamp-line" data-i18n="styles.8.line">For when your own reflection is the artwork.</p>
+          </div>
+          <img src="assets/landing/style-mirror.jpg" alt="" loading="lazy" width="720" height="900">
+        </li>
+      </ul>
+    </section>
+
+    <!-- shop row (after Framebridge's "New & Trending"), right after the three cards, before How: white band, every card a cream stamp
+         (the stamp album starts here and goes on in How + Frame styles). Three tabs, each a coral feature card + cards that scroll sideways.
+         TODO: real names, prices and links; photos for Framed art + Collections. Until then those cards show a frame drawn in CSS (.mock):
+         --wall is the wall colour, .piece the frame (fr-chipped / fr-oak / fr-black / fr-box), .pic the picture inside (--mw = mat width) -->
+    <section class="shop" id="shop" aria-labelledby="shop-title">
+      <div class="shop-head">
+        <h2 class="shop-title" id="shop-title" data-i18n="shop.title">Ready to hang</h2>
+        <div class="shop-bar">
+          <div class="shop-tabs" role="tablist" aria-label="Shop">
+            <button class="shop-tab" role="tab" id="tab-best" aria-controls="sp-best" aria-selected="true" data-i18n="shop.tab1">Best sellers</button>
+            <button class="shop-tab" role="tab" id="tab-art" aria-controls="sp-art" aria-selected="false" tabindex="-1" data-i18n="shop.tab2">Framed art</button>
+            <button class="shop-tab" role="tab" id="tab-coll" aria-controls="sp-coll" aria-selected="false" tabindex="-1" data-i18n="shop.tab3">Collections</button>
+          </div>
+          <div class="shop-arrows">
+            <button class="shop-arrow" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6.5 1l-5 5 5 5"/></svg></button>
+            <button class="shop-arrow" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1.5 1l5 5-5 5"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1. best sellers: the real ones from frameworksberlin.com (names + prices as on the shop, Holiday Edition left out).
+           The reclaimed frames are each their own colourway, so only Gallery Frames shows wood dots. TODO: links -->
+      <div class="shop-panel" role="tabpanel" id="sp-best" aria-labelledby="tab-best">
+        <div class="shop-row">
+          <div class="feat fw-grain" style="--i:0">
+            <span class="feat-kicker" data-i18n="best.kicker">Sustainability Collection</span>
+            <h3 class="feat-title" data-i18n="best.title">Our most-loved frames</h3>
+            <p class="feat-text" data-i18n="best.text">One-of-a-kind frames, handmade in Berlin from reclaimed wood.</p>
+            <a class="btn" href="#" data-i18n="best.cta">See the collection</a>
+          </div>
+          <a class="card" href="#" style="--i:1">
+            <div class="mock"><img src="assets/landing/best-spearmint.jpg" alt="A black and white portrait in a sage green reclaimed wood frame with one ribbed wooden piece, on a white wall" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.nkPhoto">Neukölln · Photobooth</span>
+              <h3 class="card-name">Spearmint</h3>
+              <span class="spec" data-i18n="best.s.strip">For photo booth strips</span>
+              <span class="price" data-i18n="best.p.35">€35</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:2">
+            <div class="mock"><img src="assets/landing/best-milk-and-flamingo.jpg" alt="Someone holding a photo booth strip in a white reclaimed wood frame with a neon pink edge" width="800" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.kbPhoto">Kreuzberg · Photobooth</span>
+              <h3 class="card-name">Milk and Flamingo</h3>
+              <span class="spec" data-i18n="best.s.strip">For photo booth strips</span>
+              <span class="price" data-i18n="best.p.40">€40</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:3">
+            <div class="mock"><img src="assets/landing/best-milk-a5.jpg" alt="An empty white reclaimed wood frame on a white wall" width="422" height="422" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow">Neukölln · DIN A5</span>
+              <h3 class="card-name">Milk</h3>
+              <span class="spec">14.8 × 21 cm</span>
+              <span class="price" data-i18n="best.p.40">€40</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:4">
+            <div class="mock"><img src="assets/landing/best-gallery-frames.jpg" alt="A hand resting on a stack of finished wooden frames in oak, maple, walnut and black on the workshop table" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.workshop">Frameworks workshop</span>
+              <h3 class="card-name">Gallery Frames</h3>
+              <span class="spec" data-i18n="best.s.choose">Choose wood and size</span>
+              <span class="dots" role="img" aria-label="4 woods"><i style="--c:#c9a074"></i><i style="--c:#e8dcc4"></i><i style="--c:#6b4a33"></i><i style="--c:#1e1e1e"></i></span>
+              <span class="price" data-i18n="best.p.55">from €55</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:5">
+            <div class="mock"><img src="assets/landing/best-milk-and-roses-a6.jpg" alt="A drawing of a woman in a wide white reclaimed wood frame with a red outer edge, on a white wall" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow">Kreuzberg · DIN A6</span>
+              <h3 class="card-name">Milk and Roses</h3>
+              <span class="spec">10.5 × 14.8 cm</span>
+              <span class="price" data-i18n="best.p.40">€40</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:6">
+            <div class="mock"><img src="assets/landing/best-black-walnut.jpg" alt="A mountain lake photo with a white mat in a deep walnut frame, held in two hands in the Berlin store" width="762" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.walnut">Grünewald · Solid walnut</span>
+              <h3 class="card-name">Black Walnut</h3>
+              <span class="spec" data-i18n="best.s.mat">With mat</span>
+              <span class="price" data-i18n="best.p.49">from €49</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:7">
+            <div class="mock"><img src="assets/landing/best-blue-tiger.jpg" alt="Someone holding a photo booth strip in a black crackled reclaimed wood frame with warm wood showing through" width="666" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.nkPhoto">Neukölln · Photobooth</span>
+              <h3 class="card-name">Blue Tiger</h3>
+              <span class="spec" data-i18n="best.s.strip">For photo booth strips</span>
+              <span class="price" data-i18n="best.p.35">€35</span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:8">
+            <div class="mock"><img src="assets/landing/best-milk-and-roses-photobooth.jpg" alt="An empty tall white reclaimed wood frame with a red outer edge, on a white wall" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.best">Best seller</span>
+              <span class="eyebrow" data-i18n="best.l.kbPhoto">Kreuzberg · Photobooth</span>
+              <h3 class="card-name">Milk and Roses</h3>
+              <span class="spec" data-i18n="best.s.strip">For photo booth strips</span>
+              <span class="price" data-i18n="best.p.40">€40</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 2. framed art, curated by Frameworks: photos from their shop (assets/landing/art-*.jpg). TODO: prices + links;
+           five more works are in the photo folder but have no names yet -->
+      <div class="shop-panel" role="tabpanel" id="sp-art" aria-labelledby="tab-art" hidden>
+        <div class="shop-row">
+          <div class="feat fw-grain" style="--i:0">
+            <span class="feat-kicker" data-i18n="art.kicker">Framed Artworks</span>
+            <h3 class="feat-title" data-i18n="art.title">Our selection is from artists we know. Authentic and diverse.</h3>
+            <p class="feat-text" data-i18n="art.text">The artwork is the focus, which we enhance with custom frames.</p>
+            <a class="btn" href="#" data-i18n="art.cta">Shop framed art</a>
+          </div>
+          <a class="card" href="#" style="--i:1">
+            <div class="mock"><img src="assets/landing/art-halsman-tippi-hedren.jpg" alt="Philip Halsman's black and white photograph of Tippi Hedren with a crow, in a dark wooden frame with a grey mat" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.curated">Curated</span>
+              <h3 class="card-name">Philip Halsman</h3>
+              <span class="spec">»Tippi Hedren«</span>
+              <span class="more"><span data-i18n="art.go">View artwork</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:2">
+            <div class="mock"><img src="assets/landing/art-christo-mosca.jpg" alt="A photograph of a person with pink hair in a bright pink frame" width="749" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.curated">Curated</span>
+              <h3 class="card-name">Christo Mosca</h3>
+              <span class="spec">»Brooklyn Viola«</span>
+              <span class="more"><span data-i18n="art.go">View artwork</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:3">
+            <div class="mock"><img src="assets/landing/art-lilika-blue-bubble.jpg" alt="A small portrait among blue bubbles, on a wide blue mat in a black frame" width="821" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.curated">Curated</span>
+              <h3 class="card-name">Lilika Strezoska</h3>
+              <span class="spec">»Blue Bubble«</span>
+              <span class="more"><span data-i18n="art.go">View artwork</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:4">
+            <div class="mock"><img src="assets/landing/art-ronald-puhle.jpg" alt="A small sepia photograph on a black mat in an ornate gold frame, on a yellow wall" width="1000" height="1000" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.curated">Curated</span>
+              <h3 class="card-name">Ronald Puhle</h3>
+              <span class="spec" data-i18n="art.photo">Photograph</span>
+              <span class="more"><span data-i18n="art.go">View artwork</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card" href="#" style="--i:5">
+            <div class="mock"><img src="assets/landing/art-horst-janssen.jpg" alt="A sepia artwork in a pale green and oak frame on a grey wall, above a stack of frames in the store" width="1000" height="666" loading="lazy"></div>
+            <div class="card-info">
+              <span class="tag" data-i18n="tag.curated">Curated</span>
+              <h3 class="card-name">Horst Janssen</h3>
+              
+              <span class="more"><span data-i18n="art.go">View artwork</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. collections: grouped by what you're framing (after artframers.com/en/collections) -->
+      <div class="shop-panel" role="tabpanel" id="sp-coll" aria-labelledby="tab-coll" hidden>
+        <div class="shop-row">
+          <div class="feat fw-grain" style="--i:0">
+            <h3 class="feat-title" data-i18n="coll.title">What are you framing?</h3>
+            <p class="feat-text" data-i18n="coll.text">Start with the piece, we'll find the frame.</p>
+            <a class="btn" href="#" data-i18n="coll.cta">All collections</a>
+          </div>
+          <a class="card coll" href="#" style="--i:1">
+            <div class="mock" style="--wall:#e9e4da"><div class="piece fr-black" style="--w:46%; --r:5/7"><div class="pic" style="--pic:linear-gradient(135deg, #f6313b 0 45%, #f4efe4 45% 55%, #1b1e1b 55%)"></div></div></div>
+            <div class="card-info">
+              <h3 class="card-name" data-i18n="coll.1.name">Posters</h3>
+              <span class="spec" data-i18n="coll.1.line">Standard sizes, framed by hand.</span>
+              <span class="more"><span data-i18n="coll.go">Shop frames</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card coll" href="#" style="--i:2">
+            <div class="mock" style="--wall:#2f3431"><div class="piece fr-box" style="--w:50%; --r:1/1"><div class="pic" style="--pic:radial-gradient(circle, #f4efe4 0 3%, #e9696d 3.5% 15%, #141414 15.5% 44%, #262626 44.5% 45%, #141414 45.5% 47%, #ece8e1 47.5%)"></div></div></div>
+            <div class="card-info">
+              <h3 class="card-name" data-i18n="coll.2.name">Vinyl records</h3>
+              <span class="spec" data-i18n="coll.2.line">Your favourite record, on the wall.</span>
+              <span class="more"><span data-i18n="coll.go">Shop frames</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card coll" href="#" style="--i:3">
+            <div class="mock" style="--wall:#dfe3dc"><div class="piece fr-box" style="--w:54%; --r:4/5"><div class="pic tee" style="--pic:#ece8e1; --tee:#29826e"></div></div></div>
+            <div class="card-info">
+              <h3 class="card-name" data-i18n="coll.3.name">Jerseys &amp; T-shirts</h3>
+              <span class="spec" data-i18n="coll.3.line">Deep frames for things with depth.</span>
+              <span class="more"><span data-i18n="coll.go">Shop frames</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card coll" href="#" style="--i:4">
+            <div class="mock" style="--wall:#ece8e1"><div class="piece fr-chipped" style="--w:46%; --r:4/5"><div class="pic" style="--mw:16%; --pic:radial-gradient(ellipse at 40% 35%, #d9d9d6, #8d8d8a 70%)"></div></div></div>
+            <div class="card-info">
+              <h3 class="card-name" data-i18n="coll.4.name">Wedding photos</h3>
+              <span class="spec" data-i18n="coll.4.line">A frame that lasts as long as the day matters.</span>
+              <span class="more"><span data-i18n="coll.go">Shop frames</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+          <a class="card coll" href="#" style="--i:5">
+            <div class="mock" style="--wall:#e6e1d6"><div class="piece fr-oak" style="--w:50%; --r:5/4"><div class="pic" style="--mw:12%; --pic:radial-gradient(circle at 25% 35%, #f6313b 0 9%, transparent 10%), radial-gradient(circle at 70% 60%, #69c1a8 0 14%, transparent 15%), radial-gradient(circle at 55% 25%, #e3c24a 0 7%, transparent 8%), #fbfaf6"></div></div></div>
+            <div class="card-info">
+              <h3 class="card-name" data-i18n="coll.5.name">Kids' artwork</h3>
+              <span class="spec" data-i18n="coll.5.line">Fridge art, promoted.</span>
+              <span class="more"><span data-i18n="coll.go">Shop frames</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- sustainability, told as a story: five big serif statements, set in staggered lines (first left, the middle ones indented,
+         the last pushed right, after a poster layout). Desktop: one pinned screen split in two, the shop-blue panel with the statement
+         left, the photo right on a blurred copy of itself; scrolling through the section steps through the statements (js sets .on).
+         Phones: the picture pins on top and the statements scroll under it. Facts from Claire's 12-years speech, the espresso story
+         and the FAQ. Then the material library -->
+    <section class="sust" data-mode="flow" aria-labelledby="sust-title">
+      <div class="sust-stage">
+        <div class="sust-media" aria-hidden="true">
+          <div class="sust-pics">
+            <img class="sust-pic perf on" src="assets/landing/mag-12-years.jpg" alt="" loading="lazy">
+            <img class="sust-pic perf" src="assets/landing/sust-reclaimed-frame.jpg" alt="" loading="lazy">
+            <img class="sust-pic perf" src="assets/landing/mat-upcycled.jpg" alt="" loading="lazy">
+            <img class="sust-pic perf" src="assets/landing/mat-solid-wood.jpg" alt="" loading="lazy">
+            <img class="sust-pic perf" src="assets/landing/mat-wax-oil.jpg" alt="" loading="lazy">
+          </div>
+          <p class="sust-badge"><span class="sust-no">01</span>/05</p>
+        </div>
+        <div class="sust-steps fw-grain">
+          <div class="sust-intro">
+            <h2 class="sust-label" id="sust-title" data-i18n="sust.label">Sustainability &amp; craft</h2>
+          </div>
+          <div class="sust-list">
+          <div class="sust-step on"><h3 class="sust-big"><span data-i18n="sust.s1a">12 years.</span> <span class="i" data-i18n="sust.s1b">20,000</span> <span class="r" data-i18n="sust.s1c">frames.</span></h3><p class="sust-small" data-i18n="sust.s1t">All built by hand in Berlin, since a borrowed room in an old swimming pool in 2013.</p></div>
+          <div class="sust-step"><h3 class="sust-big"><span data-i18n="sust.s2a">10,000 of</span> <span class="i" data-i18n="sust.s2b">them were</span> <span class="i" data-i18n="sust.s2c">doors and</span> <span class="r" data-i18n="sust.s2d">floorboards.</span></h3><p class="sust-small"><span data-i18n="sust.s2t">Old wood from Berlin and Brandenburg, cut into frames instead of trees.</span> <a class="sust-link" href="materials.html"><span data-i18n="sust.mat">See the materials</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a></p></div>
+          <div class="sust-step"><h3 class="sust-big"><span data-i18n="sust.s3a">Some</span> <span class="i" data-i18n="sust.s3b">were fishing</span> <span class="r" data-i18n="sust.s3c">boats.</span></h3><p class="sust-small" data-i18n="sust.s3t">We buy old boats in Bali from a family friend and rebuild them as frames.</p></div>
+          <div class="sust-step"><h3 class="sust-big"><span data-i18n="sust.s4a">The offcuts</span> <span class="i" data-i18n="sust.s4b">become</span> <span class="r" data-i18n="sust.s4c">small frames.</span></h3><p class="sust-small" data-i18n="sust.s4t">Nothing usable is thrown away. New wood is FSC-certified hardwood.</p></div>
+          <div class="sust-step"><h3 class="sust-big"><span data-i18n="sust.s5a">Nothing is</span> <span class="i" data-i18n="sust.s5b">built before</span> <span class="r" data-i18n="sust.s5c">you order.</span></h3><p class="sust-small" data-i18n="sust.s5t">Made to order, so no overstock – and joined to be repaired, not replaced.</p></div>
+          </div>
+          <a class="sust-more" href="https://www.frameworksberlin.com/en/pages/the-art-of-sustainable-picture-framing" target="_blank" rel="noopener"><span data-i18n="sust.more">Read the full story</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- real feedback: white. Title + Google rating + prev/next, then the reviews written in full, two side by side,
+         the rest scroll sideways (arrows as in Projects; phones swipe, one at a time). Quotes stay English in DE -->
+    <section class="reviews" aria-labelledby="rev-title">
+      <div class="rev-head">
+        <h2 class="rev-title" id="rev-title" data-i18n="rev.head">Real Feedback.</h2>
+        <div class="rev-tools">
+          <a class="rev-all" href="https://www.google.com/maps/search/?api=1&amp;query=Frameworks+Berlin" target="_blank" rel="noopener"><span data-i18n="rev.all">4.9 from 208 Google reviews</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a>
+          <div class="shop-arrows rev-arrows">
+            <button class="shop-arrow" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6.5 1l-5 5 5 5"/></svg></button>
+            <button class="shop-arrow" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1.5 1l5 5-5 5"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="rev-board" tabindex="0" aria-label="Reviews">
+        <figure class="note" style="--i:0"><blockquote><p>“I seriously love what you do at Frameworks. I’ve seen firsthand what a difference the right frame makes. When I’ve gone the cheap, mass-produced route, it always felt like something was missing, like the painting didn’t get the ending it deserved. But every time I get a piece back from you, it’s an instant creative high to do it again. That never happens with low-quality framing. Ever.”</p></blockquote><figcaption>Dalma S.</figcaption></figure>
+        <figure class="note" style="--i:1"><blockquote><p>“Amazing experience. Got a consultation for four pieces, one large and three small. I went in relatively clueless but was guided through the process thanks to Frameworks expertise. When they came back to say they exceeded my expectations is an understatement – they all looked amazing. Strongly recommend them if you’re looking for a professional job done.”</p></blockquote><figcaption>Matt C.</figcaption></figure>
+        <figure class="note" style="--i:2"><blockquote><p>“Great customer service – warm and friendly. Reasonably priced compared to other framers and option of hand crafted or mass produced frames so price in line with your selection. Highly recommend this shop if you want pictures framed.”</p></blockquote><figcaption>Darrin H.</figcaption></figure>
+        <figure class="note" style="--i:3"><blockquote><p>“My go-to place for every frame. I got 15 frames in total and have always been super happy with the outcome as during consultation, staff members helped me to find the perfect frame, making sure the frame accomplishes the art. The frames are available in recycled or new wood.”</p></blockquote><figcaption>Svenja F.</figcaption></figure>
+      </div>
+    </section>
+
+    <!-- projects: the gallery room. White. After plushalle's "Featured collections": a head bar
+         between hairlines (title + count, link, prev/next) and one row of projects that scrolls sideways, every picture the same size (all 4:5;
+         the BRLO photo is cut from 2:3, the user chose that) with its name + line under it. Nothing pins. "Trusted by" runs as a slow serif ticker
+         (the list twice for a seamless loop; still and wrapping with reduced motion). Projects + texts from the user (from their projects page); client names in the ticker from the Figma, not yet confirmed -->
+    <section class="projects" aria-labelledby="proj-title">
+      <div class="proj-bar">
+        <h2 class="proj-title" id="proj-title"><span data-i18n="proj.title">Projects</span><sup class="proj-count">3</sup></h2>
+        <div class="proj-tools">
+          <a class="proj-all" href="#"><span data-i18n="proj.all">Galleries · interiors · hospitality</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a>
+          <div class="shop-arrows proj-arrows">
+            <button class="shop-arrow" type="button" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M6.5 1l-5 5 5 5"/></svg></button>
+            <button class="shop-arrow" type="button" data-dir="1" aria-label="Next"><svg viewBox="0 0 8 12" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1.5 1l5 5-5 5"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="proj-list">
+        <a class="proj" href="#">
+          <img src="assets/landing/proj-brlo.jpg" alt="Two large blue circle prints in dark frames on a concrete wall above restaurant tables" loading="lazy" width="1400" height="1750">
+          <span class="proj-label"><span class="proj-name" data-i18n="proj.1.name">Restaurant BRLO</span><span class="proj-line" data-i18n="proj.1.line">Frames for the BRLO brewery’s new restaurant in Charlottenburg, made with the artist duo »MMachine«.</span></span>
+        </a>
+        <a class="proj" href="#">
+          <img src="assets/landing/proj-radical-craft.jpg" alt="A screen print of a swimmer in a pool, in a white recycled-wood frame with a yellow inner edge, next to its exhibition label" loading="lazy" width="1400" height="1750">
+          <span class="proj-label"><span class="proj-name">»Radical Craft«</span><span class="proj-line" data-i18n="proj.2.line">Exhibition at the Direktorenhaus, Museum of Art, Crafts and Design in Berlin.</span></span>
+        </a>
+        <a class="proj" href="#">
+          <img src="assets/landing/proj-casa-cook.jpg" alt="A large abstract screen print on canvas in a thin black shadow gap frame, above a bed and a walnut desk" loading="lazy" width="1400" height="1750">
+          <span class="proj-label"><span class="proj-name">Casa Cook Chania, Crete</span><span class="proj-line" data-i18n="proj.3.line">Wall design with a Berlin hand screen printing studio: screen prints on canvas in shadow gap frames, for a resort on Crete.</span></span>
+        </a>
+      </div>
+      <div class="proj-trust">
+        <p class="proj-trust-label" data-i18n="proj.trust">Trusted by</p>
+        <div class="ticker"><ul class="ticker-run"><li>Aesop</li><li>Soho House</li><li>BRLO</li><li>Mindspace</li><li data-i18n="proj.more">[+ galleries &amp; artists]</li></ul><ul class="ticker-run" aria-hidden="true"><li>Aesop</li><li>Soho House</li><li>BRLO</li><li>Mindspace</li><li>[+ galleries &amp; artists]</li></ul></div>
+      </div>
+    </section>
+
+    <!-- the magazine, as the contents page of a magazine cover (after "Run Don't Walk" Issue 0, the user's pick, 3 Nov 2026; it replaced the
+         coffee spread with its tabs, receipt and Instagram strip: too much going on). Masthead + issue line, a rule, then the stories in
+         three columns: the espresso story is the lead in the middle while the Antibarist pop-up runs (until December), two a side.
+         Each story: a frame-corner mark, its title (the link), its photo whole, "No. 0n · kind". Then the "In the shop:" line and the foot.
+         The coffee story's full text is its own page, story-espresso.html; the others link # until their text exists -->
+    <section class="studio" aria-labelledby="mag-title">
+      <div class="mag">
+        <header class="mag-mast">
+          <p class="mag-label" data-i18n="mag.label">Magazine</p>
+          <h2 class="mag-title" id="mag-title"><span data-i18n="mag.t1">Stories from</span> <span data-i18n="mag.t2">the shop.</span></h2>
+          <div class="mag-issue">
+            <p class="mag-blurb" data-i18n="mag.blurb">On frames, the people who make them and life in the shop in Kreuzberg.</p>
+          </div>
+        </header>
+        <p class="mag-sub" data-i18n="mag.sub">Frames + People</p>
+        <div class="mag-grid">
+          <article class="mag-story mag-lead">
+            <svg class="mag-mark" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M1 13V1h12"/></svg>
+            <p class="mag-kick" data-i18n="coffee.label">Now in the shop · until December</p>
+            <h3 class="mag-h"><a href="story-espresso.html" data-i18n="coffee.title">Come for a frame. Stay for the filter.</a></h3>
+            <img src="assets/landing/mag-espresso.jpg" alt="Claire and Hoa from Antibarist drinking coffee at the espresso bar in the shop, framed art on the wall behind" loading="lazy" width="1200" height="1200">
+            <p class="mag-text" data-i18n="coffee.c1">There’s an espresso bar in the middle of our shop. Until December, Hoa from Antibarist is behind it, Wednesday to Saturday from 8am.</p>
+            <p class="mag-meta">No. 02 · <span data-i18n="mag.2.kicker">Story</span><span class="mag-read" aria-hidden="true"><span data-i18n="coffee.more">Read the story</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></span></p>
+          </article>
+        <article class="mag-story mag-s1">
+          <svg class="mag-mark" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M1 13V1h12"/></svg>
+          <h3 class="mag-h"><a href="#" data-i18n="mag.1.title">12 years of Frameworks</a></h3>
+          <img src="assets/landing/mag-12-years.jpg" alt="" loading="lazy" width="1000" height="1000">
+          <p class="mag-meta">No. 01 · <span data-i18n="mag.1.kicker">Speech</span></p>
+        </article>
+        <article class="mag-story mag-s3">
+          <svg class="mag-mark" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M1 13V1h12"/></svg>
+          <h3 class="mag-h"><a href="#" data-i18n="mag.3.title">Paper Positions 2026</a></h3>
+          <img src="assets/landing/mag-paper-positions.jpg" alt="" loading="lazy" width="1000" height="1000">
+          <p class="mag-meta">No. 03 · <span data-i18n="mag.3.kicker">Art fair</span></p>
+        </article>
+        <article class="mag-story mag-s4">
+          <svg class="mag-mark" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M1 13V1h12"/></svg>
+          <h3 class="mag-h"><a href="#" data-i18n="mag.4.title">Handmade in Kreuzberg</a></h3>
+          <img src="assets/landing/mag-handmade.jpg" alt="" loading="lazy" width="1000" height="1000">
+          <p class="mag-meta">No. 04 · <span data-i18n="mag.4.kicker">Interview</span></p>
+        </article>
+        <article class="mag-story mag-s5">
+          <svg class="mag-mark" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M1 13V1h12"/></svg>
+          <h3 class="mag-h"><a href="#" data-i18n="mag.5.title">Sustainable handcraft</a></h3>
+          <img src="assets/landing/mag-handcraft.jpg" alt="" loading="lazy" width="1000" height="1000">
+          <p class="mag-meta">No. 05 · <span data-i18n="mag.5.kicker">Essay</span></p>
+        </article>
+        </div>
+        <p class="mag-plus"><span class="mag-plus-k" data-i18n="mag.plus">In the shop:</span> <span data-i18n="mag.plus.t">Espresso by Antibarist, Wednesday to Saturday from 8am, until December. Mariannenstraße 26, Kreuzberg.</span></p>
+        <footer class="mag-foot">
+          <span>Frameworks <span data-i18n="mag.label">Magazine</span></span>
+          <a href="https://www.instagram.com/frameworksberlin/" target="_blank" rel="noopener">@frameworksberlin</a>
+          <a class="mag-all" href="#"><span data-i18n="mag.all">All stories</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a>
+        </footer>
+      </div>
+    </section>
+
+    <!-- FAQ: the questions that stop people ordering (from frameworksberlin.com's FAQ, shortened), as <details> so they open
+         without js. A ruled sheet (after a functionalist studio site the user picked): a bar of cells, the intro with the team photo
+         top right and "FAQs" big at its foot, then numbered rows; an open row sets its answer large under the question -->
+    <section class="faq" aria-labelledby="faq-title">
+      <div class="faq-sheet">
+        <div class="faq-bar">
+          <span class="faq-cell faq-kick" data-i18n="faq.kick">Good to know</span>
+          <a class="faq-cell faq-tel" href="tel:+4917631387306">0176 31387306</a>
+          <a class="faq-cell faq-mail" href="mailto:frameit@frameworksberlin.com">frameit@frameworksberlin.com</a>
+          <a class="faq-cell faq-all" href="#"><span data-i18n="faq.all">All questions</span><svg class="arr" viewBox="0 0 14 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M0 5h12.6M8.6 1l4 4-4 4"/></svg></a>
+        </div>
+        <div class="faq-head">
+          <p class="faq-ask" data-i18n="faq.ask">Still unsure? Come by, call or write – we’d rather advise than guess.</p>
+          <img class="faq-img" src="assets/landing/mag-handmade.jpg" alt="Two people from the Frameworks team talking in the shop, frames on the wall behind" loading="lazy">
+          <h2 class="faq-title" id="faq-title" data-i18n="faq.title">FAQs</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item"><summary><span class="faq-no">01/</span><span class="faq-q" data-i18n="faq.q6">What does framing cost?</span></summary><p><span data-i18n="faq.a6">Made-to-measure frames start at €56, priced by the length plus width of your piece.</span> <a class="faq-link" href="#price" data-i18n="faq.a6link">See the six sizes</a></p></details>
+          <details class="faq-item"><summary><span class="faq-no">02/</span><span class="faq-q" data-i18n="faq.q1">How long does it take?</span></summary><p data-i18n="faq.a1">Ready-made frames ship in 2–3 working days. Made-to-measure takes about a week, up to two depending on our suppliers. November and December take longer, so if you have a deadline, tell us first.</p></details>
+          <details class="faq-item"><summary><span class="faq-no">03/</span><span class="faq-q" data-i18n="faq.q2">How do I measure my artwork?</span></summary><p data-i18n="faq.a2">Width and height in mm, we add the rest. The frame overlaps the work by about 5 mm, a mat by about 4 mm. If your print has a white border, measure the whole sheet to keep it, or only the image to hide it.</p></details>
+          <details class="faq-item"><summary><span class="faq-no">04/</span><span class="faq-q" data-i18n="faq.q3">Can I frame an original, a textile or an object?</span></summary><p data-i18n="faq.a3">Yes, in the studio. Bring it by or book a visit and we’ll choose the frame, mat and glass together.</p></details>
+          <details class="faq-item"><summary><span class="faq-no">05/</span><span class="faq-q" data-i18n="faq.q7">What can my frame be made of?</span></summary><p><span data-i18n="faq.a7">Upcycled wood from old doors, floorboards and boats, FSC-certified solid wood, antique frames or raw steel; finished in colour, gold leaf or wax and oil; with glass or museum glass and a mount if you like.</span> <a class="faq-link" href="materials.html" data-i18n="faq.a7link">See the materials</a></p></details>
+          <details class="faq-item"><summary><span class="faq-no">06/</span><span class="faq-q" data-i18n="faq.q4">What does shipping cost?</span></summary><p data-i18n="faq.a4">Free over €150, and you can always pick up in Kreuzberg. We ship across Germany, Europe and worldwide; for valuable pieces we arrange insured art transport.</p></details>
+          <details class="faq-item"><summary><span class="faq-no">07/</span><span class="faq-q" data-i18n="faq.q5">Can I return a frame?</span></summary><p data-i18n="faq.a5">Yes, within 14 days, undamaged. If something arrives broken, email us photos right away and we’ll fix it or refund you.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <!-- closing: the payoff. An empty room (wall photo, whole, 3:2) that fills up with real framed pieces, one after another, as you
+         scroll into it (js adds .on in order; the last leans on the sideboard), around the headline (a callback to the about line);
+         the two journeys once more. Only pieces cut to the frame's edge hang here (hang-* are crops) -->
+    <section class="closing" aria-labelledby="closing-title">
+      <div class="wall">
+        <span class="hang" style="--x:3%;--y:7%;--w:14.5%;--s:0.5;--pl:5vw;--pb:76vw;--pw:30vw"><img src="assets/landing/hang-christo-mosca.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="christo-mosca" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:19%;--y:9%;--w:9.5%;--s:1;--pl:13vw;--pb:120.3vw;--pw:22vw"><img src="assets/landing/hang-halsman.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="halsman" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:70%;--y:10%;--w:12%;--s:0.7;--pl:38vw;--pb:114.5vw;--pw:24vw"><img src="assets/landing/hang-curated.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="curated" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:74.5%;--y:30%;--w:7.5%;--s:1.2"><img src="assets/landing/hang-ronald-puhle.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="ronald-puhle" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:9.5%;--y:39%;--w:8%;--s:0.8"><img src="assets/landing/hang-spearmint.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="spearmint" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:83.5%;--y:36%;--w:9%;--s:0.4;--pl:65vw;--pb:120.8vw;--pw:20vw"><img src="assets/landing/hang-milk-roses.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="milk-roses" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:19%;--y:28.4%;--w:9.5%;--s:1.1;--pl:38vw;--pb:85vw;--pw:24vw"><img src="assets/landing/hang-horst-janssen.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="horst-janssen" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang" style="--x:83.5%;--y:7%;--w:13.5%;--s:0.6;--pl:65vw;--pb:78vw;--pw:30vw"><img src="assets/landing/hang-lilika.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="lilika" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+        <span class="hang lean" style="--x:57.5%;--y:56.8%;--w:15%;--pl:63.5vw;--pb:31.4vw;--pw:27vw"><img src="assets/landing/hang-electric-love.jpg" alt="" loading="lazy"><button class="plus" type="button" data-piece="electric-love" aria-label="About this piece" aria-haspopup="dialog" aria-expanded="false"></button></span>
+      </div>
+      <h2 class="closing-title" id="closing-title" data-i18n="close.title">Your walls are waiting.</h2>
+      <p class="closing-text" data-i18n="close.text">Order online in your size, or bring your piece to our studio in Kreuzberg.</p>
+      <div class="closing-actions">
+        <a class="btn btn-dark" href="frame-online.html" data-i18n="hero.online">Frame online</a>
+        <a class="quiet" href="#" data-i18n="hero.visit">Book a visit</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer: black like the open menu. Their tote-bag line + the studio left, the nav's four groups right, then the wordmark
+       across the full width as the last thing you see, and the legal line. TODO: real links, opening hours -->
+  <footer class="foot">
+    <div class="foot-top">
+      <div class="foot-studio">
+        <p class="foot-tag">Art looks better framed.</p>
+        <address>
+          <span data-i18n="foot.studio">Studio &amp; shop</span><br>
+          Mariannenstraße 26<br>10999 Berlin-Kreuzberg<br>
+          <a href="tel:+4917631387306">0176 31387306</a><br>
+          <a href="mailto:frameit@frameworksberlin.com">frameit@frameworksberlin.com</a>
+        </address>
+      </div>
+      <nav class="foot-nav" aria-label="Footer">
+        <div class="foot-col"><h2 data-i18n="nav.framing">framing</h2><ul><li><a href="frame-online.html" data-i18n="nav.online">Frame online</a></li><li><a href="#" data-i18n="nav.consult">Book a visit</a></li><li><a href="#" data-i18n="nav.prices">Prices &amp; how it works</a></li><li><a href="materials.html" data-i18n="nav.materials">Materials</a></li></ul></div>
+        <div class="foot-col"><h2 data-i18n="nav.shop">shop</h2><ul><li><a href="#" data-i18n="nav.all">Shop all</a></li><li><a href="#" data-i18n="nav.frames">Picture frames</a></li><li><a href="#" data-i18n="nav.framedArt">Framed art</a></li><li><a href="#" data-i18n="nav.gift">Gift cards</a></li><li><a href="#" data-i18n="nav.coll">Collections</a></li><li><a href="#" data-i18n="foot.shipping">Shipping &amp; returns</a></li></ul></div>
+        <div class="foot-col"><h2 data-i18n="nav.studio">open studio</h2><ul><li><a href="#" data-i18n="nav.desk">Book a workstation</a></li><li><a href="#" data-i18n="nav.courses">Courses</a></li><li><a href="#" data-i18n="nav.events">Events</a></li><li><a href="#" data-i18n="nav.aboutStudio">About the studio</a></li></ul></div>
+        <div class="foot-col"><h2 data-i18n="nav.biz">for businesses</h2><ul><li><a href="#" data-i18n="nav.projects">Projects</a></li><li><a href="#" data-i18n="nav.interiors">Interiors</a></li><li><a href="#" data-i18n="nav.collab">Collaborations</a></li><li><a href="#" data-i18n="nav.enquiry">Get a quote</a></li></ul></div>
+        <div class="foot-col"><h2 data-i18n="nav.about">about</h2><ul><li><a href="#" data-i18n="nav.story">Our story</a></li><li><a href="#" data-i18n="nav.team">Team</a></li><li><a href="#" data-i18n="nav.places">Locations</a></li><li><a href="#" data-i18n="nav.sust">Sustainability</a></li><li><a href="#" data-i18n="nav.mag">Magazine</a></li><li><a href="#" data-i18n="nav.faq">FAQ &amp; contact</a></li><li><a href="#" data-i18n="foot.jobs">Jobs</a></li><li><a href="https://www.instagram.com/frameworksberlin/" target="_blank" rel="noopener">Instagram</a></li></ul></div>
+      </nav>
+    </div>
+    <!-- the wordmark without its frame-corner strokes: at this size they read as stray bars -->
+    <a class="foot-logo" href="./" aria-label="Frameworks Berlin – home"><svg viewBox="9.7 11.9 205.7 52.9" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/>
+      
+      <path d="M106.572 36.1V12.6825H120.629V13.9099H107.885V23.3415H119.828V24.5689H107.885V36.1H106.572ZM125.676 36.1V12.6825H132.593C137.908 12.6825 141.718 13.6515 141.718 18.9164C141.718 23.0508 139.221 24.3751 136.243 24.9888L142.071 36.1H140.598L134.898 25.2149C134.258 25.2795 133.585 25.2795 132.913 25.2795H126.989V36.1H125.676ZM126.989 24.0521H132.529C136.915 24.0521 140.31 23.4707 140.31 18.981C140.31 14.459 136.915 13.9099 132.529 13.9099H126.989V24.0521ZM145.38 36.1L154.346 12.6825H155.722L164.72 36.1H163.311L160.878 29.7369H149.158L146.757 36.1H145.38ZM149.639 28.5095H160.429L155.018 14.2975L149.639 28.5095ZM169.482 36.1V12.6825H171.627L180.465 34.5496L189.302 12.6825H191.448V36.1H190.135V13.9745L181.105 36.1H179.825L170.795 13.9745V36.1H169.482ZM198.687 36.1V12.6825H213.224V13.9099H200V23.3415H212.423V24.5689H200V34.8726H213.224V36.1H198.687ZM111.439 62.7L104.395 39.2825H105.835L112.143 60.762L118.035 39.2825H119.508L125.496 60.8266L131.707 39.2825H133.148L126.136 62.7H124.759L118.771 41.382L112.816 62.7H111.439ZM145.305 63.1199C138.837 63.1199 134.739 58.2426 134.739 50.9751C134.739 43.7076 138.837 38.8626 145.305 38.8626C151.773 38.8626 155.872 43.7076 155.872 50.9751C155.872 58.2426 151.773 63.1199 145.305 63.1199ZM145.305 61.8602C150.557 61.8602 154.463 57.9196 154.463 50.9751C154.463 44.0306 150.557 40.1223 145.305 40.1223C140.054 40.1223 136.148 44.0306 136.148 50.9751C136.148 57.9196 140.054 61.8602 145.305 61.8602ZM160.184 62.7V39.2825H167.1C172.415 39.2825 176.226 40.2515 176.226 45.5164C176.226 49.6508 173.728 50.9751 170.75 51.5888L176.578 62.7H175.105L169.406 51.8149C168.765 51.8795 168.093 51.8795 167.42 51.8795H161.497V62.7H160.184ZM161.497 50.6521H167.036C171.423 50.6521 174.817 50.0707 174.817 45.581C174.817 41.059 171.423 40.5099 167.036 40.5099H161.497V50.6521ZM180.721 62.7V39.2825H182.033V52.3317L194.937 39.2825H196.602L187.253 48.7787L197.147 62.7H195.514L186.324 49.7477L182.033 54.0759V62.7H180.721ZM204.828 49.5862L207.71 50.1676C212 51.0397 215.298 52.2025 215.298 56.4338C215.298 60.9235 211.2 63.1199 206.813 63.1199C201.754 63.1199 198.264 60.6005 197.463 55.7232H198.84C199.769 60.116 202.842 61.8602 206.749 61.8602C209.631 61.8602 213.921 60.7297 213.921 56.4984C213.921 53.4622 211.872 52.2671 207.485 51.4273L204.411 50.8459C201.402 50.2645 198.264 48.6495 198.264 45.0642C198.264 40.7037 202.522 38.8626 206.269 38.8626C210.719 38.8626 214.017 41.0267 214.85 45.1934H213.473C212.641 41.7696 209.887 40.1223 206.173 40.1223C203.099 40.1223 199.641 41.4143 199.641 44.935C199.641 47.5513 201.69 48.9402 204.828 49.5862Z" fill="currentColor"/>
+    </svg></a>
+    <div class="foot-legal">
+      <p>© 2026 Frameworks Berlin</p>
+      <ul><li><a href="#" data-i18n="foot.imprint">Imprint</a></li><li><a href="#" data-i18n="foot.privacy">Privacy</a></li><li><a href="#" data-i18n="foot.terms">Terms</a></li></ul>
+    </div>
+  </footer>
+
+</div>
+<!-- phones + tablets: past the hero the nav is this one block at the bottom (landing.js): Frame online, the name of the section you're in
+     (just a name, not a link), cart, the menu. White; open, it takes the colour of the menu around it -->
+<nav class="pill" aria-label="Menu and cart">
+  <a class="pill-go" href="frame-online.html" data-i18n="nav.cta">Frame online</a>
+  <span class="pill-here"></span>
+  <span class="pill-sep" aria-hidden="true"></span>
+  <a class="pill-cart" href="#" aria-label="Cart"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M3.5 6.5h13l-1 11h-11z"/><path d="M7 6.5V5a3 3 0 0 1 6 0v1.5"/></svg></a>
+  <button class="pill-menu" type="button" aria-controls="mega" aria-expanded="false" aria-label="Open menu"><span class="pill-close" data-i18n="pill.close">Close</span><svg viewBox="0 0 20 10" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path class="l1" d="M0 2h20"/><path class="l2" d="M0 8h20"/></svg></button>
+</nav>
+<script src="js/frame.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frame online – Frameworks Berlin</title>
+<meta name="description" content="Frame a photo, print, artwork or object online: choose the size, the frame and the mount. Handmade to measure in Berlin-Kreuzberg.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Instrument+Sans:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="css/configure.css">
+</head>
+<!-- Frame online: a clickable prototype of the configurator (after Framebridge's flow, rebuilt in our style).
+     One page, five steps shown one at a time (data-step on <body>, js/configure.js): what → picture → size → frame → review.
+     Nothing is ordered: "Add to cart" ends in a confirmation. Prices = the made-to-measure ladder from the homepage. -->
+<body data-step="what">
+
+<header class="cf-bar">
+  <a class="logo" href="./" aria-label="Frameworks Berlin – home"><svg viewBox="0 0 221 76" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <path d="M48.1891 11.9827V27.2891H47.7596L38.8129 13.4989H25.2854V34.1481H41.0317V40.2851H25.2854V62.4505H39.7434V63.9667H9.75391V62.4505H15.9093V13.4989H9.75391V11.9827H48.1891ZM78.0636 64.6887L69.1169 36.0975L59.5978 64.6887H58.9537L51.51 13.4989H47.645V11.9827H68.1864V13.4989H60.9577L65.2519 42.8121L68.1149 34.1481H81.2129L84.1474 13.4989H75.988V11.9827H90.8038V13.4989H85.8652L78.6362 64.6887H78.0636Z" fill="currentColor"/>
+      <path d="M.94 39.27v32.3M98.26 12.03v32.3M221 72.52h-32.02" stroke="currentColor" stroke-width="3"/>
+      <path d="M106.572 36.1V12.6825H120.629V13.9099H107.885V23.3415H119.828V24.5689H107.885V36.1H106.572ZM125.676 36.1V12.6825H132.593C137.908 12.6825 141.718 13.6515 141.718 18.9164C141.718 23.0508 139.221 24.3751 136.243 24.9888L142.071 36.1H140.598L134.898 25.2149C134.258 25.2795 133.585 25.2795 132.913 25.2795H126.989V36.1H125.676ZM126.989 24.0521H132.529C136.915 24.0521 140.31 23.4707 140.31 18.981C140.31 14.459 136.915 13.9099 132.529 13.9099H126.989V24.0521ZM145.38 36.1L154.346 12.6825H155.722L164.72 36.1H163.311L160.878 29.7369H149.158L146.757 36.1H145.38ZM149.639 28.5095H160.429L155.018 14.2975L149.639 28.5095ZM169.482 36.1V12.6825H171.627L180.465 34.5496L189.302 12.6825H191.448V36.1H190.135V13.9745L181.105 36.1H179.825L170.795 13.9745V36.1H169.482ZM198.687 36.1V12.6825H213.224V13.9099H200V23.3415H212.423V24.5689H200V34.8726H213.224V36.1H198.687ZM111.439 62.7L104.395 39.2825H105.835L112.143 60.762L118.035 39.2825H119.508L125.496 60.8266L131.707 39.2825H133.148L126.136 62.7H124.759L118.771 41.382L112.816 62.7H111.439ZM145.305 63.1199C138.837 63.1199 134.739 58.2426 134.739 50.9751C134.739 43.7076 138.837 38.8626 145.305 38.8626C151.773 38.8626 155.872 43.7076 155.872 50.9751C155.872 58.2426 151.773 63.1199 145.305 63.1199ZM145.305 61.8602C150.557 61.8602 154.463 57.9196 154.463 50.9751C154.463 44.0306 150.557 40.1223 145.305 40.1223C140.054 40.1223 136.148 44.0306 136.148 50.9751C136.148 57.9196 140.054 61.8602 145.305 61.8602ZM160.184 62.7V39.2825H167.1C172.415 39.2825 176.226 40.2515 176.226 45.5164C176.226 49.6508 173.728 50.9751 170.75 51.5888L176.578 62.7H175.105L169.406 51.8149C168.765 51.8795 168.093 51.8795 167.42 51.8795H161.497V62.7H160.184ZM161.497 50.6521H167.036C171.423 50.6521 174.817 50.0707 174.817 45.581C174.817 41.059 171.423 40.5099 167.036 40.5099H161.497V50.6521ZM180.721 62.7V39.2825H182.033V52.3317L194.937 39.2825H196.602L187.253 48.7787L197.147 62.7H195.514L186.324 49.7477L182.033 54.0759V62.7H180.721ZM204.828 49.5862L207.71 50.1676C212 51.0397 215.298 52.2025 215.298 56.4338C215.298 60.9235 211.2 63.1199 206.813 63.1199C201.754 63.1199 198.264 60.6005 197.463 55.7232H198.84C199.769 60.116 202.842 61.8602 206.749 61.8602C209.631 61.8602 213.921 60.7297 213.921 56.4984C213.921 53.4622 211.872 52.2671 207.485 51.4273L204.411 50.8459C201.402 50.2645 198.264 48.6495 198.264 45.0642C198.264 40.7037 202.522 38.8626 206.269 38.8626C210.719 38.8626 214.017 41.0267 214.85 45.1934H213.473C212.641 41.7696 209.887 40.1223 206.173 40.1223C203.099 40.1223 199.641 41.4143 199.641 44.935C199.641 47.5513 201.69 48.9402 204.828 49.5862Z" fill="currentColor"/>
+    </svg></a>
+  <ol class="cf-steps" aria-label="Steps">
+    <li><button type="button" data-go="picture">picture</button></li>
+    <li><button type="button" data-go="size">size</button></li>
+    <li><button type="button" data-go="frame">frame</button></li>
+    <li><button type="button" data-go="review">review</button></li>
+  </ol>
+  <a class="cf-exit" href="./">Exit <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 1l12 12M13 1L1 13"/></svg></a>
+</header>
+
+<main>
+
+  <!-- 1 · what are you framing? -->
+  <section class="step st-what" data-step="what" aria-labelledby="what-title">
+    <div class="what-head">
+      <p class="kicker">Frame online</p>
+      <h1 id="what-title">What are you framing?</h1>
+    </div>
+    <div class="what-groups">
+      <div class="what-group g-file">
+        <h2>A photo or file</h2>
+        <p class="line">Upload it, we print it on archival paper and frame it.</p>
+        <div class="what-row">
+          <button class="kind" type="button" data-kind="photo">
+            <span class="kind-pic"><img src="assets/landing/best-milk-and-roses-photobooth.jpg" alt="" width="1000" height="1000"></span>
+            <span class="kind-name">Digital photo</span>
+            <span class="kind-line">Phone photos, scans, digital art</span>
+          </button>
+        </div>
+      </div>
+      <div class="what-group g-art">
+        <div class="g-art-head">
+          <div>
+            <h2>Art &amp; objects</h2>
+            <p class="line">Choose the frame online, then bring the piece to our studio in Kreuzberg, or post it to us. We frame it and you take it home ready to hang.</p>
+          </div>
+          <a class="visit" href="#"><svg viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M7 17s6-6.2 6-10.2A6 6 0 0 0 1 6.8C1 10.8 7 17 7 17z"/><circle cx="7" cy="6.8" r="2.2"/></svg><span><u>Mariannenstraße 26</u><br><u>Book a visit</u></span></a>
+        </div>
+        <div class="what-row">
+          <button class="kind" type="button" data-kind="print">
+            <span class="kind-pic"><img src="assets/landing/proj-music-poster.jpg" alt="" width="1400" height="1400"></span>
+            <span class="kind-name">Prints &amp; posters</span>
+            <span class="kind-line">Posters, photo prints, records, postcards</span>
+          </button>
+          <button class="kind" type="button" data-kind="art">
+            <span class="kind-pic"><img src="assets/landing/art-lilika-blue-bubble.jpg" alt="" width="821" height="1000"></span>
+            <span class="kind-name">Original art</span>
+            <span class="kind-line">Paintings, drawings, work on paper or canvas</span>
+          </button>
+          <button class="kind" type="button" data-kind="object">
+            <span class="kind-pic"><img src="assets/landing/style-object.jpg" alt="" width="720" height="900"></span>
+            <span class="kind-name">Objects &amp; textiles</span>
+            <span class="kind-line">Jerseys, scarves, keepsakes, anything not flat</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="what-foot">
+      <h2>Not sure where to start?</h2>
+      <p>Bring it to the studio and we’ll find the frame together. <a class="ul" href="#">Book a visit</a></p>
+    </div>
+  </section>
+
+  <!-- 2 · the picture: upload (photo) or how it reaches us (art & objects) -->
+  <section class="step st-picture split" data-step="picture" aria-labelledby="pic-title">
+    <div class="side side-text">
+      <!-- photo: upload -->
+      <div class="pic-up" data-for="photo">
+        <h1 id="pic-title">Add your photo.</h1>
+        <p class="line">We check it’s sharp enough to print at your size.</p>
+        <label class="btn btn-ink" for="file">Upload a photo</label>
+        <input id="file" class="sr" type="file" accept="image/*">
+        <div class="or"><span>or</span></div>
+        <button class="ul ul-btn" type="button" data-example>Use our example photo</button>
+      </div>
+      <!-- photo: uploading -->
+      <div class="pic-loading" hidden>
+        <h1><span class="pct">0</span>% uploaded</h1>
+        <p class="kicker">Good to know</p>
+        <p class="line">12 years, 20,000 frames. 10,000 of them were made from old Berlin doors and floorboards.</p>
+      </div>
+      <!-- art & objects: how it reaches us -->
+      <div class="pic-bring" data-for="bring" hidden>
+        <h1>How will it reach us?</h1>
+        <p class="line">Choose everything online now. The piece only comes in once you’ve ordered.</p>
+        <div class="choices">
+          <button class="choice" type="button" data-bring="studio"><b>Bring it to the studio</b><span>Mariannenstraße 26, Berlin-Kreuzberg</span></button>
+          <button class="choice" type="button" data-bring="post"><b>Post it to us</b><span>We send it back framed, ready to hang</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="side side-stage">
+      <div class="drop" data-drop>
+        <svg class="drop-ico" viewBox="0 0 64 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><rect x="1" y="1" width="62" height="46"/><rect x="9" y="9" width="46" height="30"/><path d="M9 33l13-12 10 9 7-6 16 13"/><circle cx="43" cy="17" r="3"/></svg>
+        <p>Or drop it here</p>
+      </div>
+      <div class="drop-full" hidden>
+        <div class="paper"><img class="pic" alt="Your picture" src=""></div>
+        <span class="moment" aria-hidden="true">Just a<br>moment</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · size -->
+  <section class="step st-size split" data-step="size" aria-labelledby="size-title">
+    <div class="side side-text">
+      <h1 id="size-title">Choose your size.</h1>
+      <h2 class="sub">Most chosen</h2>
+      <div class="sizes" role="radiogroup" aria-label="Size"></div>
+      <h2 class="sub">Your own size</h2>
+      <div class="custom" role="radio" aria-checked="false" tabindex="-1">
+        <label><span class="sr">Width</span><input type="number" inputmode="decimal" min="5" max="120" step=".5" placeholder="Width" data-cw></label>
+        <span class="x">×</span>
+        <label><span class="sr">Height</span><input type="number" inputmode="decimal" min="5" max="120" step=".5" placeholder="Height" data-ch></label>
+        <span class="unit">cm</span>
+        <span class="custom-price">from €56</span>
+      </div>
+      <p class="hint">Priced by length + width: a 30 × 40 cm print is 30 + 40 = 70 cm, so it’s Small, from €74.</p>
+      <button class="btn btn-ink btn-wide" type="button" data-next="frame" disabled>Next: choose a frame</button>
+    </div>
+    <div class="side side-stage">
+      <div class="measure">
+        <span class="dim dim-w"><i></i><b>30 cm</b><i></i></span>
+        <span class="dim dim-h"><i></i><b>40 cm</b><i></i></span>
+        <div class="paper"><img class="pic" alt="Your picture" src=""></div>
+      </div>
+      <p class="framed-size"></p>
+      <p class="stage-links"><button class="ul ul-btn" type="button">Crop / rotate</button><button class="ul ul-btn" type="button" data-wall>See it on a wall</button></p>
+    </div>
+  </section>
+
+  <!-- 4 · frame -->
+  <section class="step st-frame" data-step="frame" aria-labelledby="frame-title">
+    <div class="frame-head">
+      <h1 id="frame-title">Choose your frame.</h1>
+      <p class="line">Each one cut, joined and finished by hand in Kreuzberg, to your size.</p>
+    </div>
+    <div class="filters">
+      <button type="button">Material <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor"/></svg></button>
+      <button type="button">Colour <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor"/></svg></button>
+      <button type="button">Profile <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor"/></svg></button>
+      <span class="filters-sort">Sort by <button type="button">Most chosen <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor"/></svg></button></span>
+    </div>
+    <div class="frames"></div>
+  </section>
+
+  <!-- 5 · review -->
+  <section class="step st-review" data-step="review" aria-labelledby="rev-title">
+    <div class="rev-stage">
+      <div class="rev-views" role="tablist" aria-label="View">
+        <button type="button" role="tab" aria-selected="true" data-view="close">Close up</button>
+        <button type="button" role="tab" aria-selected="false" data-view="wall">On a wall</button>
+      </div>
+      <div class="rev-close"><div class="fr-host" data-host="review"></div></div>
+      <div class="rev-wall" hidden>
+        <img src="assets/landing/closing-wall.jpg" alt="" width="2400" height="1600">
+        <div class="fr-host" data-host="wall"></div>
+      </div>
+    </div>
+    <div class="rev-panel">
+      <h1 id="rev-title">Your frame.</h1>
+      <p class="line">Pick a mount and glass, or keep what we’d choose.</p>
+      <dl class="rev-list">
+        <div class="row"><dt>Your picture</dt><dd data-sum="picture"></dd><button class="edit" type="button" data-go="size" aria-label="Change the size"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M11 1.5l3.5 3.5L5 14.5H1.5V11z"/></svg></button></div>
+        <div class="row"><dt>Frame</dt><dd data-sum="frame"></dd><button class="edit" type="button" data-go="frame" aria-label="Change the frame"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M11 1.5l3.5 3.5L5 14.5H1.5V11z"/></svg></button></div>
+        <div class="row row-opts"><dt>Mount</dt>
+          <dd class="opts" data-opt="mount">
+            <button type="button" data-v="white" aria-pressed="true"><i style="--c:#fbfaf7"></i>White</button>
+            <button type="button" data-v="cream" aria-pressed="false"><i style="--c:#efe8d8"></i>Cream</button>
+            <button type="button" data-v="black" aria-pressed="false"><i style="--c:#1e1e1e"></i>Black</button>
+            <button type="button" data-v="none" aria-pressed="false"><i class="none"></i>No mount</button>
+          </dd></div>
+        <div class="row row-opts" data-row="mw"><dt>Mount width</dt>
+          <dd class="opts" data-opt="mw">
+            <button type="button" data-v="3" aria-pressed="false">Slim · 3 cm</button>
+            <button type="button" data-v="5" aria-pressed="true">Classic · 5 cm</button>
+            <button type="button" data-v="8" aria-pressed="false">Wide · 8 cm</button>
+          </dd></div>
+        <div class="row row-opts"><dt>Glass</dt>
+          <dd class="opts" data-opt="glass">
+            <button type="button" data-v="clear" aria-pressed="true">Clear</button>
+            <button type="button" data-v="anti" aria-pressed="false">Non-reflective <small>+€18</small></button>
+            <button type="button" data-v="museum" aria-pressed="false">Museum glass <small>+€42</small></button>
+          </dd></div>
+      </dl>
+      <button class="btn btn-ink btn-wide" type="button" data-cart>Add to cart · <span data-sum="price">€74</span></button>
+      <div class="rev-ready">
+        <p><b>Ready in about a week</b></p>
+        <p>Handmade in Kreuzberg. Pick it up at Mariannenstraße 26, or we post it to you.</p>
+      </div>
+      <ul class="rev-points">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><rect x="7" y="7" width="10" height="10"/></svg>Handmade to measure</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M2 7h12v9H2zM14 10h4l3 3v3h-7"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>Free shipping over €150</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M12 2v5M8 7h8l2 15H6z"/></svg>Ready to hang</li>
+      </ul>
+      <details class="rev-more"><summary>Dimensions</summary><p data-sum="dims"></p></details>
+      <details class="rev-more"><summary>Pick-up &amp; shipping</summary><p>Pick it up at the studio for free, or we ship it in Germany, free over €150. We email you when it’s ready.</p></details>
+    </div>
+  </section>
+
+  <!-- 6 · in the cart -->
+  <section class="step st-done" data-step="done" aria-labelledby="done-title">
+    <div class="done-card">
+      <div class="done-pic"><div class="fr-host" data-host="done"></div></div>
+      <div class="done-text">
+        <p class="kicker">Added to your cart</p>
+        <h1 id="done-title">Good choice.</h1>
+        <p class="line" data-sum="done"></p>
+        <div class="done-actions">
+          <a class="btn btn-ink" href="#">Checkout · <span data-sum="price"></span></a>
+          <button class="btn btn-line" type="button" data-restart>Frame something else</button>
+        </div>
+        <a class="ul" href="./">Back to the homepage</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/configure.js"></script>
+</body>
+</html>
