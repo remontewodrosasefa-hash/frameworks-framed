@@ -32,6 +32,81 @@
 
 <main>
 
+  <!-- intro (5 Nov 2026): "Frame online" opens on the two doors (#start, below). "Help me choose" then introduces Claire on two
+       screens (who she is → how it works) before the design consultation (consultation.html); "I know what I want" goes straight to the configurator.
+       No mention of AI: the platform is her way of choosing, built on her experience. Numbers are the site's (12 years, 20,000 frames),
+       to confirm with Claire; the photo is a stand-in until there is one of her. -->
+  <section class="step st-start" data-step="start" aria-labelledby="start-title">
+    <div class="start-head">
+      <p class="kicker">Frame online</p>
+      <h1 id="start-title">Two ways to start.</h1>
+    </div>
+    <div class="doors">
+      <button class="door" type="button" data-go="what">
+        <span class="kicker">01</span>
+        <span class="door-name">I know what I want.</span>
+        <span class="door-line">Choose the size, the frame and the mount yourself.</span>
+        <span class="door-go">Start framing <svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg></span>
+      </button>
+      <button class="door door-claire" type="button" data-go="meet">
+        <span class="kicker">02 · Design consultation</span>
+        <span class="door-name">Help me choose.</span>
+        <span class="door-line">Show Claire your piece. She lays frames against it, like in the shop, and picks three.</span>
+        <span class="door-go">Start a design consultation <svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 5h15M11 1l4 4-4 4"/></svg></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- design consultation · 1: Claire on video (her own Instagram clip, header trimmed off; muted loop, tap for sound) -->
+  <section class="step st-meet split" data-step="meet" aria-labelledby="meet-title">
+    <div class="side side-text">
+      <p class="kicker">Design consultation · 1 / 2</p>
+      <h1 id="meet-title">I’m Claire.</h1>
+      <p class="line">I’ve framed pictures in Berlin for twelve years. Posters, paintings, wedding photos, children’s drawings, and one very loved dog.</p>
+      <dl class="proof">
+        <div><dt>12</dt><dd>years at the workbench</dd></div>
+        <div><dt>20,000</dt><dd>frames made by hand</dd></div>
+        <div><dt>4.9</dt><dd>on Google, 208 reviews</dd></div>
+      </dl>
+      <button class="btn btn-ink" type="button" data-go="way">Next</button>
+      <a class="ul skip" href="consultation.html">Skip the intro</a>
+    </div>
+    <div class="side side-stage">
+      <figure class="portrait claire-film">
+        <video src="assets/video/claire-hello.mp4" poster="assets/video/claire-hello-poster.jpg" width="848" height="1176" muted loop playsinline preload="metadata"></video>
+        <button class="film-sound" type="button" aria-pressed="false"><svg viewBox="0 0 20 16" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M2 5.5h3.5L10 2v12l-4.5-3.5H2z"/><path class="on" d="M13 5a4 4 0 0 1 0 6M15.5 3a7 7 0 0 1 0 10"/><path class="off" d="M13.5 6l4 4M17.5 6l-4 4"/></svg><span>Tap for sound</span></button>
+        <figcaption>Claire D’Orsay at her shop, Mariannenstraße 26</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- design consultation · 2: how it works, shown in three pictures (the piece → corners laid on it → framed on the wall) -->
+  <section class="step st-way" data-step="way" aria-labelledby="way-title">
+    <div class="way-head">
+      <p class="kicker">Design consultation · 2 / 2</p>
+      <h1 id="way-title">Like sitting at my workbench.</h1>
+    </div>
+    <ol class="way-tiles">
+      <li>
+        <span class="way-pic"><span class="way-piece"><img src="assets/choice/sample-crow.jpg" alt="" width="394" height="516"></span></span>
+        <b>Show me your piece</b><span>A phone photo is enough. I read it like I would in the shop.</span>
+      </li>
+      <li>
+        <span class="way-pic"><span class="way-piece">
+          <img src="assets/choice/sample-crow.jpg" alt="" width="394" height="516">
+          <i class="cn" data-fr="oak" style="--k:13px;--len:62px;left:-7px;top:-7px"><i class="h"></i><i class="v"></i></i>
+          <i class="cn br" data-fr="walnut" style="--k:13px;--len:62px;right:-7px;bottom:-7px"><i class="h"></i><i class="v"></i></i>
+        </span></span>
+        <b>I lay frames against it</b><span>Real corners from my wall, one after another. You keep the ones you like.</span>
+      </li>
+      <li>
+        <span class="way-pic way-wall"><img src="assets/landing/hang-halsman.jpg" alt="" width="496" height="604"></span>
+        <b>Made by hand in Berlin</b><span>I pick three. A framer checks your order before we cut.</span>
+      </li>
+    </ol>
+    <a class="btn btn-ink" href="consultation.html">Start my consultation</a>
+  </section>
+
   <!-- 1 · what are you framing? -->
   <section class="step st-what" data-step="what" aria-labelledby="what-title">
     <div class="what-head">

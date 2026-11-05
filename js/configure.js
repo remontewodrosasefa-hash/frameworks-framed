@@ -1,10 +1,12 @@
 // Frame online (frame-online.html): a clickable prototype of the configurator. Nothing is saved or ordered.
-// Steps: what → picture → size → frame → review → done. The step is on <body data-step> and in the URL hash,
-// so the browser's back button walks back through them.
+// Steps: two doors first (start): "I know what I want" → what, "Help me choose" → the intro to Claire (meet → way) → consultation.html (the design consultation),
+// then what → picture → size → frame → review → done. The step is on <body data-step> and in the URL hash,
+// so the browser's back button walks back through them. Without a hash the page opens on the doors.
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-  const ORDER = ['what', 'picture', 'size', 'frame', 'review', 'done'];
+  const INTRO = ['start', 'meet', 'way'];
+  const ORDER = [...INTRO, 'what', 'picture', 'size', 'frame', 'review', 'done'];
 
   // the made-to-measure ladder from the homepage (priced by length + width)
   const TIERS = [[51, 'Mini', 56], [76, 'Small', 74], [100, 'Medium', 106], [126, 'Large', 124], [151, 'Extra large', 162], [170, 'Oversize', 190]];
@@ -44,7 +46,7 @@
 
   // ---- steps ----
   function go(step, push = true) {
-    if (step !== 'what' && step !== 'picture' && !S.pic) setPic(KINDS[S.kind].pic);
+    if (!INTRO.includes(step) && step !== 'what' && step !== 'picture' && !S.pic) setPic(KINDS[S.kind].pic);
     if (['frame', 'review', 'done'].includes(step) && !S.size) pickSize(SIZES[2]);
     if ((step === 'review' || step === 'done') && !S.frame) S.frame = 'chipped';
     document.body.dataset.step = step;
@@ -60,11 +62,23 @@
     if (push && location.hash.slice(1) !== step) history.pushState(null, '', '#' + step);
     window.scrollTo(0, 0);
   }
-  addEventListener('popstate', () => go(ORDER.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'what', false));
+  addEventListener('popstate', () => go(ORDER.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'start', false));
   document.addEventListener('click', e => {
     const b = e.target.closest('[data-go]');
     if (b && (b.classList.contains('done') || !b.closest('.cf-steps'))) go(b.dataset.go);
   });
+
+  // the intro video: plays muted while its screen shows, tap for sound
+  const film = $('.claire-film video'), sound = $('.film-sound');
+  if (film) {
+    new MutationObserver(() => { if (document.body.dataset.step === 'meet') film.play().catch(() => {}); else film.pause(); })
+      .observe(document.body, { attributes: true, attributeFilter: ['data-step'] });
+    sound.addEventListener('click', () => {
+      film.muted = !film.muted; sound.setAttribute('aria-pressed', String(!film.muted));
+      $('span', sound).textContent = film.muted ? 'Tap for sound' : 'Sound on';
+      if (!film.muted) { film.currentTime = 0; film.play(); }
+    });
+  }
 
   // ---- 1 · what ----
   $$('.kind').forEach(b => b.addEventListener('click', () => {
@@ -240,5 +254,5 @@
 
   renderSizes();
   const start = location.hash.slice(1);
-  go(ORDER.includes(start) ? start : 'what', false);
+  go(ORDER.includes(start) ? start : 'start', false);
 })();

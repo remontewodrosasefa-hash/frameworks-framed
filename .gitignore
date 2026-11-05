@@ -2,3 +2,5 @@
 CLAUDE.md
 README.md
 .claude/
+node_modules/
+.env

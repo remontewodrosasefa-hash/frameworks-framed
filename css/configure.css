@@ -63,7 +63,8 @@ p{ margin:0; text-wrap:pretty; }
 .cf-steps button.done{ opacity:1; cursor:pointer; }
 .cf-steps button.done:hover{ text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
 .cf-steps button[aria-current]{ opacity:1; color:var(--ink); }
-body[data-step="what"] .cf-steps{ visibility:hidden; }
+body[data-step="what"] .cf-steps, body[data-step="meet"] .cf-steps, body[data-step="way"] .cf-steps,
+body[data-step="start"] .cf-steps{ visibility:hidden; }
 .cf-exit{ display:flex; align-items:center; gap:10px; margin-left:auto; font-size:var(--fs-small); }
 .cf-exit svg{ width:13px; }
 .cf-exit:hover{ text-decoration:underline 1px; text-underline-offset:var(--ul-offset); }
@@ -73,6 +74,9 @@ body[data-step="what"] .cf-steps{ visibility:hidden; }
 body[data-step="what"] .st-what, body[data-step="picture"] .st-picture, body[data-step="size"] .st-size,
 body[data-step="frame"] .st-frame, body[data-step="review"] .st-review, body[data-step="done"] .st-done{ display:block; animation:rise .5s var(--ease) both; }
 body[data-step="picture"] .st-picture, body[data-step="size"] .st-size, body[data-step="review"] .st-review{ display:grid; }
+body[data-step="meet"] .st-meet{ display:grid; animation:rise .5s var(--ease) both; }
+body[data-step="way"] .st-way{ display:block; animation:rise .5s var(--ease) both; }
+body[data-step="start"] .st-start{ display:block; animation:rise .5s var(--ease) both; }
 @keyframes rise{ from{ opacity:0; transform:translateY(14px); } }
 
 /* split steps (picture, size): text left, the picture on white right, an ink hairline between */
@@ -83,6 +87,64 @@ body[data-step="picture"] .st-picture, body[data-step="size"] .st-size, body[dat
 .side-text h1{ margin-bottom:16px; }
 .side-text .line{ margin-bottom:40px; }
 .side-stage{ align-items:center; background:var(--white); }
+
+/* ---- intro: Claire (meet → way → start) ---- */
+.st-meet .side-text > *, .st-way .side-text > *{ max-width:520px; }
+.side-text > .kicker{ margin-bottom:14px; }
+.skip{ margin-top:22px; }
+/* her numbers: serif figures over a grey line, an ink hairline above */
+.proof{ display:grid; grid-template-columns:repeat(3, auto); justify-content:start; column-gap:clamp(24px, 3vw, 48px); width:100%; margin:-8px 0 44px; padding-top:18px; border-top:var(--line); }
+.proof dt{ font-family:var(--f-serif); font-size:var(--fs-h2); line-height:var(--lh-tight); letter-spacing:var(--ls-display); }
+.proof dd{ margin:6px 0 0; font-size:var(--fs-small); color:var(--ink-2); }
+/* three steps, numbered like the homepage cards, ruled in ink */
+.way-steps{ width:100%; margin:-8px 0 44px; padding:0; list-style:none; counter-reset:way; border-top:var(--line); }
+.way-steps li{ display:grid; grid-template-columns:3em 1fr; padding:16px 0; border-bottom:1px solid rgba(0,0,0,.15); counter-increment:way; }
+.way-steps li::before{ content:"0" counter(way); grid-row:span 2; padding-top:.3em; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); }
+.way-steps b{ font-weight:400; font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.way-steps span{ color:var(--ink-2); }
+/* the picture on white: whole, at its own ratio */
+.portrait{ margin:0; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.portrait img{ max-width:100%; max-height:min(64svh, 640px); width:auto; height:auto; }
+.portrait figcaption{ font-size:var(--fs-micro); text-transform:uppercase; letter-spacing:var(--ls-caps); color:var(--ink-2); }
+.portrait-piece img{ max-height:min(56svh, 560px); filter:drop-shadow(-12px 16px 22px rgba(0,0,0,.16)); }
+/* Claire on film: whole, at its own ratio, a quiet sound button on it */
+.claire-film{ position:relative; }
+.claire-film video{ display:block; max-width:100%; max-height:min(66svh, 660px); width:auto; height:auto; background:var(--fw-ink); }
+.film-sound{ position:absolute; left:14px; top:14px; display:flex; align-items:center; gap:8px; padding:8px 14px 8px 11px; border-radius:20px;
+  background:rgba(255,255,255,.88); font-size:var(--fs-small); transition:background .2s; }
+.film-sound:hover{ background:var(--white); }
+.film-sound svg{ width:18px; }
+.film-sound .on{ display:none; } .film-sound[aria-pressed="true"] .on{ display:inline; } .film-sound[aria-pressed="true"] .off{ display:none; }
+/* how it works: three pictures in a row, each with a few words */
+.st-way{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
+.way-head .kicker{ margin-bottom:14px; }
+.way-tiles{ display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(14px, 1.3vw, 20px); margin:clamp(36px, 4vw, 60px) 0 40px; padding:0; list-style:none; counter-reset:way; }
+.way-tiles li{ display:flex; flex-direction:column; gap:6px; counter-increment:way; }
+.way-pic{ display:grid; place-items:center; aspect-ratio:4/3; margin-bottom:14px; background:var(--white); border:var(--line); overflow:hidden; container-type:size; }
+.way-piece{ position:relative; display:block; box-shadow:-6px 8px 16px rgba(0,0,0,.14); }
+.way-piece img{ height:62cqh; width:auto; display:block; }
+.way-wall{ background:#e9e7e2; }
+.way-wall img{ height:76cqh; width:auto; filter:drop-shadow(-8px 10px 12px rgba(0,0,0,.2)); }
+.way-tiles b{ font-weight:400; font-size:var(--fs-h3); letter-spacing:var(--ls-snug); }
+.way-tiles b::before{ content:"0" counter(way) "  "; white-space:pre; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); vertical-align:.25em; }
+.way-tiles li > span:last-child{ color:var(--ink-2); max-width:26em; }
+
+/* two doors: build it yourself (white) / design consultation (ink) */
+.st-start{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
+.start-head .kicker{ margin-bottom:14px; }
+.doors{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(14px, 1.3vw, 20px); margin-top:clamp(40px, 4vw, 64px); }
+.door{ display:flex; flex-direction:column; align-items:flex-start; min-height:clamp(300px, 46svh, 520px); padding:clamp(24px, 2.6vw, 44px); text-align:left;
+  border:var(--line); background:var(--white); transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .2s; }
+.door .kicker{ margin-bottom:auto; }
+.door-name{ margin:32px 0 12px; font-family:var(--f-serif); font-size:var(--fs-h1); line-height:var(--lh-tight); letter-spacing:var(--ls-display); word-spacing:var(--ws-display); }
+.door-line{ max-width:26em; color:var(--ink-2); }
+.door-go{ display:flex; align-items:center; gap:10px; margin-top:32px; font-size:var(--fs-small); }
+.door-go svg{ width:16px; transition:transform .3s var(--ease); }
+.door:hover{ transform:translateY(-4px); box-shadow:-10px 14px 30px rgba(0,0,0,.08); }
+.door:hover .door-go{ text-decoration:underline 1px var(--accent); text-underline-offset:var(--ul-offset); }
+.door:hover .door-go svg{ transform:translateX(4px); }
+.door-claire{ background:var(--fw-ink); border-color:var(--fw-ink); color:var(--white); }
+.door-claire .kicker, .door-claire .door-line{ color:rgba(255,255,255,.72); }
 
 /* ---- 1 · what are you framing ---- */
 .st-what{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
@@ -188,19 +250,44 @@ body[data-step="picture"] .st-picture, body[data-step="size"] .st-size, body[dat
 .fr .mount::after{ content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(125deg, rgba(255,255,255,0) 40%, rgba(255,255,255,var(--glare, .1)) 52%, rgba(255,255,255,0) 64%); }
 .fr .art{ width:var(--aw); height:var(--ah); background:var(--white); box-shadow:var(--bevel, 0 0 0 1px rgba(0,0,0,.06)); }
 .fr .art img{ width:100%; height:100%; object-fit:contain; }
-.fr[data-fr="oak"]{ --c:#c79a6a; --tx-t:url(../assets/config/oak-t.jpg); --tx-b:url(../assets/config/oak-b.jpg); --tx-l:url(../assets/config/oak-l.jpg); --tx-r:url(../assets/config/oak-r.jpg); }
-.fr[data-fr="walnut"]{ --c:#4a3326; --tx-t:url(../assets/config/walnut-t.jpg); --tx-b:url(../assets/config/walnut-b.jpg); --tx-l:url(../assets/config/walnut-l.jpg); --tx-r:url(../assets/config/walnut-r.jpg); }
-.fr[data-fr="steel"]{ --c:#3a3b3c; --tx-t:url(../assets/config/steel-t.jpg); --tx-b:url(../assets/config/steel-b.jpg); --tx-l:url(../assets/config/steel-l.jpg); --tx-r:url(../assets/config/steel-r.jpg); }
-.fr[data-fr="chipped"]{ --c:#e9e4df; --tx-t:url(../assets/config/chipped-t.jpg); --tx-b:url(../assets/config/chipped-b.jpg); --tx-l:url(../assets/config/chipped-l.jpg); --tx-r:url(../assets/config/chipped-r.jpg); }
-.fr[data-fr="black"]{ --c:#1c1c1c; }
-.fr[data-fr="white"]{ --c:#f4f2ee; }
-.fr[data-fr="gold"]{ --c:#b8913f; }
+.fr[data-fr="oak"], .cn[data-fr="oak"]{ --c:#c79a6a; --tx-t:url(../assets/config/oak-t.jpg); --tx-b:url(../assets/config/oak-b.jpg); --tx-l:url(../assets/config/oak-l.jpg); --tx-r:url(../assets/config/oak-r.jpg); }
+.fr[data-fr="walnut"], .cn[data-fr="walnut"]{ --c:#4a3326; --tx-t:url(../assets/config/walnut-t.jpg); --tx-b:url(../assets/config/walnut-b.jpg); --tx-l:url(../assets/config/walnut-l.jpg); --tx-r:url(../assets/config/walnut-r.jpg); }
+.fr[data-fr="steel"], .cn[data-fr="steel"]{ --c:#3a3b3c; --tx-t:url(../assets/config/steel-t.jpg); --tx-b:url(../assets/config/steel-b.jpg); --tx-l:url(../assets/config/steel-l.jpg); --tx-r:url(../assets/config/steel-r.jpg); }
+.fr[data-fr="chipped"], .cn[data-fr="chipped"]{ --c:#e9e4df; --tx-t:url(../assets/config/chipped-t.jpg); --tx-b:url(../assets/config/chipped-b.jpg); --tx-l:url(../assets/config/chipped-l.jpg); --tx-r:url(../assets/config/chipped-r.jpg); }
+.fr[data-fr="black"], .cn[data-fr="black"]{ --c:#1c1c1c; }
+.fr[data-fr="white"], .cn[data-fr="white"]{ --c:#f4f2ee; }
+.fr[data-fr="gold"], .cn[data-fr="gold"]{ --c:#b8913f; }
 .fr[data-fr="gold"] .t, .fr[data-fr="gold"] .b{ background-image:linear-gradient(180deg, #8a6a2a, #e8c873 35%, #b38a3a 60%, #f2d98f 80%, #8a6a2a); }
 .fr[data-fr="gold"] .l, .fr[data-fr="gold"] .r{ background-image:linear-gradient(90deg, #8a6a2a, #e8c873 35%, #b38a3a 60%, #f2d98f 80%, #8a6a2a); }
 .fr[data-fr="black"] .t, .fr[data-fr="black"] .b, .fr[data-fr="white"] .t, .fr[data-fr="white"] .b{ background-image:linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.06)); }
-.fr[data-fr="box"]{ --c:#2a2829; }
+.fr[data-fr="box"], .cn[data-fr="box"]{ --c:#2a2829; }
 .fr[data-fr="box"] .mount{ box-shadow:inset -8px 10px 16px rgba(0,0,0,.45); }
 .fr[data-mount="none"] .art{ --bevel:none; }
+/* more finishes for the consultation: ash and grey wash are the oak photo, lightened or washed; silver is leaf like the gold */
+.fr[data-fr="ash"], .cn[data-fr="ash"], .fr[data-fr="grey"], .cn[data-fr="grey"]{ --tx-t:url(../assets/config/oak-t.jpg); --tx-b:url(../assets/config/oak-b.jpg); --tx-l:url(../assets/config/oak-l.jpg); --tx-r:url(../assets/config/oak-r.jpg); }
+.fr[data-fr="ash"], .cn[data-fr="ash"]{ --c:#e2d2b4; } .fr[data-fr="grey"], .cn[data-fr="grey"]{ --c:#a9a6a0; }
+.fr[data-fr="ash"] .s, .cn[data-fr="ash"] i{ filter:brightness(1.32) saturate(.55); }
+.fr[data-fr="grey"] .s, .cn[data-fr="grey"] i{ filter:grayscale(.85) brightness(1.05); }
+.fr[data-fr="silver"], .cn[data-fr="silver"]{ --c:#b9bcbf; }
+.fr[data-fr="silver"] .t, .fr[data-fr="silver"] .b, .cn[data-fr="silver"] .h{ background-image:linear-gradient(180deg, #7d8185, #e6e8ea 35%, #a3a7ab 60%, #f4f5f6 80%, #7d8185); }
+.fr[data-fr="silver"] .l, .fr[data-fr="silver"] .r, .cn[data-fr="silver"] .v{ background-image:linear-gradient(90deg, #7d8185, #e6e8ea 35%, #a3a7ab 60%, #f4f5f6 80%, #7d8185); }
+/* the accent lip of a double mount: a thin line of a second colour round the picture */
+.fr[data-lip] .art{ --bevel:0 0 0 var(--lipw, 3px) var(--lip), 0 0 0 calc(var(--lipw, 3px) + 1px) rgba(0,0,0,.08); }
+/* depth: the outer sides of the moulding, seen when the frame is turned (needs transform-style:preserve-3d on a parent) */
+.fr .dp{ position:absolute; top:0; bottom:0; width:var(--d, 12px); background-color:var(--c, #222); background-image:var(--tx-r); background-size:100% auto; filter:brightness(.62); }
+.fr .dp-l{ left:0; transform-origin:0 50%; transform:rotateY(90deg); }
+.fr .dp-r{ right:0; transform-origin:100% 50%; transform:rotateY(-90deg); }
+
+/* ---- a corner sample (a "chevron"): two arms of the moulding mitred at the corner, cut square at the ends.
+   --k = moulding width, --len = arm length; place it with its inner edge on the picture's corner ---- */
+.cn{ position:absolute; width:var(--len); height:var(--len); filter:drop-shadow(-5px 7px 7px rgba(0,0,0,.28)); pointer-events:none; }
+.cn i{ position:absolute; top:0; left:0; background-color:var(--c, #222); background-repeat:repeat; }
+.cn .h{ width:100%; height:var(--k); background-image:var(--tx-t); background-size:auto 100%; clip-path:polygon(0 0, 100% 0, 100% 100%, var(--k) 100%); filter:brightness(1.06); }
+.cn .v{ width:var(--k); height:100%; background-image:var(--tx-l); background-size:100% auto; clip-path:polygon(0 0, 100% var(--k), 100% 100%, 0 100%); filter:brightness(.9); }
+.cn[data-fr="gold"] .h{ background-image:linear-gradient(180deg, #8a6a2a, #e8c873 35%, #b38a3a 60%, #f2d98f 80%, #8a6a2a); }
+.cn[data-fr="gold"] .v{ background-image:linear-gradient(90deg, #8a6a2a, #e8c873 35%, #b38a3a 60%, #f2d98f 80%, #8a6a2a); }
+.cn[data-fr="black"] .h, .cn[data-fr="white"] .h{ background-image:linear-gradient(180deg, rgba(255,255,255,.1), rgba(0,0,0,.06)); }
+.cn.br{ transform:rotate(180deg); }
 
 /* ---- 4 · frame ---- */
 .st-frame{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
@@ -292,6 +379,12 @@ body[data-step="picture"] .st-picture, body[data-step="size"] .st-size, body[dat
   .rev-close{ min-height:50svh; }
   .done-card{ grid-template-columns:1fr; }
   .done-pic{ border-right:0; border-bottom:var(--line); min-height:44svh; }
+  .doors{ grid-template-columns:1fr; }
+  .way-tiles{ grid-template-columns:1fr; gap:28px; }
+  .claire-film video{ max-height:52svh; }
+  .door{ min-height:0; }
+  .portrait img{ max-height:44svh; }
+  .portrait-piece img{ max-height:40svh; }
 }
 @media (max-width: 600px){
   .cf-steps{ font-size:var(--fs-micro); gap:.3em; }
@@ -317,6 +410,9 @@ body[data-step="picture"] .st-picture, body[data-step="size"] .st-size, body[dat
   .row-opts dt{ padding-top:0; }
   .rev-points{ grid-template-columns:repeat(3, 1fr); }
   .btn-wide{ max-width:none; }
+  .proof{ grid-template-columns:repeat(3, 1fr); column-gap:12px; }
+  .side-text > .btn{ align-self:stretch; }
+  .portrait img{ max-height:36svh; } .portrait-piece img{ max-height:32svh; }
 }
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{ animation:none !important; transition:none !important; }

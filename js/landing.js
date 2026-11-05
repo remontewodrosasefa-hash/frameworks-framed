@@ -1004,3 +1004,14 @@
   if (v && matchMedia('(prefers-reduced-motion: reduce)').matches){ v.removeAttribute('autoplay'); v.pause(); }
   else if (v){ var p = v.play(); if (p && p.catch) p.catch(function(){}); }
 })();
+
+// "Frame online" is hidden for now (5 Nov 2026, the user asked): a link to frame-online.html only opens on a triple click / triple tap,
+// so the consultation demo isn't reachable by visitors yet. Remove this block to open it again.
+(() => {
+  let n = 0, t = 0;
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="frame-online.html"]'); if (!a) return;
+    const now = Date.now(); n = now - t < 600 ? n + 1 : 1; t = now;
+    if (n < 3) e.preventDefault(); else n = 0;
+  }, true);
+})();
