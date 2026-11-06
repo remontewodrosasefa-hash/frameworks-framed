@@ -389,3 +389,14 @@ body[data-step="q"] .st-q, body[data-step="think"] .st-think, body[data-step="do
   .cc-own .btn{ grid-column:1 / -1; }
 }
 
+
+/* Why I chose this: her verdict in the serif, signed, then the reasons as numbered statements */
+.why-quote{ margin:22px 0 0; padding:0; }
+.why-quote p{ font-family:var(--f-serif); font-size:var(--fs-h2); line-height:1.08; letter-spacing:var(--ls-display); word-spacing:var(--ws-display); text-wrap:balance; }
+.why-quote p::before{ content:"“"; } .why-quote p::after{ content:"”"; }
+.why-quote footer{ display:flex; align-items:center; gap:12px; margin-top:18px; font-size:var(--fs-small); color:var(--ink-2); }
+.why-list{ margin:30px 0 0; padding:0; list-style:none; border-top:var(--line); }
+.why-list li{ display:grid; grid-template-columns:3.2em 1fr; align-items:baseline; padding:16px 0; border-bottom:1px solid rgba(0,0,0,.15); }
+.why-n{ font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); }
+.why-t{ font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.why-size{ margin-top:18px; font-size:var(--fs-small); color:var(--ink-2); }

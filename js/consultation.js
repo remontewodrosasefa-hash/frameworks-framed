@@ -679,9 +679,9 @@
       if (a.stepback === 'heavy') sc += f.slim ? 3 : f.wide ? -3 : 0;
       if (a.stepback === 'thin') sc += f.wide ? 3 : f.slim ? -3 : 0;
       if (a.profile && a.profile !== 'either' && f.profile === a.profile) { sc += 3; t.push([3, TAG.profile[a.profile]]); }
-      (S.tt || []).forEach(([won, lost]) => { if (won === f.id) { sc += 4; t.push([6, 'you picked it side by side']); } if (lost === f.id) sc -= 2; });
+      (S.tt || []).forEach(([won, lost]) => { if (won === f.id) { sc += 4; t.push([6, 'was your pick side by side']); } if (lost === f.id) sc -= 2; });
       if (!partial) {
-        if (S.kept.includes(f.id)) { sc += 8; t.push([20, 'you kept it on the bench']); }
+        if (S.kept.includes(f.id)) { sc += 8; t.push([20, 'was one you kept it on the bench']); }
         if (S.dropped.includes(f.id)) sc -= 8;
       }
       out[f.id] = sc; tags[f.id] = t.sort((x, y) => y[0] - x[0]).map(x => x[1]);
@@ -713,7 +713,7 @@
     const picks = [];
     ranked.forEach(id => { if (picks.length < 3 && !picks.some(x => matOf(x) === matOf(id))) picks.push(id); });
     ranked.forEach(id => { if (picks.length < 3 && !picks.includes(id)) picks.push(id); });
-    S.picks = picks; S.why = {}; S.picks.forEach(id => S.why[id] = [...new Set(tags[id])].slice(0, 2));
+    S.picks = picks; S.why = {}; S.picks.forEach(id => S.why[id] = [...new Set(tags[id])].slice(0, 3));
     S.frame = S.picks[0];
     const dark = a.wall === 'charcoal', tone = dark || a.age === 'old' || a.era === 'Antique' ? 'cream' : 'white';
     if (a.matpref === 'yes') S.mount = tone;
@@ -747,8 +747,13 @@
       b.addEventListener('click', () => { S.frame = b.dataset.f; drawResult(); const x = F(S.frame); say(`${x.name}. ${x.line}`, $('.res-a [data-say]')); });
     });
     const t = S.why[S.frame] || [];
-    $('[data-why="frame"]').textContent = t.length ? `${f.name}, because it ${t[0]}${t[1] ? ` and ${t[1]}` : ''}.` : `${f.name}. ${f.line}`;
-    $('[data-why="size"]').textContent = `${/×/.test(S.size.name) ? `${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm` : `${S.size.name}, ${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm`}${a.printed === 'file' ? ', printed by us on archival paper' : ''}. A framer measures again before we cut.`;
+    // her verdict, big, then the reasons it rests on (from what they showed and chose)
+    const piece = S.pre ? S.pre.subject : 'your piece';
+    $('[data-why="quote"]').textContent = `For ${piece}, I’d choose ${f.name.toLowerCase()}. ${f.line}`;
+    $('[data-why="list"]').innerHTML = (t.length ? t : ['is a frame I trust for pieces like this']).map((x, i) =>
+      `<li><span class="why-n">0${i + 1}</span><span class="why-t">It ${x}.</span></li>`).join('')
+      + `<li><span class="why-n">0${Math.max(t.length, 1) + 1}</span><span class="why-t">${S.mount === 'none' ? 'No mount' : cap(MOUNTS[S.mount][1])} and ${GLASS[S.glass][2]}, finished below.</span></li>`;
+    $('[data-why="size"]').textContent = `Size: ${/×/.test(S.size.name) ? `${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm` : `${S.size.name}, ${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm`}${a.printed === 'file' ? ', printed by us on archival paper' : ''}. A framer measures again before we cut.`;
     $('[data-why="mount"]').textContent = S.mount === S.recMount ? S.mountWhy : 'You changed this. Good, trust your eye.';
     $('[data-why="glass"]').textContent = S.glass === S.recGlass ? S.glassWhy : 'You changed this. Fine by me.';
     // accent edge: none, or one of the piece's own colours
