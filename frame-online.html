@@ -80,31 +80,29 @@
     </div>
   </section>
 
-  <!-- design consultation · 2: how it works, shown in three pictures (the piece → corners laid on it → framed on the wall) -->
+  <!-- design consultation · 2: how it works, played on one stage (the piece is read → corners laid on it → framed on a wall),
+       the three steps beside it light up in turn; tapping a step shows it. Fits one phone screen. -->
   <section class="step st-way" data-step="way" aria-labelledby="way-title">
-    <div class="way-head">
+    <div class="wb-text">
       <p class="kicker">Design consultation · 2 / 2</p>
       <h1 id="way-title">Like sitting at my workbench.</h1>
+      <ol class="wb-steps">
+        <li><button type="button" data-act="1"><span class="wb-n">01</span><b>Show me your piece</b><span class="wb-l">A phone photo is enough. I read it like I would in the shop.</span></button></li>
+        <li><button type="button" data-act="2"><span class="wb-n">02</span><b>I lay frames against it</b><span class="wb-l">Real corners from my wall, one after another. You keep the ones you like.</span></button></li>
+        <li><button type="button" data-act="3"><span class="wb-n">03</span><b>Made by hand in Berlin</b><span class="wb-l">I pick three. A framer checks your order before we cut.</span></button></li>
+      </ol>
+      <a class="btn btn-ink wb-go" href="consultation.html">Start my consultation</a>
     </div>
-    <ol class="way-tiles">
-      <li>
-        <span class="way-pic"><span class="way-piece"><img src="assets/choice/sample-crow.jpg" alt="" width="394" height="516"></span></span>
-        <b>Show me your piece</b><span>A phone photo is enough. I read it like I would in the shop.</span>
-      </li>
-      <li>
-        <span class="way-pic"><span class="way-piece">
-          <img src="assets/choice/sample-crow.jpg" alt="" width="394" height="516">
-          <i class="cn" data-fr="oak" style="--k:13px;--len:62px;left:-7px;top:-7px"><i class="h"></i><i class="v"></i></i>
-          <i class="cn br" data-fr="walnut" style="--k:13px;--len:62px;right:-7px;bottom:-7px"><i class="h"></i><i class="v"></i></i>
-        </span></span>
-        <b>I lay frames against it</b><span>Real corners from my wall, one after another. You keep the ones you like.</span>
-      </li>
-      <li>
-        <span class="way-pic way-wall"><img src="assets/landing/hang-halsman.jpg" alt="" width="496" height="604"></span>
-        <b>Made by hand in Berlin</b><span>I pick three. A framer checks your order before we cut.</span>
-      </li>
-    </ol>
-    <a class="btn btn-ink" href="consultation.html">Start my consultation</a>
+    <div class="wb-stage" data-act="1" aria-hidden="true">
+      <span class="wb-piece">
+        <img src="assets/choice/sample-crow.jpg" alt="" width="394" height="516">
+        <span class="wb-scan"></span>
+        <i class="cn" data-fr="oak"><i class="h"></i><i class="v"></i></i><i class="cn br" data-fr="oak"><i class="h"></i><i class="v"></i></i>
+        <i class="cn" data-fr="walnut"><i class="h"></i><i class="v"></i></i><i class="cn br" data-fr="walnut"><i class="h"></i><i class="v"></i></i>
+        <i class="cn" data-fr="black"><i class="h"></i><i class="v"></i></i><i class="cn br" data-fr="black"><i class="h"></i><i class="v"></i></i>
+      </span>
+      <span class="wb-cap"></span>
+    </div>
   </section>
 
   <!-- 1 · what are you framing? -->

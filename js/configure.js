@@ -80,6 +80,32 @@
     });
   }
 
+  // the workbench screen plays its three steps in turn (scan → corners → framed); a tap on a step shows that one
+  const wb = $('.wb-stage');
+  if (wb) {
+    const steps = $$('.wb-steps button'), corners = ['oak', 'walnut', 'black'], CAP = ['', 'Reading your piece…', '', 'Black, slim · white mount'];
+    const DUR = { 1: 2800, 2: 3600, 3: 3200 };
+    let act = 1, timers = [];
+    const clear = () => { timers.forEach(clearTimeout); timers = []; };
+    const show = (n, auto = true) => {
+      clear(); act = n; wb.dataset.act = n;
+      steps.forEach(b => { b.toggleAttribute('aria-current', +b.dataset.act === n); b.style.setProperty('--dur', DUR[n] + 'ms'); });
+      // restart the fill line
+      steps.forEach(b => { if (+b.dataset.act === n) { b.removeAttribute('aria-current'); void b.offsetWidth; b.setAttribute('aria-current', ''); } });
+      $$('.cn', wb).forEach(c => c.classList.remove('on'));
+      $('.wb-cap', wb).textContent = CAP[n];
+      if (n === 2) corners.forEach((fr, i) => timers.push(setTimeout(() => {
+        $$('.cn', wb).forEach(c => c.classList.toggle('on', c.dataset.fr === fr));
+        $('.wb-cap', wb).textContent = ['Oak, natural', 'Walnut', 'Black, slim'][i];
+      }, 200 + i * 1100)));
+      if (auto && !matchMedia('(prefers-reduced-motion: reduce)').matches) timers.push(setTimeout(() => { if (document.body.dataset.step === 'way') show(n % 3 + 1); }, DUR[n]));
+    };
+    steps.forEach(b => b.addEventListener('click', () => show(+b.dataset.act)));
+    new MutationObserver(() => { if (document.body.dataset.step === 'way') show(1); else clear(); })
+      .observe(document.body, { attributes: true, attributeFilter: ['data-step'] });
+    if (document.body.dataset.step === 'way') show(1);
+  }
+
   // ---- 1 · what ----
   $$('.kind').forEach(b => b.addEventListener('click', () => {
     S.kind = b.dataset.kind; S.pic = null;

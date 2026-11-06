@@ -115,19 +115,49 @@ body[data-step="start"] .st-start{ display:block; animation:rise .5s var(--ease)
 .film-sound:hover{ background:var(--white); }
 .film-sound svg{ width:18px; }
 .film-sound .on{ display:none; } .film-sound[aria-pressed="true"] .on{ display:inline; } .film-sound[aria-pressed="true"] .off{ display:none; }
-/* how it works: three pictures in a row, each with a few words */
-.st-way{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
-.way-head .kicker{ margin-bottom:14px; }
-.way-tiles{ display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(14px, 1.3vw, 20px); margin:clamp(36px, 4vw, 60px) 0 40px; padding:0; list-style:none; counter-reset:way; }
-.way-tiles li{ display:flex; flex-direction:column; gap:6px; counter-increment:way; }
-.way-pic{ display:grid; place-items:center; aspect-ratio:4/3; margin-bottom:14px; background:var(--white); border:var(--line); overflow:hidden; container-type:size; }
-.way-piece{ position:relative; display:block; box-shadow:-6px 8px 16px rgba(0,0,0,.14); }
-.way-piece img{ height:62cqh; width:auto; display:block; }
-.way-wall{ background:#e9e7e2; }
-.way-wall img{ height:76cqh; width:auto; filter:drop-shadow(-8px 10px 12px rgba(0,0,0,.2)); }
-.way-tiles b{ font-weight:400; font-size:var(--fs-h3); letter-spacing:var(--ls-snug); }
-.way-tiles b::before{ content:"0" counter(way) "  "; white-space:pre; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); vertical-align:.25em; }
-.way-tiles li > span:last-child{ color:var(--ink-2); max-width:26em; }
+/* how it works: one stage that plays the three steps; text + steps beside it (under it on phones) */
+.st-way{ min-height:calc(100svh - var(--bar-h)); }
+body[data-step="way"] .st-way{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); }
+.wb-text{ display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:clamp(40px, 5vw, 96px) var(--pad); border-right:var(--line); }
+.wb-text .kicker{ margin-bottom:14px; }
+.wb-steps{ width:100%; max-width:520px; margin:36px 0 36px; padding:0; list-style:none; border-top:var(--line); }
+.wb-steps li{ border-bottom:1px solid rgba(0,0,0,.15); }
+.wb-steps button{ position:relative; display:grid; grid-template-columns:2.6em 1fr; width:100%; padding:16px 0; text-align:left; color:var(--ink-2); transition:color .3s; }
+.wb-steps button::after{ content:""; position:absolute; left:0; bottom:-1px; height:2px; width:100%; background:var(--fw-ink); transform:scaleX(0); transform-origin:0 50%; }
+.wb-steps [aria-current] { color:var(--ink); }
+.wb-steps [aria-current]::after{ animation:wb-fill var(--dur, 3s) linear forwards; }
+@keyframes wb-fill{ to{ transform:scaleX(1); } }
+.wb-n{ padding-top:.35em; font-size:var(--fs-micro); letter-spacing:var(--ls-caps); }
+.wb-steps b{ font-weight:400; font-size:var(--fs-h3); letter-spacing:var(--ls-snug); }
+.wb-l{ grid-column:2; max-height:0; opacity:0; overflow:hidden; font-size:var(--fs-small); transition:max-height .45s var(--ease), opacity .35s, margin .45s; }
+.wb-steps [aria-current] .wb-l{ max-height:5em; opacity:1; margin-top:4px; }
+/* the stage: a workbench, the piece lying on it; act 3 turns it into a framed piece on a wall */
+.wb-stage{ --ph:min(46svh, 440px); position:relative; display:grid; place-items:center; align-content:center; gap:22px; background:#e7e3dc; overflow:hidden; transition:background .8s var(--ease);
+  background-image:radial-gradient(120% 90% at 30% 20%, rgba(255,255,255,.5), transparent 60%); }
+.wb-stage[data-act="3"]{ background-color:#ece9e4; }
+.wb-piece{ position:relative; display:block; height:var(--ph); box-shadow:-10px 14px 26px rgba(0,0,0,.2); transition:box-shadow .9s var(--ease), transform .9s var(--ease); }
+.wb-stage[data-act="3"] .wb-piece{ transform:scale(.84); }
+.wb-piece img{ display:block; height:100%; width:auto; }
+.wb-stage[data-act="3"] .wb-piece{ box-shadow:0 0 0 calc(var(--ph) * .07) #fbfaf7, 0 0 0 calc(var(--ph) * .1) #1c1c1c, -14px 20px 34px calc(var(--ph) * .1) rgba(0,0,0,.18); }
+.wb-scan{ position:absolute; left:-8px; right:-8px; top:0; height:2px; background:var(--accent); box-shadow:0 0 16px 4px rgba(41,130,110,.45); opacity:0; }
+.wb-stage[data-act="1"] .wb-scan{ animation:scan 2.2s var(--ease) .3s both; }
+.wb-piece .cn{ --k:calc(var(--ph) * .055); --len:calc(var(--ph) * .42); opacity:0; transition:opacity .35s, transform .45s var(--ease); }
+.wb-piece .cn:not(.br){ left:calc(var(--k) * -1 + 3px); top:calc(var(--k) * -1 + 3px); transform:translate(-14px, -14px); }
+.wb-piece .cn.br{ right:calc(var(--k) * -1 + 3px); bottom:calc(var(--k) * -1 + 3px); transform:rotate(180deg) translate(-14px, -14px); }
+.wb-piece .cn.on{ opacity:1; transform:none; } .wb-piece .cn.br.on{ transform:rotate(180deg); }
+.wb-cap{ min-height:1.4em; font-size:var(--fs-micro); text-transform:uppercase; letter-spacing:var(--ls-caps); color:var(--ink-2); }
+@media (max-width: 1100px){
+  body[data-step="way"] .st-way{ display:flex; flex-direction:column; min-height:calc(100svh - var(--bar-h)); }
+  .wb-text{ display:contents; }
+  .wb-text .kicker{ order:1; margin:20px var(--pad) 8px; }
+  #way-title{ order:2; margin:0 var(--pad); font-size:clamp(30px, 8.6vw, 44px); }
+  .wb-stage{ order:3; --ph:min(34svh, 320px); margin:18px 0 0; padding:26px 0 14px; border-top:var(--line); border-bottom:var(--line); gap:14px; }
+  .wb-steps{ order:4; max-width:none; width:auto; margin:6px var(--pad) 16px; border-top:0; }
+  .wb-steps button{ padding:10px 0; }
+  .wb-steps b{ font-size:var(--fs-body); }
+  .wb-go{ order:5; align-self:stretch; margin:auto var(--pad) 20px; }
+}
+@media (prefers-reduced-motion: reduce){ .wb-steps [aria-current]::after{ animation:none; transform:scaleX(1); } }
 
 /* two doors: build it yourself (white) / design consultation (ink) */
 .st-start{ padding:clamp(40px, 5vw, 88px) var(--pad) clamp(56px, 6vw, 112px); }
@@ -380,7 +410,6 @@ body[data-step="start"] .st-start{ display:block; animation:rise .5s var(--ease)
   .done-card{ grid-template-columns:1fr; }
   .done-pic{ border-right:0; border-bottom:var(--line); min-height:44svh; }
   .doors{ grid-template-columns:1fr; }
-  .way-tiles{ grid-template-columns:1fr; gap:28px; }
   .claire-film video{ max-height:52svh; }
   .door{ min-height:0; }
   .portrait img{ max-height:44svh; }
