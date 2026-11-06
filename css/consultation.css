@@ -401,9 +401,10 @@ body[data-step="q"] .st-q, body[data-step="think"] .st-think, body[data-step="do
 .why-quote p::before{ content:"“"; } .why-quote p::after{ content:"”"; }
 .why-quote footer{ display:flex; align-items:center; gap:12px; margin-top:18px; font-size:var(--fs-small); color:var(--ink-2); }
 .why-list{ margin:30px 0 0; padding:0; list-style:none; border-top:var(--line); }
-.why-list li{ display:grid; grid-template-columns:3.2em 1fr; align-items:baseline; padding:16px 0; border-bottom:1px solid rgba(0,0,0,.15); }
-.why-n{ font-size:var(--fs-micro); letter-spacing:var(--ls-caps); color:var(--ink-2); }
-.why-t{ font-size:var(--fs-h3); line-height:var(--lh-snug); letter-spacing:var(--ls-snug); }
+.why-list li{ display:grid; grid-template-columns:5.5em 1fr; align-items:baseline; padding:16px 0; border-bottom:1px solid rgba(0,0,0,.15); }
+.why-n{ font-size:var(--fs-micro); letter-spacing:var(--ls-caps); text-transform:uppercase; color:var(--ink-2); }
+.why-t{ font-size:var(--fs-body); line-height:var(--lh-body); color:var(--ink-2); }
+.why-t b{ font-weight:400; color:var(--ink); font-size:var(--fs-lead); letter-spacing:var(--ls-snug); }
 .why-size{ margin-top:18px; font-size:var(--fs-small); color:var(--ink-2); }
 
 /* the reading: numbered notes, each a framing decision */
@@ -432,4 +433,15 @@ body[data-step="q"] .st-q, body[data-step="think"] .st-think, body[data-step="do
   .cc-pers-list li:nth-child(n+4){ display:none; }
   .cc-sb-side .choice{ min-height:52px; }
   .cc-chips{ margin-bottom:24px; }
+}
+
+/* phones: the display serif is thin, so it never goes small; a little more line height */
+@media (max-width: 600px){
+  h1, .st-q h1, #q-title, #look-title, .side-text h1{ font-size:max(42px, 11.5vw) !important; line-height:1.08 !important; }
+  .st-q[data-kind="note"] h1{ font-size:max(46px, 12.5vw) !important; }
+  h2, .res-b-card h2{ font-size:max(34px, 9vw) !important; line-height:1.1 !important; }
+  .why-quote p{ font-size:max(30px, 8.2vw); line-height:1.12; }
+  .cc-corner-name{ font-size:30px; line-height:1.1; }
+  .cc-pers-name{ line-height:1.05; }
+  .why-list li{ grid-template-columns:4.6em 1fr; }
 }

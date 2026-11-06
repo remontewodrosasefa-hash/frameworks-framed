@@ -150,7 +150,7 @@ body[data-step="way"] .st-way{ display:grid; grid-template-columns:minmax(0,1fr)
   body[data-step="way"] .st-way{ display:flex; flex-direction:column; min-height:calc(100svh - var(--bar-h)); }
   .wb-text{ display:contents; }
   .wb-text .kicker{ order:1; margin:20px var(--pad) 8px; }
-  #way-title{ order:2; margin:0 var(--pad); font-size:clamp(30px, 8.6vw, 44px); }
+  #way-title{ order:2; margin:0 var(--pad); font-size:max(38px, 10.5vw); line-height:1.08; }
   .wb-stage{ order:3; --ph:min(34svh, 320px); margin:18px 0 0; padding:26px 0 14px; border-top:var(--line); border-bottom:var(--line); gap:14px; }
   .wb-steps{ order:4; max-width:none; width:auto; margin:6px var(--pad) 16px; border-top:0; }
   .wb-steps button{ padding:10px 0; }
@@ -446,4 +446,11 @@ body[data-step="way"] .st-way{ display:grid; grid-template-columns:minmax(0,1fr)
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{ animation:none !important; transition:none !important; }
   .fcard{ opacity:1; transform:none; }
+}
+
+@media (max-width: 600px){
+  .st-meet h1, .st-start h1, .st-what h1, .side-text h1, .st-frame h1, .st-review h1, .st-done h1{ font-size:max(42px, 11.5vw); line-height:1.08; }
+  .door-name{ font-size:max(38px, 10.5vw); line-height:1.08; }
+  .what-group h2, .st-size .sub{ font-size:max(30px, 8vw); line-height:1.1; }
+  .proof dt{ font-size:32px; }
 }

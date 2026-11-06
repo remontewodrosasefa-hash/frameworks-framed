@@ -767,16 +767,18 @@
       b.addEventListener('click', () => { S.frame = b.dataset.f; drawResult(); const x = F(S.frame); say(`${x.name}. ${x.line}`, $('.res-a [data-say]')); });
     });
     const t = S.why[S.frame] || [];
-    // her verdict, big, then the reasons it rests on (from what they showed and chose)
+    // her verdict, then one plain line each for frame, mount, glass and size (no lists of tags, no "you told me")
     const piece = S.pre ? S.pre.subject : 'your piece';
     $('[data-why="quote"]').textContent = `For ${piece}, I’d choose ${f.name.toLowerCase()}. ${f.line}`;
-    $('[data-why="list"]').innerHTML = (t.length ? t : ['is a frame I trust for pieces like this']).map((x, i) =>
-      `<li><span class="why-n">0${i + 1}</span><span class="why-t">It ${x}.</span></li>`).join('')
-      + Object.values(S.asked || {}).map(([qq, ans], i) => `<li><span class="why-n">0${Math.max(t.length, 1) + 1 + i}</span><span class="why-t">You told me: ${ans.toLowerCase()}. I’ve allowed for it.</span></li>`).join('')
-      + `<li><span class="why-n">0${Math.max(t.length, 1) + 1 + Object.keys(S.asked || {}).length}</span><span class="why-t">${S.mount === 'none' ? 'No mount' : cap(MOUNTS[S.mount][1])} and ${GLASS[S.glass][2]}, finished below.</span></li>`;
-    $('[data-why="size"]').textContent = `Size: ${/×/.test(S.size.name) ? `${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm` : `${S.size.name}, ${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm`}${a.printed === 'file' ? ', printed by us on archival paper' : ''}. A framer measures again before we cut.`;
-    $('[data-why="mount"]').textContent = S.mount === S.recMount ? S.mountWhy : 'You changed this. Good, trust your eye.';
-    $('[data-why="glass"]').textContent = S.glass === S.recGlass ? S.glassWhy : 'You changed this. Fine by me.';
+    const r = t.filter(x => !/^is right for/.test(x)).slice(0, 2);
+    const frameWhy = r.length ? `It ${r[0]}${r[1] ? `, and it ${r[1]}` : ''}.` : 'It’s a frame I trust for pieces like this.';
+    const mountWhy = S.mount === S.recMount ? S.mountWhy : 'You changed this. Good, trust your eye.';
+    const glassWhy = S.glass === S.recGlass ? S.glassWhy : 'You changed this. Fine by me.';
+    const sizeWhy = `${/×/.test(S.size.name) ? `${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm` : `${S.size.name}, ${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm`}${a.printed === 'file' ? ', printed by us on archival paper' : ''}. A framer measures again before we cut.`;
+    $('[data-why="list"]').innerHTML = [['Frame', f.name, frameWhy], ['Mount', S.mount === 'none' ? 'No mount' : cap(MOUNTS[S.mount][1]) + (S.lip ? ', accent edge' : ''), mountWhy],
+      ['Glass', cap(GLASS[S.glass][2]), glassWhy], ['Size', '', sizeWhy]]
+      .map(([k, v, w]) => { if (v && w.toLowerCase().startsWith(v.toLowerCase().split(',')[0])) { v = cap(w.split(/[,.]/)[0]); w = cap(w.slice(v.length).replace(/^[,.]\s*/, '')); }
+        return `<li><span class="why-n">${k}</span><span class="why-t">${v ? `<b>${v}.</b> ` : ''}${w}</span></li>`; }).join('');
     // accent edge: none, or one of the piece's own colours
     const lips = [null, ...S.img.palette.filter(c => { const [r, g, b] = c.match(/\d+/g).map(Number); return Math.max(r, g, b) - Math.min(r, g, b) > 30; }).slice(0, 3)];
     $('[data-opt="lip"]').innerHTML = lips.map((c, i) => `<button type="button" data-v="${c || ''}"${c ? ` aria-label="Colour ${i} from the piece"` : ''}>${c ? `<i style="--c:${c}"></i>` : 'None'}</button>`).join('');
