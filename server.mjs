@@ -21,30 +21,45 @@ let client;   // made on first use, after .env is read
 const LOOK = {
   type: 'object',
   additionalProperties: false,
-  required: ['what', 'detail', 'subject', 'type', 'weight', 'era', 'format', 'line', 'boxes'],
+  required: ['what', 'detail', 'subject', 'type', 'medium', 'weight', 'era', 'format', 'condition', 'details', 'line', 'notes', 'questions'],
   properties: {
     what: { type: 'string', enum: ['photo', 'print', 'original', 'object'] },
     detail: { type: 'string', enum: ['people', 'pet', 'place', 'moment', 'exhibition', 'artprint', 'gig', 'map', 'painting', 'drawing', 'collage', 'textile', 'shirt', 'medal', 'letter', 'thing'] },
-    subject: { type: 'string', description: 'What it shows, 2 to 7 words, lowercase, starting with "a", "an" or "the", e.g. "a woman and a crow"' },
-    type: { type: 'string', description: 'One or two words, e.g. "Photograph", "Gig poster", "Oil painting"' },
+    subject: { type: 'string', description: 'What it is, 2 to 8 words. If it is a known artwork or photograph, name it (e.g. "Tippi Hedren and a crow"); otherwise lowercase, starting with "a", "an" or "the"' },
+    type: { type: 'string', description: 'One to four words, e.g. "Photograph", "Gig poster", "Oil painting", with the artist if known' },
+    medium: { type: 'string', description: 'What it is physically, as far as a photo shows: e.g. "Photo print", "Poster", "Art print", "Watercolour on paper", "Oil on canvas", "Textile", "Object"' },
     weight: { type: 'string', enum: ['Light', 'Medium', 'Heavy'], description: 'Visual weight: how much frame it can carry' },
     era: { type: 'string', enum: ['Contemporary', 'Vintage', 'Antique'] },
     format: { type: 'string', enum: ['Portrait', 'Landscape', 'Square'] },
-    line: { type: 'string', description: 'One sentence, max 18 words, in Claire\'s voice: what the frame should do for this piece. No AI talk.' },
-    boxes: {
+    condition: { type: 'string', description: 'Two to four words, e.g. "Crisp and clean", "Worn edges", "Slightly faded"' },
+    details: { type: 'array', items: { type: 'string' }, description: 'Up to four short things that change how it is framed: e.g. "Signed", "Numbered edition", "White border", "Deckled edge", "Black and white", "Glossy". Empty if none' },
+    line: { type: 'string', description: 'One sentence, max 22 words, in Claire\'s voice: what the frame should do for this piece. No AI talk.' },
+    notes: {
       type: 'array',
-      description: 'Two or three things a framer would notice, with rough positions in percent of the image (0 to 100)',
+      description: 'Three or four things a framer notices, each with what it means for the frame, and a rough box in percent of the image (0 to 100)',
       items: {
-        type: 'object', additionalProperties: false, required: ['label', 'x', 'y', 'w', 'h'],
-        properties: { label: { type: 'string', description: 'One or two words' }, x: { type: 'number' }, y: { type: 'number' }, w: { type: 'number' }, h: { type: 'number' } },
+        type: 'object', additionalProperties: false, required: ['label', 'note', 'x', 'y', 'w', 'h'],
+        properties: { label: { type: 'string', description: 'One to three words, e.g. "Signature", "Her face", "Torn edge", "That blue"' },
+          note: { type: 'string', description: 'Max 14 words, in Claire\'s voice: what this means for the frame, mount or glass' },
+          x: { type: 'number' }, y: { type: 'number' }, w: { type: 'number' }, h: { type: 'number' } },
+      },
+    },
+    questions: {
+      type: 'array',
+      description: 'Exactly two short questions a framer would ask about THIS piece because a photo cannot tell (original or print? paper or canvas? should the signature or border show? how fragile?), each with two or three short answers',
+      items: {
+        type: 'object', additionalProperties: false, required: ['q', 'options'],
+        properties: { q: { type: 'string', description: 'Max 12 words, ends with ?' }, options: { type: 'array', items: { type: 'string' }, description: 'Two or three answers, max 5 words each' } },
       },
     },
   },
 };
 
 const PROMPT = `You are Claire, a picture framer in Berlin-Kreuzberg with years at the workbench. A customer shows you a photo of something they want framed.
-Read it like a framer in the first ten seconds of a design consultation: what it is, its visual weight (how much frame it can carry), its era, its format, and two or three things in it worth noticing (a face, an animal, a title, a strong colour, a worn edge), each with a rough box in percent of the image.
-If the photo shows an object rather than a flat picture, "what" is "object". Use "pet" for any animal photo. British English, warm and short, no mention of AI or of analysing.`;
+Read it the way you would in the first minute of a design consultation. Say what it is (name it if it is a known work or photograph), what it is physically, its visual weight, era and condition, and the details that change the framing (signature, edition number, border, deckled edge, gloss).
+Then note three or four things you notice, each with what it means for the frame, mount or glass, with a rough box on the image.
+Finally ask exactly two questions you cannot answer from a photo, about this piece specifically, each with two or three short answers.
+If the photo shows an object rather than a flat picture, "what" is "object". Use "pet" for any animal photo. British English, warm, short sentences, no mention of AI or of analysing.`;
 
 async function look(req, res) {
   let body = '';

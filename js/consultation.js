@@ -54,20 +54,13 @@
   const SAMPLES = [
     { id: 'crow', name: 'Philip Halsman', src: 'assets/choice/sample-crow.jpg',
       look: { what: 'photo', detail: 'people', subject: 'Tippi Hedren and a crow', type: 'Photograph · Philip Halsman', weight: 'Light', era: 'Vintage', format: 'Portrait',
+        medium: 'Photo print', condition: 'Good, slight tone', details: ['Black and white', 'No border'],
         line: 'Philip Halsman’s Tippi Hedren, from the Birds years. All soft greys: it wants a clean, quiet line round it.',
-        boxes: [[56, 16, 36, 33, 'Tippi Hedren'], [0, 39, 42, 32, 'Crow'], [34, 38, 26, 8, 'Cigarette']] } },
-    { id: 'balloons', name: 'Lilika Strezoska', src: 'assets/choice/sample-balloons.jpg',
-      look: { what: 'original', detail: 'painting', subject: '»Blue Bubble« by Lilika Strezoska', type: 'Photograph · Lilika Strezoska', weight: 'Heavy', era: 'Contemporary', format: 'Portrait',
-        line: 'Lilika Strezoska’s »Blue Bubble«. That blue is loud, in a good way. The frame should stay calm and let it shout.',
-        boxes: [[28, 14, 54, 66, 'Face'], [0, 22, 36, 70, 'Blue balloons'], [40, 70, 24, 10, 'Red lips']] } },
-    { id: 'blueprint', name: 'Electric Love', src: 'assets/choice/sample-blueprint.jpg',
-      look: { what: 'print', detail: 'map', subject: 'the »Electric Love« poster', type: 'Poster', weight: 'Medium', era: 'Contemporary', format: 'Landscape',
-        line: '»Electric Love«: the history of electronic music drawn as a circuit, from the theremin to Daft Punk. All fine white lines, so a slim frame.',
-        boxes: [[44, 36, 15, 14, 'Kraftwerk'], [75, 21, 14, 16, 'Brian Eno'], [77, 91, 22, 8, 'Title']] } },
-    { id: 'old', name: 'Ronald Puhle', src: 'assets/choice/sample-old-photo.jpg',
-      look: { what: 'original', detail: 'collage', subject: 'a work by Ronald Puhle', type: 'Artwork · Ronald Puhle', weight: 'Medium', era: 'Contemporary', format: 'Portrait', extra: { unique: 'one' },
-        line: 'A Ronald Puhle piece: a figure in sepia and black, the surface scratched and worn on purpose. One of a kind, so good glass.',
-        boxes: [[24, 18, 54, 66, 'Figure'], [2, 2, 40, 26, 'Worn edge'], [55, 30, 30, 22, 'Scratches']] } },
+        notes: [{ label: 'Her profile', note: 'The light sits on her face. A white mount gives it air.', x: 56, y: 16, w: 36, h: 33 },
+          { label: 'The crow', note: 'The darkest shape: a black frame would echo it, wood would warm it.', x: 0, y: 39, w: 42, h: 32 },
+          { label: 'Soft grey tone', note: 'No hard blacks or whites, so nothing loud round it.', x: 6, y: 4, w: 40, h: 22 }],
+        questions: [{ q: 'Is this an original print, or a reproduction?', options: ['An original print', 'A reproduction', 'Not sure'] },
+          { q: 'Should the whole photo show, edge to edge?', options: ['Yes, all of it', 'A little can hide under the mount'] }] } },
   ];
 
   // ---- the consultation: one screen at a time; `when` makes it adapt ----
@@ -78,7 +71,9 @@
     object: { t: 'What is it?', o: [['shirt', 'A shirt or fabric'], ['medal', 'Medal or badge'], ['letter', 'Letter or document'], ['thing', 'Something 3D']] },
   };
   const Q = [
-    // your piece
+    // your piece: first what the reading couldn't tell from a photo
+    { id: 'ask0', ch: 'piece', kind: 'ask', when: () => !!(S.look && S.look.questions && S.look.questions[0]), t: () => S.look.questions[0].q },
+    { id: 'ask1', ch: 'piece', kind: 'ask', when: () => !!(S.look && S.look.questions && S.look.questions[1]), t: () => S.look.questions[1].q },
     { id: 'what', ch: 'piece', when: () => !S.pre, t: 'What are you framing?', o: [['photo', 'A photo'], ['print', 'A print or poster'], ['original', 'An original artwork'], ['object', 'A keepsake or object']] },
     { id: 'detail', ch: 'piece', when: a => a.what && !S.pre, t: a => DETAIL[a.what].t, o: a => DETAIL[a.what].o },
     { id: 'depth', ch: 'piece', when: a => a.what === 'object', t: 'How thick is it?', o: [['flat', 'Flat, like paper'], ['some', 'A little depth', 'up to 3 cm'], ['deep', 'Deep', 'over 3 cm']] },
@@ -285,8 +280,7 @@
   const cornerIcon = id => `<span class="cc-ico">${cornerEl(id, 9, 34).outerHTML}</span>`;
 
   // ---- 1 · the piece ----
-  $('.cc-samples').innerHTML = SAMPLES.map(s => `<button class="cc-sample" type="button" data-sample="${s.id}"><span class="cc-sample-pic"><img src="${s.src}" alt=""></span><span>${s.name}</span></button>`).join('');
-  $$('.cc-sample').forEach(b => b.addEventListener('click', () => { const s = SAMPLES.find(x => x.id === b.dataset.sample); setPiece(s.src, s); }));
+  $$('[data-sample]').forEach(b => b.addEventListener('click', () => { const s = SAMPLES.find(x => x.id === b.dataset.sample); setPiece(s.src, s); }));
   $('#cc-file').addEventListener('change', e => { const f = e.target.files[0]; if (f) setPiece(URL.createObjectURL(f), null); });
   const drop = $('[data-drop]');
   ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
@@ -300,7 +294,7 @@
     const img = await loadImg(src); if (!img) return;
     imgEl = img;
     const r = img.naturalWidth / img.naturalHeight;
-    Object.assign(S, { pic: src, sample, upload: !sample, ratio: r, img: analyse(img), pre: null, look: null, a: {}, kept: [], dropped: [], tt: [], size: null, lip: null,
+    Object.assign(S, { asked: {}, pic: src, sample, upload: !sample, ratio: r, img: analyse(img), pre: null, look: null, a: {}, kept: [], dropped: [], tt: [], size: null, lip: null,
       filePx: sample ? (r >= 1 ? [4032, Math.round(4032 / r)] : [Math.round(4032 * r), 4032]) : [img.naturalWidth, img.naturalHeight] });
     look();
   }
@@ -312,7 +306,7 @@
     go('look');
     sec.classList.remove('read'); sec.classList.add('scanning');
     $('.cc-scan-img').src = S.pic; $('.cc-boxes').innerHTML = ''; $('.cc-chips').innerHTML = '';
-    $('#look-title').textContent = 'Let me have a look…'; $('[data-say]', sec).textContent = '';
+    $('#look-title').textContent = 'Let me have a look…'; $('[data-say]', sec).textContent = ''; $('.cc-notes').innerHTML = '';
     $('.cc-look-actions').hidden = true; $('.cc-rough').hidden = !S.upload;
     $('.cc-scan-note').textContent = 'Looking at your piece…';
     const a = S.img, fmtName = S.ratio > 1.05 ? 'Landscape' : S.ratio < .95 ? 'Portrait' : 'Square';
@@ -325,27 +319,31 @@
           .then(r => r.ok ? r.json() : null).catch(() => null),
         wait(1700),
       ]);
-      if (res && res.subject) L = { ...res, boxes: (res.boxes || []).slice(0, 3).map(b => [b.x, b.y, b.w, b.h, b.label]), read: true };
+      if (res && res.subject) L = { ...res, read: true };
       else {
         const tone = a.sat < .12 ? 'mostly black and white' : a.sat > .38 ? 'full of colour' : a.warmth > 18 ? 'in warm colours' : a.warmth < -6 ? 'in cool colours' : 'in soft, mixed colours';
-        const box = i => [(i % 3) * 33.3 + 2, Math.floor(i / 3) * 33.3 + 2, 29, 29];
+        const box = i => [(i % 3) * 33.3 + 2, Math.floor(i / 3) * 33.3 + 2, 29, 29], xywh = ([x, y, w, h]) => ({ x, y, w, h });
         L = { subject: 'Lovely. Tell me what it is', tone, type: '—', format: fmtName,
           weight: a.contrast > 60 || a.sat > .4 || a.bright < 85 ? 'Heavy' : a.contrast < 35 ? 'Light' : 'Medium',
           era: a.sat < .25 && a.warmth > 12 ? 'Vintage' : 'Contemporary',
           line: `I can see it’s ${tone}. A few questions and I’ll know the rest.`,
-          boxes: [[...box(a.busy), 'Focal point'], ...(a.colourCell !== a.busy ? [[...box(a.colourCell), 'Strongest colour']] : [])] };
+          notes: [{ label: 'Focal point', note: 'Where the eye goes first. The mount should give it room.', ...xywh(box(a.busy)) },
+            ...(a.colourCell !== a.busy ? [{ label: 'Strongest colour', note: 'A frame can echo this colour, or stay calm against it.', ...xywh(box(a.colourCell)) }] : [])] };
       }
     }
     if (run !== lookRun) return;
     S.look = L;
     sec.classList.remove('scanning');
-    $('.cc-boxes').innerHTML = L.boxes.map(([x, y, w, h, label], i) => `<span class="cc-box" style="--x:${x}%;--y:${y}%;--w:${w}%;--h:${h}%;--i:${i}"><b>${label}</b></span>`).join('');
-    $('.cc-scan-note').textContent = `${L.boxes.length} things I noticed${S.upload ? ' · rough guess' : ''}`;
-    await wait(250 + 300 * L.boxes.length); if (run !== lookRun) return;
+    const notes = (L.notes || []).slice(0, 4);
+    $('.cc-boxes').innerHTML = notes.map((n, i) => `<span class="cc-box" style="--x:${n.x}%;--y:${n.y}%;--w:${n.w}%;--h:${n.h}%;--i:${i}"><b>${i + 1} · ${n.label}</b></span>`).join('');
+    $('.cc-scan-note').textContent = `${notes.length} things I noticed${S.upload ? ' · rough guess' : ''}`;
+    await wait(250 + 300 * notes.length); if (run !== lookRun) return;
     sec.classList.add('read');
     $('#look-title').textContent = cap(L.subject) + '.';
     const chip = (k, v) => v && v !== '—' ? `<div><dt>${k}</dt><dd>${v}</dd></div>` : '';
-    $('.cc-chips').innerHTML = chip('Type', L.type) + chip('Visual weight', L.weight) + chip('Era', L.era) + chip('Format', L.format || fmtName)
+    $('.cc-notes').innerHTML = notes.map((n, i) => `<li style="--i:${i}"><span class="cc-note-n">${i + 1}</span><span><b>${n.label}</b>${n.note}</span></li>`).join('');
+    $('.cc-chips').innerHTML = chip('Medium', L.medium || L.type) + chip('Visual weight', L.weight) + chip('Era', L.era) + chip('Condition', L.condition)
+      + ((L.details || []).length ? `<div class="cc-pal"><dt>Details</dt><dd class="cc-tags">${L.details.map(d => `<span>${d}</span>`).join('')}</dd></div>` : '')
       + `<div class="cc-pal"><dt>Colours in it</dt><dd>${a.palette.map(c => `<i style="background:${c}"></i>`).join('')}</dd></div>`;
     say(L.line);
     const known = !!L.what;
@@ -383,7 +381,7 @@
     say(react, $('.cc-react'));
     const body = $('.cc-body'); body.className = 'cc-body'; body.innerHTML = '';
     ({ size: renderSize, note: renderNote, avoid: renderAvoid, corners: renderCorners, stepback: renderStepback, profile: renderProfile,
-      duel: renderDuel, wall: renderWall, report: renderReport, persona: renderPersona, thisthat: renderThisThat }[q.kind] || renderChoice)(q, body);
+      duel: renderDuel, wall: renderWall, ask: renderAsk, report: renderReport, persona: renderPersona, thisthat: renderThisThat }[q.kind] || renderChoice)(q, body);
   }
 
   function renderChoice(q, body) {
@@ -395,6 +393,15 @@
       if (q.id === 'what' && S.a.what !== b.dataset.v) { delete S.a.detail; delete S.a.printed; }
       if (q.id === 'meaning' && b.dataset.v !== 'gift') delete S.a.for;
       answer(q, b.dataset.v);
+    }));
+  }
+  function renderAsk(q, body) {
+    const k = +q.id.slice(3), Qd = S.look.questions[k];
+    body.classList.add('cc-opts');
+    body.innerHTML = Qd.options.slice(0, 3).map(o => `<button class="choice${S.a[q.id] === o ? ' on' : ''}" type="button" data-v="${o.replace(/"/g, '&quot;')}"><b>${o}</b></button>`).join('');
+    if (k === 0) say('One thing I can’t tell from a photo.', $('.cc-react'));
+    $$('.choice', body).forEach(b => b.addEventListener('click', () => {
+      b.classList.add('on'); S.a[q.id] = b.dataset.v; S.asked = S.asked || {}; S.asked[q.id] = [Qd.q, b.dataset.v]; S.last = null; next();
     }));
   }
   function renderNote(q, body) { body.innerHTML = `<button class="btn btn-ink" type="button">Next</button>`; $('button', body).addEventListener('click', next); }
@@ -502,33 +509,45 @@
   }
 
   // step back: the best kept frame on the wall, close up first, then from across the room
+  // step back: up close, the frame fills the view on the wall colour; "Step back" pulls the camera out and the frame
+  // glides (FLIP) to its real size and place in the room, which fades in round it. Nothing is cropped or overlaps.
   function renderStepback(q, body) {
-    const id = bestKept();
+    const id = bestKept(), o = { frame: id, mount: S.a.matpref === 'no' ? 'none' : 'white', mw: S.mw, glass: 'clear' };
     body.classList.add('cc-stepback');
-    body.innerHTML = `<div class="cc-sb-box"><div class="cc-sb-room"><img src="${S.wallPhoto || STUDIO_WALL}" alt=""><div class="cc-sb-hang"></div></div></div>
+    body.innerHTML = `<div class="sb-box"><div class="sb-far"><img src="${S.wallPhoto || STUDIO_WALL}" alt=""><div class="sb-hang"></div></div>
+        <div class="sb-near"><div class="sb-near-fr"></div></div><p class="sb-dist"><span>0.5</span> m away</p></div>
       <div class="cc-sb-side"><button class="btn btn-ink" type="button" data-sb>Step back</button>
       <div class="cc-sb-ask" hidden><p class="kicker">From across the room, it feels…</p><div class="cc-opts">
         <button class="choice" type="button" data-v="right"><b>Just right</b></button>
         <button class="choice" type="button" data-v="heavy"><b>Too heavy</b></button>
-        <button class="choice" type="button" data-v="thin"><b>Too thin</b></button></div></div></div>`;
+        <button class="choice" type="button" data-v="thin"><b>Too thin</b></button></div><button class="ul ul-btn sb-again" type="button">Look again</button></div></div>`;
     say(`${F(id).name}, the one you kept. A frame that looks right up close can vanish, or shout, from across the room.`, $('.cc-react'));
-    const room = $('.cc-sb-room', body), img = $('img', room);
+    const box = $('.sb-box', body), img = $('.sb-far img', body), nearFr = $('.sb-near-fr', body);
+    let flip = '';
     const place = () => {
-      if (!room.isConnected) return;   // moved on before the wall loaded
-      const r = img.getBoundingClientRect(), cm = S.wallPhoto ? 250 : 207, pxcm = r.width / cm, hang = $('.cc-sb-hang', body);
-      const el = frameEl({ frame: id, mount: S.a.matpref === 'no' ? 'none' : 'white', mw: S.mw, glass: 'clear' }, (S.size.w + 2 * (5 + F(id).k)) * pxcm, r.height * .9);
-      hang.replaceChildren(el); placeHang(hang, r, el);
-      const fr = el.getBoundingClientRect(), cx = (fr.left + fr.width / 2 - r.left) / r.width * 100, cy = (fr.top + fr.height / 2 - r.top) / r.height * 100;
-      // close up: the frame's middle moved to the middle of the box, then enlarged around it
-      room.style.transformOrigin = `${cx}% ${cy}%`;
-      room.style.setProperty('--tx', (50 - cx) + '%'); room.style.setProperty('--ty', (50 - cy) + '%');
-      room.style.setProperty('--z', Math.min(5, r.height * .82 / fr.height));
+      if (!box.isConnected) return;
+      const r = img.getBoundingClientRect(), wall = getComputedStyle(box).getPropertyValue('--wall');
+      // far: to scale in the room
+      const hang = $('.sb-hang', body), far = frameEl(o, (S.size.w + 2 * (5 + F(id).k)) * r.width / (S.wallPhoto ? 250 : 207), r.height * .9);
+      hang.replaceChildren(far); placeHang(hang, r, far);
+      // near: the same frame, big
+      const near = frameEl(o, r.width * .62, r.height * .72); nearFr.replaceChildren(near);
+      const a = near.getBoundingClientRect(), b = far.getBoundingClientRect(), k = b.width / a.width;
+      flip = `translate(${b.left + b.width / 2 - (a.left + a.width / 2)}px, ${b.top + b.height / 2 - (a.top + a.height / 2)}px) scale(${k})`;
+      if (box.classList.contains('back')) nearFr.style.transform = flip;
     };
     img.complete ? requestAnimationFrame(place) : img.addEventListener('load', place);
-    $('[data-sb]', body).addEventListener('click', e => {
-      room.classList.add('back'); e.currentTarget.hidden = true; $('.cc-sb-ask', body).hidden = false;
-      say('That’s how your guests will see it. How does it feel?', $('.cc-react'));
-    });
+    const dist = $('.sb-dist span', body);
+    const go = back => {
+      box.classList.toggle('back', back); nearFr.style.transform = back ? flip : '';
+      $('[data-sb]', body).hidden = back; $('.cc-sb-ask', body).hidden = !back;
+      const t0 = performance.now(), from = back ? .5 : 3, to = back ? 3 : .5;
+      (function tick(t) { const p = Math.min(1, (t - t0) / 1600), e = p < .5 ? 2 * p * p : 1 - (-2 * p + 2) ** 2 / 2;
+        dist.textContent = (from + (to - from) * e).toFixed(1); if (p < 1) requestAnimationFrame(tick); })(t0);
+      if (back) say('That’s how your guests will see it. How does it feel?', $('.cc-react'));
+    };
+    $('[data-sb]', body).addEventListener('click', () => go(true));
+    $('.sb-again', body).addEventListener('click', () => go(false));
     $$('.cc-sb-ask .choice', body).forEach(b => b.addEventListener('click', () => { b.classList.add('on'); answer(q, b.dataset.v); }));
   }
   // this or that: their piece in two frames side by side, six quick pairs, each one a single difference
@@ -752,7 +771,8 @@
     $('[data-why="quote"]').textContent = `For ${piece}, I’d choose ${f.name.toLowerCase()}. ${f.line}`;
     $('[data-why="list"]').innerHTML = (t.length ? t : ['is a frame I trust for pieces like this']).map((x, i) =>
       `<li><span class="why-n">0${i + 1}</span><span class="why-t">It ${x}.</span></li>`).join('')
-      + `<li><span class="why-n">0${Math.max(t.length, 1) + 1}</span><span class="why-t">${S.mount === 'none' ? 'No mount' : cap(MOUNTS[S.mount][1])} and ${GLASS[S.glass][2]}, finished below.</span></li>`;
+      + Object.values(S.asked || {}).map(([qq, ans], i) => `<li><span class="why-n">0${Math.max(t.length, 1) + 1 + i}</span><span class="why-t">You told me: ${ans.toLowerCase()}. I’ve allowed for it.</span></li>`).join('')
+      + `<li><span class="why-n">0${Math.max(t.length, 1) + 1 + Object.keys(S.asked || {}).length}</span><span class="why-t">${S.mount === 'none' ? 'No mount' : cap(MOUNTS[S.mount][1])} and ${GLASS[S.glass][2]}, finished below.</span></li>`;
     $('[data-why="size"]').textContent = `Size: ${/×/.test(S.size.name) ? `${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm` : `${S.size.name}, ${fmt(S.size.pw)} × ${fmt(S.size.ph)} cm`}${a.printed === 'file' ? ', printed by us on archival paper' : ''}. A framer measures again before we cut.`;
     $('[data-why="mount"]').textContent = S.mount === S.recMount ? S.mountWhy : 'You changed this. Good, trust your eye.';
     $('[data-why="glass"]').textContent = S.glass === S.recGlass ? S.glassWhy : 'You changed this. Fine by me.';
