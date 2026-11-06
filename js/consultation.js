@@ -93,7 +93,8 @@
     { id: 'matpref', ch: 'taste', kind: 'duel', when: a => a.what !== 'object', t: 'With a mount, or edge to edge?', duel: [['yes', 'With a mount', 'white'], ['no', 'Edge to edge', 'none']] },
     { id: 'persona', ch: 'taste', kind: 'persona', t: 'Here’s your framing style.' },
     // your room: second
-    { id: 'wallphoto', ch: 'room', kind: 'wall', t: a => a.meaning === 'gift' ? 'Do you know where it will hang?' : 'Where will it hang?' },
+    { id: 'wallphoto', ch: 'room', kind: 'wall', when: () => false,   // off for now (6 Nov): everyone gets the studio wall
+      t: a => a.meaning === 'gift' ? 'Do you know where it will hang?' : 'Where will it hang?' },
     { id: 'room', ch: 'room', t: a => a.meaning === 'gift' ? 'Which room, roughly?' : 'Which room?', o: [['living', 'Living room'], ['bedroom', 'Bedroom'], ['hall', 'Hallway'], ['work', 'Workspace'], ['wet', 'Kitchen or bathroom']] },
     { id: 'wall', ch: 'room', when: a => !S.wallPhoto && a.meaning !== 'gift', t: 'What colour is the wall?', swatch: true, o: WALLS.map(w => [w.id, cap(w.name), w.c]) },
     { id: 'light', ch: 'room', when: a => a.meaning !== 'gift', t: 'Does the wall get sun?', o: [['sun', 'Yes, direct sun'], ['some', 'Some daylight'], ['dark', 'Not much', 'mostly lamps']] },
