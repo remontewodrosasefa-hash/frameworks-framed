@@ -46,25 +46,27 @@
     { id: 'blue', name: 'dusty blue', c: '#a7b6c5' }, { id: 'terracotta', name: 'terracotta', c: '#c48a6c' }, { id: 'charcoal', name: 'charcoal', c: '#3a3d40' },
   ];
   const STUDIO_WALL = 'assets/landing/closing-wall.jpg';
+  // the photo reading: a Cloudflare Worker (worker/index.js) that holds the API key; server.mjs serves the same at /api/look locally
+  const LOOK_URL = location.port === '3000' ? 'api/look' : 'https://frameworks-look.frameworks-framed.workers.dev/look';
 
   // ---- samples: art cut out of Frameworks' own photos, each read by hand. boxes = [x, y, w, h, label] in % ----
   // (as phone files they count as 12 MP photos, for the print-size advice)
   const SAMPLES = [
-    { id: 'crow', name: 'Old film photo', src: 'assets/choice/sample-crow.jpg',
-      look: { what: 'photo', detail: 'people', subject: 'a woman and a crow', type: 'Photograph', weight: 'Light', era: 'Vintage', format: 'Portrait',
-        line: 'Black and white, all soft greys. That wants a clean, quiet line around it.',
-        boxes: [[56, 16, 36, 33, 'Face'], [0, 39, 42, 32, 'Crow'], [34, 38, 26, 8, 'Cigarette']] } },
-    { id: 'balloons', name: 'Colour portrait', src: 'assets/choice/sample-balloons.jpg',
-      look: { what: 'photo', detail: 'people', subject: 'a face among blue balloons', type: 'Photograph', weight: 'Heavy', era: 'Contemporary', format: 'Portrait',
-        line: 'That blue is loud, in a good way. The frame should stay calm and let it shout.',
-        boxes: [[28, 14, 54, 66, 'Face'], [0, 22, 36, 70, 'Balloons'], [40, 70, 24, 10, 'Red lips']] } },
-    { id: 'blueprint', name: 'Music poster', src: 'assets/choice/sample-blueprint.jpg',
-      look: { what: 'print', detail: 'map', subject: 'a blueprint of electronic music', type: 'Print', weight: 'Medium', era: 'Contemporary', format: 'Landscape',
-        line: 'Lots of fine white lines on deep blue. A slim frame lets them breathe.',
+    { id: 'crow', name: 'Philip Halsman', src: 'assets/choice/sample-crow.jpg',
+      look: { what: 'photo', detail: 'people', subject: 'Tippi Hedren and a crow', type: 'Photograph · Philip Halsman', weight: 'Light', era: 'Vintage', format: 'Portrait',
+        line: 'Philip Halsman’s Tippi Hedren, from the Birds years. All soft greys: it wants a clean, quiet line round it.',
+        boxes: [[56, 16, 36, 33, 'Tippi Hedren'], [0, 39, 42, 32, 'Crow'], [34, 38, 26, 8, 'Cigarette']] } },
+    { id: 'balloons', name: 'Lilika Strezoska', src: 'assets/choice/sample-balloons.jpg',
+      look: { what: 'original', detail: 'painting', subject: '»Blue Bubble« by Lilika Strezoska', type: 'Photograph · Lilika Strezoska', weight: 'Heavy', era: 'Contemporary', format: 'Portrait',
+        line: 'Lilika Strezoska’s »Blue Bubble«. That blue is loud, in a good way. The frame should stay calm and let it shout.',
+        boxes: [[28, 14, 54, 66, 'Face'], [0, 22, 36, 70, 'Blue balloons'], [40, 70, 24, 10, 'Red lips']] } },
+    { id: 'blueprint', name: 'Electric Love', src: 'assets/choice/sample-blueprint.jpg',
+      look: { what: 'print', detail: 'map', subject: 'the »Electric Love« poster', type: 'Poster', weight: 'Medium', era: 'Contemporary', format: 'Landscape',
+        line: '»Electric Love«: the history of electronic music drawn as a circuit, from the theremin to Daft Punk. All fine white lines, so a slim frame.',
         boxes: [[44, 36, 15, 14, 'Kraftwerk'], [75, 21, 14, 16, 'Brian Eno'], [77, 91, 22, 8, 'Title']] } },
-    { id: 'old', name: 'Old family photo', src: 'assets/choice/sample-old-photo.jpg',
-      look: { what: 'photo', detail: 'people', subject: 'an old, worn photograph', type: 'Old photograph', weight: 'Light', era: 'Antique', format: 'Portrait', extra: { age: 'old', printed: 'paper' },
-        line: 'This one is fragile, the edges worn away. It needs good glass and a gentle hand.',
+    { id: 'old', name: 'Ronald Puhle', src: 'assets/choice/sample-old-photo.jpg',
+      look: { what: 'original', detail: 'collage', subject: 'a work by Ronald Puhle', type: 'Artwork · Ronald Puhle', weight: 'Medium', era: 'Contemporary', format: 'Portrait', extra: { unique: 'one' },
+        line: 'A Ronald Puhle piece: a figure in sepia and black, the surface scratched and worn on purpose. One of a kind, so good glass.',
         boxes: [[24, 18, 54, 66, 'Figure'], [2, 2, 40, 26, 'Worn edge'], [55, 30, 30, 22, 'Scratches']] } },
   ];
 
@@ -289,54 +291,9 @@
   const drop = $('[data-drop]');
   ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
   ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, () => drop.classList.remove('over')));
+  drop.addEventListener('click', () => $('#cc-file').click());
   drop.addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f && f.type.startsWith('image/')) setPiece(URL.createObjectURL(f), null); });
 
-
-  // ---- a pretend file picker for the demo: a Mac open dialog on desktop, the iPhone photo sheet on phones.
-  //      It offers the four samples (read by hand), a few other photos (read like any upload) and walls; "a real file" opens the real one ----
-  const PICK = {
-    piece: [...SAMPLES.map((x, i) => ({ src: x.src, name: ['IMG_2041.jpg', 'IMG_2187.jpg', 'Electric Love poster.jpg', 'Oma scan 1952.jpg'][i], sample: x })),
-      { src: 'assets/landing/mag-espresso.jpg', name: 'IMG_2290.jpg' }, { src: 'assets/landing/mag-12-years.jpg', name: 'IMG_2305.jpg' },
-      { src: 'assets/landing/art-ronald-puhle.jpg', name: 'Studio visit.jpg' }, { src: 'assets/landing/best-milk-and-roses-photobooth.jpg', name: 'Photobooth.jpg' }],
-    wall: [{ src: 'assets/choice/wall-living.jpg', name: 'Living room.jpg' }, { src: 'assets/choice/wall-white.jpg', name: 'Hallway.jpg' }, { src: 'assets/choice/wall-blue.jpg', name: 'Bedroom wall.jpg' }],
-  };
-  function picker(kind) {
-    return new Promise(done => {
-      const phone = matchMedia('(max-width: 600px), (hover: none)').matches, items = PICK[kind];
-      const el = document.createElement('div');
-      el.className = 'pk ' + (phone ? 'pk-ios' : 'pk-mac');
-      const grid = items.map((it, i) => `<button class="pk-item" type="button" data-i="${i}"><span class="pk-thumb"><img src="${it.src}" alt=""></span>${phone ? '' : `<span class="pk-name">${it.name}</span>`}</button>`).join('');
-      el.innerHTML = phone
-        ? `<div class="pk-sheet" role="dialog" aria-label="Photos"><div class="pk-top"><button type="button" data-x>Cancel</button><b>${kind === 'wall' ? 'Recents' : 'Photos'}</b><button type="button" data-ok disabled>Add</button></div>
-            <div class="pk-seg"><span class="on">Photos</span><span>Collections</span></div><div class="pk-grid">${grid}</div>
-            <button class="pk-real" type="button" data-real>Browse files…</button></div>`
-        : `<div class="pk-win" role="dialog" aria-label="Open"><div class="pk-bar"><i></i><i></i><i></i><span>${kind === 'wall' ? 'Pictures › Walls' : 'Pictures › Frame these'}</span></div>
-            <div class="pk-body"><ul class="pk-side"><li class="h">Favourites</li><li>Recents</li><li>Desktop</li><li>Downloads</li><li class="on">Pictures</li><li class="h">iCloud</li><li>iCloud Drive</li><li>Photos</li></ul>
-            <div class="pk-grid">${grid}</div></div>
-            <div class="pk-foot"><button type="button" class="pk-link" data-real>Choose a real file…</button><span></span><button type="button" data-x>Cancel</button><button type="button" class="pk-blue" data-ok disabled>Open</button></div></div>`;
-      document.body.append(el);
-      requestAnimationFrame(() => el.classList.add('in'));
-      let pick = null;
-      const close = v => { el.classList.remove('in'); setTimeout(() => el.remove(), 300); done(v); };
-      $$('.pk-item', el).forEach(b => {
-        b.addEventListener('click', () => { $$('.pk-item', el).forEach(x => x.classList.toggle('sel', x === b)); pick = items[+b.dataset.i]; $('[data-ok]', el).disabled = false; });
-        b.addEventListener('dblclick', () => close(items[+b.dataset.i]));
-      });
-      $('[data-ok]', el).addEventListener('click', () => close(pick));
-      $$('[data-x]', el).forEach(b => b.addEventListener('click', () => close(null)));
-      $('[data-real]', el).addEventListener('click', () => close('real'));
-      el.addEventListener('click', e => { if (e.target === el) close(null); });
-    });
-  }
-  // every "upload" in the consultation opens the picker first
-  document.addEventListener('click', async e => {
-    const lb = e.target.closest('label[for="cc-file"], label[for="cc-wall-file"], [data-drop]'); if (!lb) return;
-    e.preventDefault();
-    const wall = lb.getAttribute('for') === 'cc-wall-file', got = await picker(wall ? 'wall' : 'piece');
-    if (!got) return;
-    if (got === 'real') { $(wall ? '#cc-wall-file' : '#cc-file').click(); return; }
-    if (wall) $('.cc-body').setWall?.(got.src); else setPiece(got.src, got.sample || null);
-  }, true);
 
   let imgEl = null;
   async function setPiece(src, sample) {
@@ -364,7 +321,7 @@
     else {
       // an upload: ask Claude (server.mjs); without it, read the colours here
       const [res] = await Promise.all([
-        fetch((location.port === '5500' ? 'http://localhost:3000/' : '') + 'api/look', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ image: shrink(imgEl), media_type: 'image/jpeg' }) })
+        fetch(LOOK_URL, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ image: shrink(imgEl), media_type: 'image/jpeg' }) })
           .then(r => r.ok ? r.json() : null).catch(() => null),
         wait(1700),
       ]);
@@ -372,10 +329,10 @@
       else {
         const tone = a.sat < .12 ? 'mostly black and white' : a.sat > .38 ? 'full of colour' : a.warmth > 18 ? 'in warm colours' : a.warmth < -6 ? 'in cool colours' : 'in soft, mixed colours';
         const box = i => [(i % 3) * 33.3 + 2, Math.floor(i / 3) * 33.3 + 2, 29, 29];
-        L = { subject: `a ${fmtName.toLowerCase()} picture, ${tone}`, type: '—', format: fmtName,
+        L = { subject: 'Lovely. Tell me what it is', tone, type: '—', format: fmtName,
           weight: a.contrast > 60 || a.sat > .4 || a.bright < 85 ? 'Heavy' : a.contrast < 35 ? 'Light' : 'Medium',
           era: a.sat < .25 && a.warmth > 12 ? 'Vintage' : 'Contemporary',
-          line: 'I can read the colours and the weight. A few questions and I’ll know the rest.',
+          line: `I can see it’s ${tone}. A few questions and I’ll know the rest.`,
           boxes: [[...box(a.busy), 'Focal point'], ...(a.colourCell !== a.busy ? [[...box(a.colourCell), 'Strongest colour']] : [])] };
       }
     }

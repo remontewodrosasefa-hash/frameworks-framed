@@ -4,3 +4,5 @@ README.md
 .claude/
 node_modules/
 .env
+worker/node_modules/
+worker/.wrangler/

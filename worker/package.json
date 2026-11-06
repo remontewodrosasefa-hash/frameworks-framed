@@ -1,0 +1,1 @@
+{ "name": "frameworks-look", "private": true, "type": "module", "dependencies": { "@anthropic-ai/sdk": "*" } }
